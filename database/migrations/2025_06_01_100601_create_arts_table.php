@@ -17,6 +17,7 @@ return new class extends Migration
             $table->year('created')->nullable();
             $table->text('desc')->nullable();
             $table->string('creator')->nullable();
+            $table->string('img_url')->nullable();
             $table->foreignId('museum_id')->constrained()->onDelete('cascade');
             $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade');
         });
