@@ -17,7 +17,8 @@ Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'submit'])->name('login.submit');
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    $mediumCount = \App\Models\Medium::count();
+    return view('admin.dashboard', compact('mediumCount'));
 });
 
 Route::prefix('admin')->group(function () {

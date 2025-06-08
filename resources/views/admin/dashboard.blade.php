@@ -45,7 +45,7 @@
 								<li>
 									<i class='bx bxs-file-image' ></i>
 									<span class="text">
-										<h3>378</h3>
+										<h3>{{ $mediumCount }}</h3>
 										<p>Medium</p>
 									</span>
 								</li>

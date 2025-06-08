@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Medium;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -12,7 +13,8 @@ class MediaController extends Controller
      */
     public function index()
     {
-        return view('admin.media.index');
+        $mediums = Medium::all();
+        return view('admin.media.index', compact('mediums'));
     }
 
     /**
@@ -28,7 +30,19 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'desc' => 'required|string',
+            'img_url' => 'required|string',
+        ]);
+
+        $medium = new Medium();
+        $medium->name = $validated['name'];
+        $medium->desc = $validated['desc'];
+        $medium->img_url = $validated['img_url'];
+        $medium->save();
+
+         return redirect()->route('admin.media.index');
     }
 
     /**
