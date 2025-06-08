@@ -42,7 +42,7 @@ class MediaController extends Controller
         $medium->img_url = $validated['img_url'];
         $medium->save();
 
-         return redirect()->route('admin.media.index');
+        return redirect()->route('admin.media.index');
     }
 
     /**

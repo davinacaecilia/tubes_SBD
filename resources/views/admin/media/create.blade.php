@@ -133,7 +133,7 @@
 
                    <div class="form-group">
                         <label for="name">Medium</label>
-                        <input type="text" id="name" name="name" placeholder="Enter the name of the medium" required> 
+                        <input type="text" id="name" name="name" placeholder="Enter medium name" required> 
                     </div>
 
                     <div class="form-group">

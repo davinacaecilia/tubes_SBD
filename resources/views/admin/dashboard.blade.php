@@ -31,14 +31,14 @@
 								<li>
 									<i class='bx bx-palette'></i>
 									<span class="text">
-										<h3>1020</h3>
+										<h3>{{ $artCount }}</h3>
 										<p>Arts</p>
 									</span>
 								</li>
 									<li>
 									<i class='bx bxs-building-house' ></i>
 									<span class="text">
-										<h3>278</h3>
+										<h3>{{ $museumCount }}</h3>
 										<p>Museums</p>
 									</span>
 								</li>
@@ -52,7 +52,7 @@
 								<li>
 									<i class='bx bxs-group' ></i>
 									<span class="text">
-										<h3>378</h3>
+										<h3>{{ $userCount }}</h3>
 										<p>Users</p>
 									</span>
 								</li>
