@@ -33,7 +33,7 @@ class MuseumController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'location' => 'required|string',
-            'logo_url' => 'required|string',
+            'logo_url' => 'mullable|string',
         ]);
 
         $museum = new Museum();

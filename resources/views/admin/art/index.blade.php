@@ -165,10 +165,10 @@
                                 @foreach($arts as $art)
                                 <tr>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->id }}</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->title }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->creator }}</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">MoMA</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Oil Painting</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->museum->name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->medium->name }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->created }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">

@@ -32,8 +32,8 @@ class MediaController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'desc' => 'required|string',
-            'img_url' => 'required|string',
+            'desc' => 'nullable|string',
+            'img_url' => 'nullable|string',
         ]);
 
         $medium = new Medium();

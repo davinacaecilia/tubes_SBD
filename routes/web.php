@@ -44,7 +44,8 @@ Route::prefix('admin')->group(function () {
     // Manajemen Karya Seni (URL: /admin/art)
     Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'admin.art.index', 
-        'create' => 'admin.art.create', 
+        'create' => 'admin.art.create',
+        'store' => 'admin.art.store', 
         'edit' => 'admin.art.edit',
         'update' => 'admin.art.update',
         'destroy' => 'admin.art.destroy',

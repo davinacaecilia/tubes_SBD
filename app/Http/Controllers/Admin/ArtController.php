@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Art;
+use App\Models\Medium;
+use App\Models\Museum;
 use Illuminate\Http\Request;
 
 class ArtController extends Controller
@@ -13,7 +15,7 @@ class ArtController extends Controller
      */
     public function index()
     {
-        $arts = Art::all();
+        $arts = Art::with(['museum', 'medium'])->get();
         return view('admin.art.index', compact('arts'));
     }
 
@@ -22,7 +24,9 @@ class ArtController extends Controller
      */
     public function create()
     {
-        return view('admin.art.create');
+        $museums = Museum::all();
+        $mediums = Medium::all();
+        return view('admin.art.create', compact('museums', 'mediums'));
     }
 
     /**
@@ -30,7 +34,27 @@ class ArtController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'created' => 'nullable|string',
+            'desc' => 'nullable|string',
+            'creator' => 'nullable|string',
+            'img_url' => 'nullable|string',
+            'museum_id' => 'required|exists:museums,id',
+            'medium_id' => 'required|exists:media,id',
+        ]);
+
+        $art = new Art();
+        $art->title = $validated['title'];
+        $art->created = $validated['created'];
+        $art->desc = $validated['desc'];
+        $art->creator = $validated['creator'];
+        $art->img_url = $validated['img_url'];
+        $art->museum_id = $validated['museum_id'];
+        $art->medium_id = $validated['medium_id'];
+        $art->save();
+
+        return redirect()->route('admin.art.index');
     }
 
     /**

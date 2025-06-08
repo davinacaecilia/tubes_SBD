@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('arts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->year('created')->nullable();
+            $table->string('created')->nullable();
             $table->text('desc')->nullable();
             $table->string('creator')->nullable();
             $table->string('img_url')->nullable();
