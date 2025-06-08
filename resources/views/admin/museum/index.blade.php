@@ -168,20 +168,18 @@
                                     <th style="padding: 10px; border: 1px solid #ccc;">Museum ID</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Museum Name</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Location</th>
-                                    <th style="padding: 10px; border: 1px solid #ccc;">Description</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Logo</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Dummy Data Statis --}}
+                                @foreach($museums as $museum)
                                 <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">M001</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Louvre Museum</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Paris, France</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">The largest art museum in the world.</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $museum->id }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $museum->name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $museum->location }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/50x50/cccccc/333333?text=Logo" alt="Louvre Logo" class="museum-logo">
+                                        <img src="{{ $museum->logo_url }}" alt="{{ $museum->name }}" class="museum-logo">
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
@@ -198,53 +196,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">M002</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Museum of Modern Art (MoMA)</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">New York, USA</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Leading museum of modern and contemporary art.</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/50x50/cccccc/333333?text=Logo" alt="MoMA Logo" class="museum-logo">
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <a href="{{ url('admin/museums/M002/edit') }}" class="btn-detail edit">
-                                                <i class='bx bx-edit'></i> Edit
-                                            </a>
-                                            <form action="{{ url('admin/museums/M002') }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this museum?')">
-                                                    <i class='bx bx-trash'></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">M003</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Rijksmuseum</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Amsterdam, Netherlands</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Dutch national museum dedicated to arts and history.</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/50x50/cccccc/333333?text=Logo" alt="Rijksmuseum Logo" class="museum-logo">
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <a href="{{ url('admin/museums/M003/edit') }}" class="btn-detail edit">
-                                                <i class='bx bx-edit'></i> Edit
-                                            </a>
-                                            <form action="{{ url('admin/museums/M003') }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this museum?')">
-                                                    <i class='bx bx-trash'></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{-- Tambahkan baris <tr> lainnya untuk data statis jika diperlukan --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

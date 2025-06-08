@@ -181,7 +181,6 @@
                             </thead>
                             <tbody>
                                 @foreach($mediums as $medium)
-                                {{-- Dummy Data Statis sesuai skema migration --}}
                                 <tr>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $medium->id }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $medium->name }}</td>
