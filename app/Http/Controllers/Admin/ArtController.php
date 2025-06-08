@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Art;
 use Illuminate\Http\Request;
 
 class ArtController extends Controller
@@ -12,7 +13,8 @@ class ArtController extends Controller
      */
     public function index()
     {
-        return view('admin.art.index');
+        $arts = Art::all();
+        return view('admin.art.index', compact('arts'));
     }
 
     /**

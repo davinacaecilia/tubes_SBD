@@ -183,10 +183,10 @@
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <a href="{{ url('admin/museums/M001/edit') }}" class="btn-detail edit">
+                                            <a href="{{ url('admin/museums/edit', $museum->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
-                                            <form action="{{ url('admin/museums/M001') }}" method="POST" style="display:inline-block;">
+                                            <form action="{{ url('admin/museums/delete', $museum->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this museum?')">

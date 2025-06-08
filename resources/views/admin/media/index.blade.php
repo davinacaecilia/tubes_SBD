@@ -194,7 +194,7 @@
                                             <a href="{{ url('admin/media/edit', $medium->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
-                                            <form action="{{ url('admin/media/1', $medium->id) }}" method="POST" style="display:inline-block;">
+                                            <form action="{{ url('admin/media/delete', $medium->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
