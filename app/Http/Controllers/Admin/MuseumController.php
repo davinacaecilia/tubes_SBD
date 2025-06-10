@@ -33,7 +33,7 @@ class MuseumController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'location' => 'required|string',
-            'logo_url' => 'mullable|string',
+            'logo_url' => 'nullable|string',
         ]);
 
         $museum = new Museum();
@@ -72,8 +72,11 @@ class MuseumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $museum = Museum::findOrFail($id);
+        $museum->delete();
+
+        return redirect()->route('admin.museum.index')->with('success', 'Museum deleted');
     }
 }

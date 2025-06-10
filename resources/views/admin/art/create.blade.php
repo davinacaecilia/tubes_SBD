@@ -146,7 +146,7 @@
                         <select id="museum" name="museum_id" required>
                             <option value="">Select a museum</option>
                             @foreach($museums as $museum)
-                                <option value="{{ $museum->id }}">{{ $museum->nama }}</option>
+                                <option value="{{ $museum->id }}">{{ $museum->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -156,7 +156,7 @@
                         <select id="medium" name="medium_id" required>
                             <option value="">Select a medium</option>
                             @foreach($mediums as $medium)
-                                <option value="{{ $medium->id }}">{{ $medium->nama }}</option>
+                                <option value="{{ $medium->id }}">{{ $medium->name }}</option>
                             @endforeach
                         </select>
                     </div>

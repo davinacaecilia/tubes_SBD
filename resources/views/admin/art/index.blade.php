@@ -172,10 +172,10 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->created }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <a href="{{ url('admin/art/101/edit') }}" class="btn-detail edit">
+                                            <a href="{{ route('admin.art.edit', $art->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
-                                            <form action="{{ url('admin/art/101') }}" method="POST" style="display:inline-block;">
+                                            <form action="{{ route('admin.art.destroy', $art->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this artwork?')">

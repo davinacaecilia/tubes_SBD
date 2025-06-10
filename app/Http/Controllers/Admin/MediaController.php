@@ -72,8 +72,11 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $medium = Medium::findOrFail($id);
+        $medium->delete();
+
+        return redirect()->route('admin.media.index')->with('success', 'Medium deleted');
     }
 }

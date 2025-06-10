@@ -41,7 +41,7 @@ class ArtController extends Controller
             'creator' => 'nullable|string',
             'img_url' => 'nullable|string',
             'museum_id' => 'required|exists:museums,id',
-            'medium_id' => 'required|exists:media,id',
+            'medium_id' => 'required|exists:mediums,id',
         ]);
 
         $art = new Art();
@@ -84,10 +84,14 @@ class ArtController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $art = Art::findOrFail($id);
+        $art->delete();
+
+        return redirect()->route('admin.art.index')->with('success', 'Artwork deleted');
     }
+
     public function status()
     {
         return view('admin.art.status'); 
