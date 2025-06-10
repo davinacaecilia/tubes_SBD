@@ -39,7 +39,8 @@ Route::prefix('admin')->group(function () {
 
 
     Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
-
+    Route::post('/admin/art/approve/{id}', [ArtController::class, 'approve'])->name('admin.art.approve');
+    Route::post('/admin/art/reject/{id}', [ArtController::class, 'reject'])->name('admin.art.reject');
 
     // Manajemen Karya Seni (URL: /admin/art)
     Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([

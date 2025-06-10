@@ -15,7 +15,7 @@ class ArtController extends Controller
      */
     public function index()
     {
-        $arts = Art::with(['museum', 'medium'])->get();
+        $arts = Art::with(['museum', 'medium'])::where('status', 'approved')->get();
         return view('admin.art.index', compact('arts'));
     }
 
@@ -42,6 +42,7 @@ class ArtController extends Controller
             'img_url' => 'nullable|string',
             'museum_id' => 'required|exists:museums,id',
             'medium_id' => 'required|exists:mediums,id',
+            'status' => 'pending approval',
         ]);
 
         $art = new Art();
@@ -52,6 +53,8 @@ class ArtController extends Controller
         $art->img_url = $validated['img_url'];
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
+        $art->status = $validated['status'];
+
         $art->save();
 
         return redirect()->route('admin.art.index');
@@ -94,6 +97,26 @@ class ArtController extends Controller
 
     public function status()
     {
-        return view('admin.art.status'); 
+        $arts = Art::all();
+        return view('admin.art.status', compact('arts')); 
     }
+
+    public function approve($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'approved';
+        $art->save();
+
+        return back();
+    }
+
+    public function reject($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'rejected';
+        $art->save();
+
+        return back();
+    }
+
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('img_url')->nullable();
             $table->foreignId('museum_id')->constrained()->onDelete('cascade');
             $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade');
+            $table->enum('status', ['pending approval', 'approved', 'rejected'])->default('pending approval');
         });
     }
 
