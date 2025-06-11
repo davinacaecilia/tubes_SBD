@@ -231,7 +231,7 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->title }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->creator }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
-                                        @if($art->status == 'pending approval')
+                                        @if($art->status == 'pending')
                                             <span class="status-badge status-pending">Pending Approval</span>
                                         @elseif($art->status == 'approved')
                                             <span class="status-badge status-approved">Approved</span>
@@ -243,7 +243,7 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-20</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            @if($art->status == 'pending approval')
+                                            @if($art->status == 'pending')
                                                 <button type="button" class="btn-detail btn-approve" onclick="alert('Approve Artwork 105')">
                                                     <i class='bx bx-check-circle'></i> Approve
                                                 </button>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ChartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
@@ -24,8 +25,9 @@ Route::get('/admin/dashboard', function () {
     return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
 });
 
-Route::prefix('admin')->group(function () {
+Route::get('/admin/dashboard/chart-data', [ChartController::class, 'getChartData'])->name('admin.dashboard.chart-data');
 
+Route::prefix('admin')->group(function () {
     
     Route::resource('user', UserController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'admin.user.index',
@@ -35,8 +37,6 @@ Route::prefix('admin')->group(function () {
         'update' => 'admin.user.update',
         'destroy' => 'admin.user.destroy',
     ]);
-
-
 
     Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
     Route::post('/admin/art/approve/{id}', [ArtController::class, 'approve'])->name('admin.art.approve');

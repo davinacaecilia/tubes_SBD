@@ -18,9 +18,9 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->string('creator')->nullable();
             $table->string('img_url')->nullable();
-            $table->foreignId('museum_id')->constrained()->onDelete('cascade');
+            $table->foreignId('museum_id')->constrained('museums')->onDelete('cascade');
             $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade');
-            $table->enum('status', ['pending approval', 'approved', 'rejected'])->default('pending approval');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
         });
     }
 

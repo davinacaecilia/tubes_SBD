@@ -15,7 +15,7 @@ class ArtController extends Controller
      */
     public function index()
     {
-        $arts = Art::with(['museum', 'medium'])::where('status', 'approved')->get();
+        $arts = Art::with(['museum', 'medium'])->where('status', 'approved')->get();
         return view('admin.art.index', compact('arts'));
     }
 
@@ -24,8 +24,8 @@ class ArtController extends Controller
      */
     public function create()
     {
-        $museums = Museum::all();
-        $mediums = Medium::all();
+        $museums = Museum::orderBy('name', 'asc')->get();
+        $mediums = Medium::orderBy('name', 'asc')->get();
         return view('admin.art.create', compact('museums', 'mediums'));
     }
 
