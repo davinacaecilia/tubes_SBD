@@ -225,86 +225,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Dummy Data Static --}}
-                                {{-- Pending Approval Example --}}
-                                <tr data-status="pending">
-                                    <td style="padding: 10px; border: 1px solid #ccc;">105</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">The Persistence of Memory</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Salvador Dalí</td>
+                                @foreach($arts as $art)
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->id }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->title }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->creator }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <span class="status-badge status-pending">Pending Approval</span>
+                                        @if($art->status == 'pending approval')
+                                            <span class="status-badge status-pending">Pending Approval</span>
+                                        @elseif($art->status == 'approved')
+                                            <span class="status-badge status-approved">Approved</span>
+                                        @elseif($art->status == 'rejected')
+                                            <span class="status-badge status-rejected">Rejected</span>
+                                        @endif
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">Admin John</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-20</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <button type="button" class="btn-detail btn-approve" onclick="alert('Approve Artwork 105')">
-                                                <i class='bx bx-check-circle'></i> Approve
-                                            </button>
-                                            <button type="button" class="btn-detail btn-reject" onclick="alert('Reject Artwork 105')">
-                                                <i class='bx bx-x-circle'></i> Reject
-                                            </button>
+                                            @if($art->status == 'pending approval')
+                                                <button type="button" class="btn-detail btn-approve" onclick="alert('Approve Artwork 105')">
+                                                    <i class='bx bx-check-circle'></i> Approve
+                                                </button>
+                                                <button type="button" class="btn-detail btn-reject" onclick="alert('Reject Artwork 105')">
+                                                    <i class='bx bx-x-circle'></i> Reject
+                                                </button>
+                                            @elseif($art->status == 'approved')
+                                                <button type="button" class="btn-detail btn-approved" disabled>
+                                                    <i class='bx bx-check-circle'></i> Approved
+                                                </button>
+                                            @elseif($art->status == 'rejected')
+                                                <button type="button" class="btn-detail btn-rejected" disabled>
+                                                    <i class='bx bx-x-circle'></i> Rejected
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- Another Pending Approval Example --}}
-                                <tr data-status="pending">
-                                    <td style="padding: 10px; border: 1px solid #ccc;">106</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Guernica</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Pablo Picasso</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <span class="status-badge status-pending">Pending Approval</span>
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin Jane</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2024-05-22</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <button type="button" class="btn-detail btn-approve" onclick="alert('Approve Artwork 106')">
-                                                <i class='bx bx-check-circle'></i> Approve
-                                            </button>
-                                            <button type="button" class="btn-detail btn-reject" onclick="alert('Reject Artwork 106')">
-                                                <i class='bx bx-x-circle'></i> Reject
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{-- Approved Example --}}
-                                <tr data-status="approved">
-                                    <td style="padding: 10px; border: 1px solid #ccc;">101</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Starry Night</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Vincent van Gogh</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <span class="status-badge status-approved">Approved</span>
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin John</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2024-05-15</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <!-- Supervisor dapat melihat status, tapi tombol Approve/Reject bisa dinonaktifkan/disembunyikan untuk status non-pending -->
-                                            <button type="button" class="btn-detail btn-approve" disabled> <!-- PERBAIKAN CLASS -->
-                                                <i class='bx bx-check-circle'></i> Approved
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{-- Rejected Example --}}
-                                <tr data-status="rejected">
-                                    <td style="padding: 10px; border: 1px solid #ccc;">104</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">The Scream</td>
-                                    <td class="search-target" style="padding: 10px; border: 1px solid #ccc;">Edvard Munch</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <span class="status-badge status-rejected">Rejected</span>
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin Peter</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2024-05-18</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <button type="button" class="btn-detail btn-reject" disabled> <!-- PERBAIKAN CLASS -->
-                                                <i class='bx bx-x-circle'></i> Rejected
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -17,7 +17,11 @@ Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'submit'])->name('login.submit');
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    $mediumCount = \App\Models\Medium::count();
+    $artCount = \App\Models\Art::count();
+    $userCount = \App\Models\User::count();
+    $museumCount = \App\Models\Museum::count();
+    return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
 });
 
 Route::prefix('admin')->group(function () {
@@ -35,12 +39,14 @@ Route::prefix('admin')->group(function () {
 
 
     Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
-
+    Route::post('/admin/art/approve/{id}', [ArtController::class, 'approve'])->name('admin.art.approve');
+    Route::post('/admin/art/reject/{id}', [ArtController::class, 'reject'])->name('admin.art.reject');
 
     // Manajemen Karya Seni (URL: /admin/art)
     Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'admin.art.index', 
-        'create' => 'admin.art.create', 
+        'create' => 'admin.art.create',
+        'store' => 'admin.art.store', 
         'edit' => 'admin.art.edit',
         'update' => 'admin.art.update',
         'destroy' => 'admin.art.destroy',

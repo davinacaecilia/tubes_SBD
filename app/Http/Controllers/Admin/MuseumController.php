@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Museum;
 use Illuminate\Http\Request;
 
 class MuseumController extends Controller
@@ -12,7 +13,8 @@ class MuseumController extends Controller
      */
     public function index()
     {
-        return view('admin.museum.index');
+        $museums = Museum::all();
+        return view('admin.museum.index', compact('museums'));
     }
 
     /**
@@ -28,7 +30,19 @@ class MuseumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'location' => 'required|string',
+            'logo_url' => 'nullable|string',
+        ]);
+
+        $museum = new Museum();
+        $museum->name = $validated['name'];
+        $museum->location = $validated['location'];
+        $museum->logo_url = $validated['logo_url'];
+        $museum->save();
+
+        return redirect()->route('admin.museum.index');
     }
 
     /**
@@ -58,8 +72,11 @@ class MuseumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $museum = Museum::findOrFail($id);
+        $museum->delete();
+
+        return redirect()->route('admin.museum.index')->with('success', 'Museum deleted');
     }
 }

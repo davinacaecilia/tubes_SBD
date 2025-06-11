@@ -207,21 +207,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Dummy Data Statis sesuai skema migration --}}
+                                @foreach($mediums as $medium)
                                 <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">1</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Oil Painting</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Artwork created using oil paints.</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $medium->id }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $medium->name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $medium->desc }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/80x60/cccccc/333333?text=Oil" alt="Oil Painting" class="media-preview-img">
-                                        <span class="media-url" title="https://example.com/images/oil-painting.jpg">https://example.com/images/oil-painting.jpg</span>
+                                    <img src="{{ $medium->img_url }}" alt="{{ $medium->name }}" class="media-preview-img">
+                                        <span class="media-url" title="{{ $medium->name }}">{{ $medium->img_url }}</span>
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <a href="{{ url('admin/media/1/edit') }}" class="btn-detail edit">
+                                            <a href="{{ route('admin.media.edit', $medium->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
-                                            <form action="{{ url('admin/media/1') }}" method="POST" style="display:inline-block;">
+                                            <form action="{{ route('admin.media.destroy', $medium->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
@@ -231,52 +231,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Sculpture</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Three-dimensional artworks.</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/80x60/cccccc/333333?text=Sculpture" alt="Sculpture" class="media-preview-img">
-                                        <span class="media-url" title="https://example.com/images/sculpture.jpg">https://example.com/images/sculpture.jpg</span>
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <a href="{{ url('admin/media/2/edit') }}" class="btn-detail edit">
-                                                <i class='bx bx-edit'></i> Edit
-                                            </a>
-                                            <form action="{{ url('admin/media/2') }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
-                                                    <i class='bx bx-trash'></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">3</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Photography</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Art created using light.</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <img src="https://placehold.co/80x60/cccccc/333333?text=Photo" alt="Photography" class="media-preview-img">
-                                        <span class="media-url" title="https://example.com/images/photography.jpg">https://example.com/images/photography.jpg</span>
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <div class="btn-action-group">
-                                            <a href="{{ url('admin/media/3/edit') }}" class="btn-detail edit">
-                                                <i class='bx bx-edit'></i> Edit
-                                            </a>
-                                            <form action="{{ url('admin/media/3') }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
-                                                    <i class='bx bx-trash'></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                                 {{-- Tambahkan baris <tr> lainnya untuk data statis jika diperlukan --}}
                             </tbody>
                         </table>

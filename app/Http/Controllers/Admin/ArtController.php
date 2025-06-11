@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Art;
+use App\Models\Medium;
+use App\Models\Museum;
 use Illuminate\Http\Request;
 
 class ArtController extends Controller
@@ -12,7 +15,8 @@ class ArtController extends Controller
      */
     public function index()
     {
-        return view('admin.art.index');
+        $arts = Art::with(['museum', 'medium'])::where('status', 'approved')->get();
+        return view('admin.art.index', compact('arts'));
     }
 
     /**
@@ -20,7 +24,9 @@ class ArtController extends Controller
      */
     public function create()
     {
-        return view('admin.art.create');
+        $museums = Museum::all();
+        $mediums = Medium::all();
+        return view('admin.art.create', compact('museums', 'mediums'));
     }
 
     /**
@@ -28,7 +34,30 @@ class ArtController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'created' => 'nullable|string',
+            'desc' => 'nullable|string',
+            'creator' => 'nullable|string',
+            'img_url' => 'nullable|string',
+            'museum_id' => 'required|exists:museums,id',
+            'medium_id' => 'required|exists:mediums,id',
+            'status' => 'pending approval',
+        ]);
+
+        $art = new Art();
+        $art->title = $validated['title'];
+        $art->created = $validated['created'];
+        $art->desc = $validated['desc'];
+        $art->creator = $validated['creator'];
+        $art->img_url = $validated['img_url'];
+        $art->museum_id = $validated['museum_id'];
+        $art->medium_id = $validated['medium_id'];
+        $art->status = $validated['status'];
+
+        $art->save();
+
+        return redirect()->route('admin.art.index');
     }
 
     /**
@@ -58,12 +87,36 @@ class ArtController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $art = Art::findOrFail($id);
+        $art->delete();
+
+        return redirect()->route('admin.art.index')->with('success', 'Artwork deleted');
     }
+
     public function status()
     {
-        return view('admin.art.status'); 
+        $arts = Art::all();
+        return view('admin.art.status', compact('arts')); 
     }
+
+    public function approve($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'approved';
+        $art->save();
+
+        return back();
+    }
+
+    public function reject($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'rejected';
+        $art->save();
+
+        return back();
+    }
+
 }
