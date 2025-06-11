@@ -58,7 +58,7 @@ class MediaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.media.edit');
     }
 
     /**
