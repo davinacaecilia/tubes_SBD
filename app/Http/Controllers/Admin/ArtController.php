@@ -54,6 +54,7 @@ class ArtController extends Controller
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
         $art->status = $validated['status'];
+        
 
         $art->save();
 

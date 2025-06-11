@@ -219,7 +219,6 @@
                                     <th style="padding: 10px; border: 1px solid #ccc;">Title</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Artist</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Status</th>
-                                    <th style="padding: 10px; border: 1px solid #ccc;">Edited By Admin</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Last Edit Date</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
                                 </tr>
@@ -239,8 +238,7 @@
                                             <span class="status-badge status-rejected">Rejected</span>
                                         @endif
                                     </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin John</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2024-05-20</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->updated_at }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
                                             @if($art->status == 'pending')
