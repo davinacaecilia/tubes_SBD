@@ -44,7 +44,7 @@ class ArtController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.art.edit');
     }
 
     /**

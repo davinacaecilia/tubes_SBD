@@ -9,8 +9,9 @@
     <!-- My CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/pagination.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/css/search.css') }}" />
 
-    <title>Product Management</title>
+    <title>User Management - Google Arts & Culture Admin</title>
     <style>
         /* Styling tambahan untuk tabel agar konsisten dengan tema */
         .table-data .order .head {
@@ -40,32 +41,6 @@
             background: var(--surface-white);
             color: var(--text-primary);
         }
-
-        /* CSS KHUSUS UNTUK FITUR SEARCH ICON CLICKABLE */
-        .table-search-input {
-            width: 0;
-            padding: 0;
-            border: none;
-            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease;
-            box-sizing: border-box;
-            background: var(--surface-white);
-            color: var(--text-primary);
-            font-size: 14px;
-            border-radius: 20px;
-            margin-left: auto; /* Agar dia menempel ke ikon search */
-            outline: none; /* Hilangkan outline default */
-        }
-
-        .table-search-input.show {
-            width: 200px;
-            padding: 8px 12px;
-            border: 1px solid var(--border-light);
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
-        }
-        .table-search-input.show:focus {
-            border-color: var(--accent-blue); /* Warna border saat fokus */
-        }
-
         .table-container table {
             width: 100%;
             border-collapse: collapse;
@@ -109,7 +84,6 @@
             font-size: 0.85rem;
             word-break: break-all;
         }
-
     </style>
 </head>
 <body>
@@ -138,13 +112,23 @@
                 <div class="order">
                     <div class="head">
                         <h3>User List</h3>
+                        <!-- INPUT TEXT UNTUK SEARCH (AWALNYA TERSEMBUNYI) -->
                         <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search user...">
+                        <!-- ICON SEARCH YANG BISA DIKLIK -->
                         <i class='bx bx-search' id="tableSearchIcon"></i>
-                        <i class='bx bx-filter'></i>
+                        
+                        <!-- SELECT UNTUK SORT (AWALNYA TERSEMBUNYI) -->
+                        <select id="tableFilterSelect" class="table-filter-select">
+                            <option value="">Sort By</option>
+                            <option value="az">Name (A-Z)</option> <!-- Sesuaikan untuk nama pengguna -->
+                            <option value="za">Name (Z-A)</option> <!-- Sesuaikan untuk nama pengguna -->
+                        </select>
+                        <!-- ICON FILTER YANG BISA DIKLIK -->
+                        <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
                     <!-- Tabel Statis Daftar Pengguna -->
                     <div class="table-container">
-                        <table style="width: 100%; border-collapse: collapse;">
+                        <table id="userTable" style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
                                     <th style="padding: 10px; border: 1px solid #ccc;">ID User</th>
@@ -159,7 +143,7 @@
                                 {{-- Dummy Data Statis --}}
                                 <tr>
                                     <td style="padding: 10px; border: 1px solid #ccc;">1</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Igun</td>
+                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Igun</td> <!-- Tambahkan class sort-target -->
                                     <td style="padding: 10px; border: 1px solid #ccc;">igun@example.com</td>
                                     <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
                                         $2y$10$abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456
@@ -169,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Budi Santoso</td>
+                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Budi Santoso</td> <!-- Tambahkan class sort-target -->
                                     <td style="padding: 10px; border: 1px solid #ccc;">budi.santoso@example.com</td>
                                     <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
                                         $2y$10$ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz789012
@@ -179,7 +163,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding: 10px; border: 1px solid #ccc;">3</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Citra Dewi</td>
+                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Citra Dewi</td> <!-- Tambahkan class sort-target -->
                                     <td style="padding: 10px; border: 1px solid #ccc;">citra.dewi@example.com</td>
                                     <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
                                         $2y$10$QRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567
@@ -204,6 +188,5 @@
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
- 
 </body>
 </html>

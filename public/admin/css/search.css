@@ -1,0 +1,141 @@
+ <style>
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .table-container thead tr {
+            background-color: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .table-container th,
+        .table-container td {
+            padding: 15px;
+            border: 1px solid var(--border-light);
+            text-align: left;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .table-container th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: var(--google-sans);
+            background-color: var(--surface-white);
+        }
+
+        .table-container tbody tr:nth-child(even) {
+            background-color: var(--surface-white);
+        }
+
+        .table-container tbody tr:hover {
+            background-color: rgba(26, 115, 232, 0.04);
+        }
+
+        .table-container .btn-action-group {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .table-container .btn-action-group .btn-detail {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .table-container .btn-action-group .btn-detail.edit {
+            background-color: var(--accent-blue);
+            color: var(--primary-white);
+            border: 1px solid var(--accent-blue);
+        }
+        .table-container .btn-action-group .btn-detail.edit:hover {
+            background-color: var(--accent-blue-hover);
+            border-color: var(--accent-blue-hover);
+        }
+
+        .table-container .btn-action-group .btn-detail.delete {
+            background-color: var(--accent-red);
+            color: var(--primary-white);
+            border: 1px solid var(--accent-red);
+        }
+        .table-container .btn-action-group .btn-detail.delete:hover {
+            background-color: #c52c20;
+            border-color: #c52c20;
+        }
+
+        .table-container .media-preview-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .table-container .media-url {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+        .table-data .order .head {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .table-data .order .head h3 {
+            margin-right: auto; 
+        }
+        .table-search-input,
+        .table-filter-select {
+            width: 0;
+            padding: 0;
+            border: none;
+            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            background: var(--surface-white);
+            color: var(--text-primary);
+            font-size: 14px;
+            border-radius: 20px;
+            outline: none;
+            height: 40px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
+        }
+
+        .table-search-input.show,
+        .table-filter-select.show {
+            width: 200px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+        }
+        .table-search-input.show:focus,
+        .table-filter-select.show:focus {
+            border-color: var(--accent-blue);
+        }
+        .table-data .order .head .bx-search,
+        .table-data .order .head .bx-filter {
+            margin-left: 10px; /* Memberi sedikit jarak dari input */
+            flex-shrink: 0; /* Mencegah ikon menyusut */
+        }
+    </style>
