@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ChartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
@@ -18,15 +19,15 @@ Route::post('/login', [LoginController::class, 'submit'])->name('login.submit');
 
 Route::get('/admin/dashboard', function () {
     $mediumCount = \App\Models\Medium::count();
-    $artCount = \App\Models\Art::count();
+    $artCount = \App\Models\Art::where('status', 'approved')->count();
     $userCount = \App\Models\User::count();
     $museumCount = \App\Models\Museum::count();
     return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
 });
 
+Route::get('/admin/dashboard/chart-data', [ChartController::class, 'getChartData'])->name('admin.dashboard.chart-data');
+
 Route::prefix('admin')->group(function () {
-
-
     Route::resource('user', UserController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'admin.user.index',
         'create' => 'admin.user.create',
@@ -36,10 +37,9 @@ Route::prefix('admin')->group(function () {
         'destroy' => 'admin.user.destroy',
     ]);
 
-
-
-    Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status');
-
+    Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
+    Route::post('/admin/art/approve/{id}', [ArtController::class, 'approve'])->name('admin.art.approve');
+    Route::post('/admin/art/reject/{id}', [ArtController::class, 'reject'])->name('admin.art.reject');
 
     // Manajemen Karya Seni (URL: /admin/art)
     Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([

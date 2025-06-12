@@ -15,7 +15,7 @@ class ArtController extends Controller
      */
     public function index()
     {
-        $arts = Art::with(['museum', 'medium'])->get();
+        $arts = Art::with(['museum', 'medium'])->where('status', 'approved')->get();
         return view('admin.art.index', compact('arts'));
     }
 
@@ -24,8 +24,8 @@ class ArtController extends Controller
      */
     public function create()
     {
-        $museums = Museum::all();
-        $mediums = Medium::all();
+        $museums = Museum::orderBy('name', 'asc')->get();
+        $mediums = Medium::orderBy('name', 'asc')->get();
         return view('admin.art.create', compact('museums', 'mediums'));
     }
 
@@ -41,7 +41,7 @@ class ArtController extends Controller
             'creator' => 'nullable|string',
             'img_url' => 'nullable|string',
             'museum_id' => 'required|exists:museums,id',
-            'medium_id' => 'required|exists:media,id',
+            'medium_id' => 'required|exists:mediums,id',
         ]);
 
         $art = new Art();
@@ -52,6 +52,8 @@ class ArtController extends Controller
         $art->img_url = $validated['img_url'];
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
+        $art->status = 'pending';
+        
         $art->save();
 
         return redirect()->route('admin.art.index');
@@ -68,9 +70,13 @@ class ArtController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $art = Art::findOrFail($id);
+        $museums = Museum::orderBy('name')->get();
+        $mediums = Medium::orderBy('name')->get();
+
+        return view('admin.art.edit', compact('art', 'museums', 'mediums'));
     }
 
     /**
@@ -78,18 +84,65 @@ class ArtController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'created' => 'nullable|string',
+            'desc' => 'nullable|string',
+            'creator' => 'nullable|string',
+            'img_url' => 'nullable|string',
+            'museum_id' => 'required|exists:museums,id',
+            'medium_id' => 'required|exists:mediums,id',
+        ]);
+
+        $art = Art::findOrFail($id);
+        $art->fill($validated);
+        $art->status = 'pending';
+        $art->save();
+
+        return redirect()->route('admin.art.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $art = Art::findOrFail($id);
+        $art->delete();
+
+        return redirect()->route('admin.art.index');
     }
-    public function status()
+
+    public function status(Request $request)
     {
-        return view('admin.art.status'); 
+        $arts = Art::orderBy('updated_at', 'desc');
+
+        if ($request->has('status') && $request->status != '') {
+            $arts->where('status', $request->status); 
+        }
+
+        $arts = $arts->get();
+
+        return view('admin.art.status', compact('arts'));
     }
+
+
+    public function approve($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'approved';
+        $art->save();
+
+        return back();
+    }
+
+    public function reject($id)
+    {
+        $art = Art::findOrFail($id);
+        $art->status = 'rejected';
+        $art->save();
+
+        return back();
+    }
+
 }

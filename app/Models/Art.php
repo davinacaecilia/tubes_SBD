@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Art extends Model
 {
     protected $table = 'arts';
-    protected $fillable = ['title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id'];
-    public $timestamps = false;
+    protected $fillable = ['title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'status'];
+    public $timestamps = true;
 
     public function museum()
     {

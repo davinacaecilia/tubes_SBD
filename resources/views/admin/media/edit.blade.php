@@ -10,16 +10,17 @@
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/pagination.css') }}" />
 
-    <title>Add New Art - Google Arts & Culture Admin</title>
+    <title>Edit Media - Google Arts & Culture Admin</title> <!-- Diubah -->
     <style>
+        /* Styling tambahan untuk form (sama seperti create form) */
         .form-card {
             background: var(--primary-white);
             padding: 24px;
             border-radius: 12px;
             box-shadow: var(--shadow-light);
             border: 1px solid var(--border-light);
-            max-width: 800px; 
-            margin: 24px auto; 
+            max-width: 800px; /* Batasi lebar form agar tidak terlalu lebar di layar besar */
+            margin: 24px auto; /* Pusatkan form */
         }
 
         .form-group {
@@ -39,7 +40,7 @@
         .form-group input[type="date"],
         .form-group input[type="file"],
         .form-group textarea,
-        .form-group select { 
+        .form-group select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid var(--border-light);
@@ -54,7 +55,7 @@
 
         .form-group input:focus,
         .form-group textarea:focus,
-        .form-group select:focus { 
+        .form-group select:focus {
             border-color: var(--accent-blue);
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
         }
@@ -109,90 +110,63 @@
     @include('partial.sidebar')
 
     <section id="content">
-       	@include('partial.navbar')
+        @include('partial.navbar')
 
-        <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Add New Art</h1>
+                    <h1>Edit Media</h1> 
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a href="{{ url('admin/art') }}">Art Management</a></li>
+                        <li><a href="{{ url('admin/media') }}">Medium Management</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/art/create') }}">Add Art</a></li>
+                        <li><a class="active" href="{{ url('admin/media/1/edit') }}">Edit Media</a></li> 
                     </ul>
                 </div>
             </div>
 
             <div class="form-card">
-                <form action="{{ route('admin.art.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.media.update', $medium->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT') 
 
                     <div class="form-group">
-                        <label for="title">Artwork Title</label>
-                        <input type="text" id="title" name="title" placeholder="Enter artwork title" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="creator">Artist</label>
-                        <input type="text" id="creator" name="creator" placeholder="Artist's name">
-                    </div>
-
-                    
-                    <div class="form-group">
-                        <label for="museum">Museum</label>
-                        <select id="museum" name="museum_id" required>
-                            <option value="">Select a museum</option>
-                            @foreach($museums as $museum)
-                                <option value="{{ $museum->id }}">{{ $museum->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="medium">Medium</label>
-                        <select id="medium" name="medium_id" required>
-                            <option value="">Select a medium</option>
-                            @foreach($mediums as $medium)
-                                <option value="{{ $medium->id }}">{{ $medium->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="created">Year Created</label>
-                        <input type="text" id="created" name="created" placeholder="Example: 1889" >
+                        <label for="name">Media Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter media name" value="{{ $medium->name }}" required> 
                     </div>
 
                     <div class="form-group">
                         <label for="desc">Description</label>
-                        <textarea id="desc" name="desc" placeholder="Brief description of the artwork" rows="5"></textarea>
+                        <textarea id="desc" name="desc" placeholder="Brief description of the media" rows="5">{{ $medium->desc }}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="img_url">Image URL</label> 
-                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" required> 
-                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image.</small> 
+                        <label for="img_url">Image URL</label>
+                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" value="{{ $medium->img_url }}" required>
+                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image. Leave blank to keep current image.</small> 
+                        <div style="margin-top: 10px;">
+                            <img src="{{ $medium->img_url }}" alt="Current Media Image" style="max-width: 150px; border-radius: 8px;">
+                            <small style="color: var(--text-tertiary); font-size: 12px; display: block;">Current Image</small>
+                        </div>
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='{{ url('admin/art') }}'">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='{{ url('admin/media') }}'">
                             <i class='bx bx-x'></i> Cancel
                         </button>
                         <button type="submit" class="btn-submit">
-                            <i class='bx bx-save'></i> Save Artwork
+                            <i class='bx bx-save'></i> Update Media
                         </button>
                     </div>
                 </form>
             </div>
 
         </main>
-        <!-- MAIN -->
     </section>
 
     
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
 </body>

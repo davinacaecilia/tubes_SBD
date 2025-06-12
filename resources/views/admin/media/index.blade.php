@@ -104,36 +104,54 @@
             white-space: nowrap;
             display: block;
         }
-        /* CSS KHUSUS UNTUK FITUR SEARCH ICON CLICKABLE */
+        /* CSS KHUSUS UNTUK FITUR SEARCH/FILTER INPUT/SELECT YANG BISA DIKLIK */
         .table-data .order .head {
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
-        .table-search-input {
+        .table-data .order .head h3 {
+            margin-right: auto;
+        }
+        .table-search-input,
+        .table-filter-select {
             width: 0;
             padding: 0;
             border: none;
-            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease;
+            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
             box-sizing: border-box;
             background: var(--surface-white);
             color: var(--text-primary);
             font-size: 14px;
             border-radius: 20px;
-            margin-left: auto;
             outline: none;
             height: 40px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
         }
 
-        .table-search-input.show {
+        .table-search-input.show,
+        .table-filter-select.show {
             width: 200px;
             padding: 8px 12px;
             border: 1px solid var(--border-light);
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
         }
-        .table-search-input.show:focus {
+        .table-search-input.show:focus,
+        .table-filter-select.show:focus {
             border-color: var(--accent-blue);
         }
-        .table-data .order .head .bx-search {
+        .table-data .order .head .bx-search,
+        .table-data .order .head .bx-filter {
             margin-left: 10px;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -149,12 +167,13 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Media Management</h1>
+                    <h1>Medium Management</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li><a class="active" href="{{ url('admin/media') }}">Media List</a></li>
                     </ul>
+                </div>
             </div>
 
             <div class="table-data">
@@ -165,11 +184,19 @@
                         <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search media...">
                         <!-- ICON SEARCH YANG BISA DIKLIK -->
                         <i class='bx bx-search' id="tableSearchIcon"></i>
-                        <i class='bx bx-filter'></i>
+                        
+                        <!-- SELECT UNTUK SORT (AWALNYA TERSEMBUNYI) -->
+                        <select id="tableFilterSelect" class="table-filter-select">
+                            <option value="">Sort By</option>
+                            <option value="az">Name (A-Z)</option>
+                            <option value="za">Name (Z-A)</option>
+                        </select>
+                        <!-- ICON FILTER YANG BISA DIKLIK -->
+                        <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
                     <!-- Tabel Statis Daftar Media -->
                     <div class="table-container">
-                        <table style="width: 100%; border-collapse: collapse;">
+                        <table id="mediaTable" style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
                                     <th style="padding: 10px; border: 1px solid #ccc;">ID Media</th>
@@ -191,10 +218,10 @@
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <a href="{{ url('admin/media/edit', $medium->id) }}" class="btn-detail edit">
+                                            <a href="{{ route('admin.media.edit', $medium->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
-                                            <form action="{{ url('admin/media/delete', $medium->id) }}" method="POST" style="display:inline-block;">
+                                            <form action="{{ route('admin.media.destroy', $medium->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
@@ -222,5 +249,6 @@
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
+    
 </body>
 </html>
