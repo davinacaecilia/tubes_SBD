@@ -1,0 +1,509 @@
+/* profil.css */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+  /* Disesuaikan agar logo tepat setelah ikon hamburger dengan gap 12px,
+     mengingat ikon hamburger fixed di left: 20px dan punya padding 6px.
+     Lebar efektif ikon ~20px (font-size) + 2*6px (padding) = 32px.
+     Jadi ujung kanan ikon ~20px + 32px = 52px.
+     Jika gap 12px, logo mulai di 52px + 12px = 64px.
+     Karena topbar punya padding kiri 24px, maka padding-left logo harus 64px - 24px = 40px. */
+  padding: 10px 27px 10px 50px; /* <--- Padding-left disesuaikan di styleP.css */
+}
+
+.logo span {
+  font-weight: normal;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  position: relative; /* Added for pseudo-element positioning */
+  padding-bottom: 5px; /* Added for space for the underline */
+}
+
+.nav-menu a.active {
+  color: black; /* Ensure active link text is black */
+}
+
+.nav-menu a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px; /* Thickness of the underline */
+  background-color: #007bff; /* Blue color for the underline */
+  border-radius: 2px; /* Slightly rounded corners for the underline */
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #e0d9d9;
+}
+
+.icon {
+  font-size: 18px;
+  cursor: pointer;
+  color: #000;
+}
+
+.headline {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.headline h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.user-profile-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.nav-profile-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.section-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.tabs a {
+  text-decoration: none;
+  color: gray;
+  font-size: 15px;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.tabs a.active {
+  color: black;
+  font-weight: 500;
+}
+
+.tabs a.active::after {
+  content: ''; /* Konten kosong adalah wajib untuk pseudo-element */
+  position: absolute; /* Posisikan relatif terhadap elemen parent (a) */
+  bottom: -5px; /* Sesuaikan posisi vertikal garis, agak sedikit di bawah teks */
+  left: 0; /* Mulai dari kiri elemen parent */
+  width: 100%; /* Lebar garis selebar elemen parent */
+  height: 2px; /* Ketebalan garis */
+  background-color: #319ce4; /* Warna biru yang Anda inginkan */
+  border-radius: 1px; /* Sedikit lengkungan pada ujung garis */
+}
+
+.search-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.search-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #000;
+  transition: fill 0.3s;
+}
+
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.gallery-card {
+  position: relative;
+  color: white;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.gallery-card .img-wrapper {
+  position: relative;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.05);
+}
+
+.badge-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ffc107;
+  color: black;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.card-text {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.card-text .badge {
+  background-color: #ffc107;
+  color: black;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.card-text h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.card-text p {
+  margin: 4px 0 0;
+  font-size: 0.95em;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 9px;
+}
+
+.card {
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  aspect-ratio: 1 / 1;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.card .info {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: white;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.info h4 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.info p {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.badge-top.badge-blue {
+  background-color: #2196f3;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+  padding: 4px 8px;
+}
+
+.badge-top .clock-icon {
+  fill: white;
+}
+
+.section-count {
+  color: #888;
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 6px;
+}
+
+/* sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Padding untuk konten di dalam sidebar agar tidak tersembunyi di bawah topbar */
+.sidebar .sidebar-scrollable {
+  padding-top: 60px;
+  flex-grow: 1;
+}
+
+/* Hamburger di header */
+.menu-open {
+  position: fixed;
+  top: 15px;
+  left: 20px; /* <--- Diubah di styleP.css */
+  z-index: 1200;
+}
+
+/* Hamburger di sidebar */
+.menu-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1200;
+  display: none; /* default disembunyikan */
+}
+
+/* Saat sidebar aktif, tampilkan close icon, sembunyikan open icon */
+.sidebar.active + .menu-open {
+  display: none;
+}
+.sidebar.active .menu-close {
+  display: block;
+}
+
+.sidebar .menu-icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1101;
+}
+
+/* Ketika sidebar aktif / terbuka */
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  pointer-events: auto;
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar ul li:not(.with-divider0) {
+  border-bottom: none;
+}
+
+/* Styling untuk item sidebar yang aktif (latar belakang biru melengkung) */
+.sidebar ul li.active {
+  color: #004d80;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+/* Pseudo-element untuk latar belakang biru melengkung */
+.sidebar ul li.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: calc(100% - 10px);
+  height: 100%;
+  background-color: #e0f2f7;
+  border-radius: 25px 0 0 25px;
+  z-index: -1;
+}
+
+.sidebar ul li.active .sidebar-icon {
+  color: #004d80;
+}
+
+/* Styling for sidebar icons */
+.sidebar-icon {
+  font-size: 22px;
+  margin-right: 15px;
+  color: #555;
+}
+
+.short-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 8px 20px;
+}
+
+/* Garis full di bagian bawah sidebar */
+.full-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 12px 0 0;
+  flex-shrink: 0;
+}
+
+.bottom-divider {
+  margin-top: 16px;
+}
+
+.sidebar-spacer {
+  height: 40px;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  font-size: 12px;
+  color: #666;
+  background-color: #fff;
+  text-align: left;
+  flex-shrink: 0;
+}
+
