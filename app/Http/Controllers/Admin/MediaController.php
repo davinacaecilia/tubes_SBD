@@ -15,6 +15,10 @@ class MediaController extends Controller
     {
         $query = Medium::query();
 
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
         if ($request->sort === 'az') {
             $query->orderBy('name', 'asc');
         } elseif ($request->sort === 'za') {

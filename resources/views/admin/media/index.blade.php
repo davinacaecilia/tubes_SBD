@@ -180,12 +180,12 @@
                 <div class="order">
                     <div class="head">
                         <h3>Media List</h3>
-                        <!-- INPUT TEXT UNTUK SEARCH (AWALNYA TERSEMBUNYI) -->
-                        <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search media...">
-                        <!-- ICON SEARCH YANG BISA DIKLIK -->
+
+                        <form method="GET" action="{{ route('admin.media.index') }}" id="searchForm">
+                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search medium...">
+                        </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
                         
-                        <!-- SELECT UNTUK SORT (AWALNYA TERSEMBUNYI) -->
                         <select id="tableFilterSelect" class="table-filter-select">
                             <option value="">Sort By</option>
                             <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
@@ -248,6 +248,7 @@
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sort.js') }}"></script>
+    <script src="{{ asset('admin/script/search.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     

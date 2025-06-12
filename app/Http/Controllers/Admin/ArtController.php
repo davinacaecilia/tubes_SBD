@@ -17,12 +17,16 @@ class ArtController extends Controller
     {
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
+        if ($request->has('search') && $request->search != '') {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
         if ($request->sort === 'title_az') {
             $query->orderBy('title', 'asc');
         } elseif ($request->sort === 'title_za') {
             $query->orderBy('title', 'desc');
         } else {
-            $query->orderBy('updated_at', 'desc'); 
+            $query->orderBy('id', 'asc'); 
         }
 
         $arts = $query->get();

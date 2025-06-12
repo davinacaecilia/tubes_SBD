@@ -37,9 +37,12 @@
                 <div class="order">
                     <div class="head">
                         <h3>Arts List</h3>
-                        <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search artwork...">
+                        <form method="GET" action="{{ route('admin.art.index') }}" id="searchForm">
+                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search artwork...">
+                        </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
-                        
+
+
                         <select id="tableFilterSelect" class="table-filter-select"> 
                             <option value="">Sort By</option>
                             <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
@@ -101,6 +104,7 @@
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sort.js') }}"></script>
+    <script src="{{ asset('admin/script/search.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/chart.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
