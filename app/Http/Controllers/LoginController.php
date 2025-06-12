@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; 
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -14,6 +14,32 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-        return back()->with('status', 'Simulated login success for: ' . $request->email);
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        
+       if (Auth::attempt($credentials)) {
+    $request->session()->regenerate();
+
+    $email = $request->email;
+    $name = strstr($email, '@', true);
+    $request->session()->put('email', $email);
+    $request->session()->put('name', $name);
+
+    return redirect()->route('next');
+}
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
     }
+
+    public function next()
+    {
+        return view('next');
+    }
+
+
 }

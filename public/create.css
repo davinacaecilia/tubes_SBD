@@ -49,6 +49,7 @@ body {
     height: 100vh;
 }
 
+
 .login-container {
     display: flex;
     flex-direction: row;
@@ -101,6 +102,7 @@ body {
     outline: none;
     transition: border 0.3s;
     color: var(--text-color);
+    margin-bottom: 20px;
 }
 
 .input-group input:focus {
@@ -108,19 +110,7 @@ body {
     background-color: var(--input-bg);
 }
 
-.forgot-link a {
-    color: var(--link-color);
-    text-decoration: none;
-    font-size: 14px;
-     display: inline-block;
-    margin-top: 20px; 
-    font-weight: 500;
-    
-}
 
-.forgot-link a:hover {
-    text-decoration: underline;
-}
 
 .info-text {
     color: var(--secondary-text);
@@ -131,35 +121,10 @@ body {
     margin-top: 20px; 
 }
 
-.info-text a {
-    color: var(--link-color);
-    text-decoration: none;
-}
 
-.info-text a:hover {
-    text-decoration: underline;
-}
-
-.submit-group a {
-    color: var(--link-color);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-  
-    
-    
-}
-
-.submit-group a:hover {
-    text-decoration: underline;
-}
-
-.btn {
-     background-color: var(--button-bg);
+.btn-next {
+ 
+    background-color: var(--button-bg);
     color: var(--button-text);
     border: none;
     padding: 12px 28px;
@@ -167,12 +132,11 @@ body {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    margin: 0;
-    margin-left: 250px;
+    margin-left:  250px; 
 }
+    
 
-
-.btn:hover {
+.btn-next:hover {
     background-color: var(--button-hover);
 }
 
