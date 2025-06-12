@@ -202,10 +202,10 @@
                         
                         <!-- SELECT UNTUK FILTER STATUS (BARU) -->
                         <select id="tableFilterSelect" class="table-filter-select">
-                            <option value="">Filter by Status</option>
-                            <option value="pending">Pending Approval</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
+                            <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending Approval</option>
+                            <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                            <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
                         <!-- ICON FILTER YANG BISA DIKLIK -->
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
@@ -242,12 +242,20 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
                                             @if($art->status == 'pending')
-                                                <button type="button" class="btn-detail btn-approve" onclick="alert('Approve Artwork 105')">
-                                                    <i class='bx bx-check-circle'></i> Approve
-                                                </button>
-                                                <button type="button" class="btn-detail btn-reject" onclick="alert('Reject Artwork 105')">
-                                                    <i class='bx bx-x-circle'></i> Reject
-                                                </button>
+                                                <form action="{{ route('admin.art.approve', $art->id) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn-detail btn-approve" onclick="return confirm('Approve Artwork?')">
+                                                        <i class='bx bx-check-circle'></i> Approve
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('admin.art.reject', $art->id) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn-detail btn-reject" onclick="return confirm('Reject Artwork?')">
+                                                        <i class='bx bx-x-circle'></i> Reject
+                                                    </button>
+                                                </form>
+
                                             @elseif($art->status == 'approved')
                                                 <button type="button" class="btn-detail btn-approved" disabled>
                                                     <i class='bx bx-check-circle'></i> Approved
@@ -275,6 +283,7 @@
     <div id="pagination" class="pagination-container"></div>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
+    <script src="{{ asset('admin/script/filter_status.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
 </body>

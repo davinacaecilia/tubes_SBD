@@ -56,17 +56,30 @@ class MuseumController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.museum.edit');
+        $museum = Museum::findOrFail($id);
+        return view('admin.museum.edit', compact('museum'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'location' => 'required|string',
+            'logo_url' => 'nullable|string',
+        ]);
+
+        Museum::where('id', $request->id)->update([
+            'name' => $validated['name'],
+            'location' => $validated['location'],
+            'logo_url' => $validated['logo_url'],
+        ]);
+
+        return redirect()->route('admin.museum.index');
     }
 
     /**
@@ -77,6 +90,6 @@ class MuseumController extends Controller
         $museum = Museum::findOrFail($id);
         $museum->delete();
 
-        return redirect()->route('admin.museum.index')->with('success', 'Museum deleted');
+        return redirect()->route('admin.museum.index');
     }
 }

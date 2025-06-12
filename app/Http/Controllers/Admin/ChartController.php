@@ -14,7 +14,7 @@ class ChartController extends Controller
         $museumData = Art::where('status', 'approved')
                     ->selectRaw('museum_id, COUNT(*) as total')
                     ->groupBy('museum_id')
-                    ->orderByDesc('total')  // urutkan dari terbanyak
+                    ->orderByDesc('total')  
                     ->with('museum')
                     ->take(5)
                     ->get()

@@ -19,7 +19,7 @@ Route::post('/login', [LoginController::class, 'submit'])->name('login.submit');
 
 Route::get('/admin/dashboard', function () {
     $mediumCount = \App\Models\Medium::count();
-    $artCount = \App\Models\Art::count();
+    $artCount = \App\Models\Art::where('status', 'approved')->count();
     $userCount = \App\Models\User::count();
     $museumCount = \App\Models\Museum::count();
     return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));

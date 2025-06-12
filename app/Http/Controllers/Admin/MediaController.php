@@ -56,17 +56,30 @@ class MediaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.media.edit');
+        $medium = Medium::findOrFail($id);
+        return view('admin.media.edit', compact('medium'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'desc' => 'nullable|string',
+            'img_url' => 'nullable|string',
+        ]);
+
+        Medium::where('id', $request->id)->update([
+            'name' => $validated['name'],
+            'desc' => $validated['desc'],
+            'img_url' => $validated['img_url'],
+        ]);
+
+        return redirect()->route('admin.media.index');
     }
 
     /**
@@ -77,6 +90,6 @@ class MediaController extends Controller
         $medium = Medium::findOrFail($id);
         $medium->delete();
 
-        return redirect()->route('admin.media.index')->with('success', 'Medium deleted');
+        return redirect()->route('admin.media.index');
     }
 }

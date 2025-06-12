@@ -114,40 +114,38 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Edit Museum</h1> <!-- Diubah -->
+                    <h1>Edit Museum</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li><a href="{{ url('admin/museum') }}">Museum Managements</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/museum/M001/edit') }}">Edit Museum</a></li> <!-- Contoh URL edit -->
+                        <li><a class="active" href="{{ url('admin/museum/M001/edit') }}">Edit Museum</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="form-card">
-                {{-- Form action akan mengarah ke MuseumController@update dengan metode PUT --}}
-                <form action="{{ url('admin/museum/M001') }}" method="POST" enctype="multipart/form-data"> {{-- Contoh ID museum M001 --}}
+                <form action="{{ route('admin.museum.update', $museum->id) }}" method="POST" enctype="multipart/form-data"> 
                     @csrf
-                    @method('PUT') {{-- PENTING: Untuk metode PUT/PATCH di Laravel --}}
+                    @method('PUT') 
 
                     <div class="form-group">
-                        <label for="nama_museum">Museum Name</label>
-                        <input type="text" id="nama_museum" name="nama_museum" placeholder="Enter museum name" value="Louvre Museum" required>
+                        <label for="name">Museum Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter museum name" value="{{ $museum->name }}" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="lokasi">Location (City, Country)</label>
-                        <input type="text" id="lokasi" name="lokasi" placeholder="Example: Paris, France" value="Paris, France" required> 
+                        <label for="location">Location (City, Country)</label>
+                        <input type="text" id="location" name="location" placeholder="Example: Paris, France" value="{{ $museum->location }}" required> 
                     </div>
 
                     <div class="form-group">
-                        <label for="gambar_logo_url">Museum Logo URL</label>
-                        <input type="text" id="gambar_logo_url" name="gambar_logo_url" placeholder="Paste logo image URL here" value="https://placehold.co/50x50/cccccc/333333?text=Logo" required> <!-- Contoh data lama -->
-                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the museum logo image. Leave blank to keep current logo.</small> <!-- Pesan diubah -->
-                        {{-- Opsional: Tampilkan gambar yang sudah ada --}}
+                        <label for="logo_url">Museum Logo URL</label>
+                        <input type="text" id="logo_url" name="logo_url" placeholder="Paste logo image URL here" value="{{ $museum->logo_url }}" required>
+                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the museum logo image. Leave blank to keep current logo.</small>
                         <div style="margin-top: 10px;">
-                            <img src="https://placehold.co/150x100/cccccc/333333?text=Current+Logo" alt="Current Museum Logo" style="max-width: 150px; border-radius: 8px;">
+                            <img src="{{ $museum->logo_url }}" alt="Current Museum Logo" style="max-width: 150px; border-radius: 8px;">
                             <small style="color: var(--text-tertiary); font-size: 12px; display: block;">Current Logo</small>
                         </div>
                     </div>
@@ -157,7 +155,7 @@
                             <i class='bx bx-x'></i> Cancel
                         </button>
                         <button type="submit" class="btn-submit">
-                            <i class='bx bx-save'></i> Update Museum <!-- Diubah -->
+                            <i class='bx bx-save'></i> Update Museum 
                         </button>
                     </div>
                 </form>
