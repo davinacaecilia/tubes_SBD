@@ -239,6 +239,15 @@
 
     <div id="pagination" class="pagination-container"></div>
 
+    <script>
+        window.paginationData = {
+            currentPage: {{ $mediums->currentPage() }},
+            lastPage: {{ $mediums->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sort.js') }}"></script>
     <script src="{{ asset('admin/script/search.js') }}"></script>

@@ -18,7 +18,6 @@
 
     <section id="content">
         @include('partial.navbar')
-
         <main>
             <div class="head-title">
                 <div class="left">
@@ -95,6 +94,15 @@
     </section>
 
     <div id="pagination" class="pagination-container"></div>
+
+    <script>
+        window.paginationData = {
+            currentPage: {{ $arts->currentPage() }},
+            lastPage: {{ $arts->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sort.js') }}"></script>

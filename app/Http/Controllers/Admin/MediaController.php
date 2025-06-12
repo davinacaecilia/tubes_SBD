@@ -27,7 +27,7 @@ class MediaController extends Controller
             $query->orderBy('id');
         }
 
-        $mediums = $query->get();
+        $mediums = $query->paginate(10);
 
         return view('admin.media.index', compact('mediums'));
     }

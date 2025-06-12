@@ -29,7 +29,7 @@ class ArtController extends Controller
             $query->orderBy('id', 'asc'); 
         }
 
-        $arts = $query->get();
+        $arts = $query->paginate(10);
 
         return view('admin.art.index', compact('arts'));
     }

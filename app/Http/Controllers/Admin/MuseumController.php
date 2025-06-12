@@ -27,7 +27,7 @@ class MuseumController extends Controller
             $query->orderBy('id');
         }
 
-        $museums = $query->get();
+        $museums = $query->paginate(10);
 
         return view('admin.museum.index', compact('museums'));
     }
