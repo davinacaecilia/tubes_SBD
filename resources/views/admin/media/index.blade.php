@@ -161,9 +161,7 @@
 
     <section id="content">
         @include('partial.navbar')
-        <!-- NAVBAR -->
 
-        <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
@@ -182,7 +180,7 @@
                         <h3>Media List</h3>
 
                         <form method="GET" action="{{ route('admin.media.index') }}" id="searchForm">
-                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search medium...">
+                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search media...">
                         </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
                         
@@ -191,10 +189,9 @@
                             <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
                             <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
                         </select>
-                        <!-- ICON FILTER YANG BISA DIKLIK -->
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
-                    <!-- Tabel Statis Daftar Media -->
+
                     <div class="table-container">
                         <table id="mediaTable" style="width: 100%; border-collapse: collapse;">
                             <thead>
@@ -232,17 +229,13 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                {{-- Tambahkan baris <tr> lainnya untuk data statis jika diperlukan --}}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </main>
-        <!-- MAIN -->
     </section>
-
 
     <div id="pagination" class="pagination-container"></div>
 

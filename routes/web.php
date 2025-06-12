@@ -97,6 +97,6 @@ Route::get('/isi_media', function () {
 });
 
 Route::get('/karya', function () {
-    return view('media.karya'); // Mengacu ke resources/views/media/karya.blade.php
+    return view('media.karya'); 
 });
 

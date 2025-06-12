@@ -18,9 +18,7 @@
 
     <section id="content">
         @include('partial.navbar')
-        <!-- NAVBAR -->
 
-        <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
@@ -42,7 +40,6 @@
                         </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
 
-
                         <select id="tableFilterSelect" class="table-filter-select"> 
                             <option value="">Sort By</option>
                             <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
@@ -50,9 +47,9 @@
                         </select>
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
-                    <!-- Tabel Statis Daftar Karya Seni -->
+
                     <div class="table-container">
-                        <table id="artworkTable" style="width: 100%; border-collapse: collapse;"> <!-- Tambahkan ID untuk JavaScript -->
+                        <table id="artworkTable" style="width: 100%; border-collapse: collapse;"> 
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
                                     <th style="padding: 10px; border: 1px solid #ccc;">ID Art</th>
@@ -94,12 +91,9 @@
                     </div>
                 </div>
             </div>
-
         </main>
-        <!-- MAIN -->
     </section>
 
-    <!-- Pagination di paling bawah -->
     <div id="pagination" class="pagination-container"></div>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
