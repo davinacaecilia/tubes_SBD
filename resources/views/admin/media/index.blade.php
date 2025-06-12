@@ -188,8 +188,8 @@
                         <!-- SELECT UNTUK SORT (AWALNYA TERSEMBUNYI) -->
                         <select id="tableFilterSelect" class="table-filter-select">
                             <option value="">Sort By</option>
-                            <option value="az">Name (A-Z)</option>
-                            <option value="za">Name (Z-A)</option>
+                            <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
+                            <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
                         </select>
                         <!-- ICON FILTER YANG BISA DIKLIK -->
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
@@ -247,6 +247,7 @@
     <div id="pagination" class="pagination-container"></div>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
+    <script src="{{ asset('admin/script/sort.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     

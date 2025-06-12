@@ -11,9 +11,20 @@ class MediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mediums = Medium::all();
+        $query = Medium::query();
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $mediums = $query->get();
+
         return view('admin.media.index', compact('mediums'));
     }
 

@@ -13,9 +13,20 @@ class ArtController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        $arts = Art::with(['museum', 'medium'])->where('status', 'approved')->get();
+        $query = Art::with(['museum', 'medium'])->where('status', 'approved');
+
+        if ($request->sort === 'title_az') {
+            $query->orderBy('title', 'asc');
+        } elseif ($request->sort === 'title_za') {
+            $query->orderBy('title', 'desc');
+        } else {
+            $query->orderBy('updated_at', 'desc'); 
+        }
+
+        $arts = $query->get();
+
         return view('admin.art.index', compact('arts'));
     }
 

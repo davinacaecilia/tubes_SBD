@@ -11,9 +11,20 @@ class MuseumController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $museums = Museum::all();
+        $query = Museum::query();
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $museums = $query->get();
+
         return view('admin.museum.index', compact('museums'));
     }
 

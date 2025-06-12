@@ -42,8 +42,8 @@
                         
                         <select id="tableFilterSelect" class="table-filter-select"> 
                             <option value="">Sort By</option>
-                            <option value="az">Title (A-Z)</option>
-                            <option value="za">Title (Z-A)</option>
+                            <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
+                            <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
                         </select>
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
@@ -100,6 +100,7 @@
     <div id="pagination" class="pagination-container"></div>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
+    <script src="{{ asset('admin/script/sort.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/chart.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
