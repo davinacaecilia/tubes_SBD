@@ -26,7 +26,7 @@ Route::get('/admin/dashboard', function () {
 
 Route::prefix('admin')->group(function () {
 
-    
+
     Route::resource('user', UserController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'admin.user.index',
         'create' => 'admin.user.create',
@@ -38,14 +38,14 @@ Route::prefix('admin')->group(function () {
 
 
 
-    Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
+    Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status');
 
 
     // Manajemen Karya Seni (URL: /admin/art)
     Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
-        'index' => 'admin.art.index', 
+        'index' => 'admin.art.index',
         'create' => 'admin.art.create',
-        'store' => 'admin.art.store', 
+        'store' => 'admin.art.store',
         'edit' => 'admin.art.edit',
         'update' => 'admin.art.update',
         'destroy' => 'admin.art.destroy',
@@ -74,3 +74,29 @@ Route::prefix('admin')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
 });
+
+//media
+Route::get('/az', function () {
+    return view('media.az');
+});
+
+Route::get('/profil', function () {
+    return view('media.profil');
+});
+
+Route::get('/media_home', function () {
+    return view('media.media_home');
+});
+
+Route::get('/mediaa', function () {
+    return view('media.mediaa');
+});
+
+Route::get('/isi_media', function () {
+    return view('media.isi_media');
+});
+
+Route::get('/karya', function () {
+    return view('media.karya'); // Mengacu ke resources/views/media/karya.blade.php
+});
+
