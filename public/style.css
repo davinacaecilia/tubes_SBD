@@ -153,6 +153,7 @@ body {
 .gallery-card h2 {
   margin: 10px 0 5px;
   font-size: 1.1em;
+
 }
 
 .gallery-card .subtitle,
@@ -160,4 +161,145 @@ body {
   font-size: 0.9em;
   color: #666;
   margin: 2px 0 10px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Padding untuk konten di dalam sidebar agar tidak tersembunyi di bawah topbar */
+.sidebar .sidebar-scrollable {
+  padding-top: 60px;
+  flex-grow: 1;
+}
+
+/* Hamburger di header */
+.menu-open {
+  position: fixed;
+  top: 15px;
+  left: 20px; /* <--- Diubah di styleP.css */
+  z-index: 1200;
+}
+
+/* Hamburger di sidebar */
+.menu-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1200;
+  display: none; /* default disembunyikan */
+}
+
+/* Saat sidebar aktif, tampilkan close icon, sembunyikan open icon */
+.sidebar.active + .menu-open {
+  display: none;
+}
+.sidebar.active .menu-close {
+  display: block;
+}
+
+.sidebar .menu-icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1101;
+}
+
+/* Ketika sidebar aktif / terbuka */
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  pointer-events: auto;
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar ul li:not(.with-divider0) {
+  border-bottom: none;
+}
+
+/* Styling untuk item sidebar yang aktif (latar belakang biru melengkung) */
+.sidebar ul li.active {
+  color: #004d80;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+/* Pseudo-element untuk latar belakang biru melengkung */
+.sidebar ul li.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: calc(100% - 10px);
+  height: 100%;
+  background-color: #e0f2f7;
+  border-radius: 25px 0 0 25px;
+  z-index: -1;
+}
+
+.sidebar ul li.active .sidebar-icon {
+  color: #004d80;
+}
+
+/* Styling for sidebar icons */
+.sidebar-icon {
+  font-size: 22px;
+  margin-right: 15px;
+  color: #555;
+}
+
+.short-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 8px 20px;
+}
+
+/* Garis full di bagian bawah sidebar */
+.full-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 12px 0 0;
+  flex-shrink: 0;
+}
+
+.bottom-divider {
+  margin-top: 16px;
+}
+
+.sidebar-spacer {
+  height: 40px;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  font-size: 12px;
+  color: #666;
+  background-color: #fff;
+  text-align: left;
+  flex-shrink: 0;
 }
