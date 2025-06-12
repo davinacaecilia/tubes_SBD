@@ -131,31 +131,9 @@
                 <form action="{{ url('admin/media') }}" method="POST" enctype="multipart/form-data">
                     @csrf {{-- Token CSRF for Laravel security --}}
 
-                   <div class="form-group">
-                        <label for="media">Medium</label>
-                        <select id="media" name="media" required>
-                            <option value="">Select a medium</option> <!-- Default option -->
-                            <option value="Paper">Paper</option>
-                            <option value="Ink">Ink</option>
-                            <option value="Textile">Textile</option>
-                            <option value="Metal">Metal</option>
-                            <option value="Oil Paint">Oil Paint</option>
-                            <option value="Canvas">Canvas</option>
-                            <option value="Clay">Clay</option>
-                            <option value="Graphite">Graphite</option>
-                            <option value="Photograph">Photograph</option>
-                            <option value="Pen">Pen</option>
-                            <option value="Etching">Etching</option>
-                            <option value="Engraving">Engraving</option>
-                            <option value="Gold">Gold</option>
-                            <option value="Cotton">Cotton</option>
-                            <option value="Ceramic">Ceramic</option>
-                            <option value="Wood">Wood</option>
-                            <option value="Pencil">Pencil</option>
-                            <option value="Glass">Glass</option>
-                            <option value="Silver">Silver</option>
-                            <option value="Stoneware">Stoneware</option>
-                        </select>
+                <div class="form-group">
+                        <label for="name">Media Name</label> 
+                        <input type="text" id="name" name="name" placeholder="Enter media name" required> 
                     </div>
 
                     <div class="form-group">
@@ -187,5 +165,6 @@
     
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <script src="{{ asset('admin./script/selectsearch.js')}}"></script>
 </body>
 </html>

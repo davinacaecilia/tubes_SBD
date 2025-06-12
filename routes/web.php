@@ -38,12 +38,13 @@ Route::prefix('admin')->group(function () {
 
 
     // Manajemen Karya Seni (URL: /admin/art)
-    Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
+    Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'show'])->names([
         'index' => 'admin.art.index', 
         'create' => 'admin.art.create', 
         'edit' => 'admin.art.edit',
         'update' => 'admin.art.update',
         'destroy' => 'admin.art.destroy',
+        'show' => 'admin.art.show',
     ]);
 
     // Manajemen Museum (URL: /admin/museum)

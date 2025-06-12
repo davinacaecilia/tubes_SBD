@@ -135,17 +135,8 @@
 
                     
                     <div class="form-group">
-                        <label for="museum">Museum Name</label>
-                        <select id="museum" name="museum" required> 
-                            <option value="">Select a museum</option> 
-                            <option value="MoMA The Museum Of Modern Art">MoMA The Museum Of Modern Art</option>
-                            <option value="Van Gogh Museum">Van Gogh Museum</option>
-                            <option value="Uffizi Gallery">Uffizi Gallery</option>
-                            <option value="The Art Institute Of Chicago">The Art Institute Of Chicago</option>
-                            <option value="National Gallery of Art, Washington DC">National Gallery of Art, Washington DC</option>
-                            <option value="Mauritshuis">Mauritshuis</option>
-                            <option value="NASA">NASA</option>
-                        </select>
+                        <label for="nama_museum">Museum Name</label>
+                        <input type="text" id="nama_museum" name="nama_museum" placeholder="Enter museum name" value="" required>
                     </div>
 
                     <div class="form-group">

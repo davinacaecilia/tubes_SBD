@@ -8,6 +8,7 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet' />
     <!-- My CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <title>Edit Artwork - Google Arts & Culture Admin</title> <!-- Diubah -->
     <style>
@@ -143,10 +144,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="museum">Museum</label>
-                        <select id="museum" name="museum" required>
+                        <label for="museumSelect">Museum Name</label>
+                        <select id="museumSelect" name="museum" required> 
                             <option value="">Select a museum</option>
-                            <option value="MoMA The Museum Of Modern Art" selected>MoMA The Museum Of Modern Art</option> <!-- Contoh selected -->
+                            <option value="MoMA The Museum Of Modern Art">MoMA The Museum Of Modern Art</option>
                             <option value="Van Gogh Museum">Van Gogh Museum</option>
                             <option value="Uffizi Gallery">Uffizi Gallery</option>
                             <option value="The Art Institute Of Chicago">The Art Institute Of Chicago</option>
@@ -157,14 +158,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="media">Medium</label>
-                        <select id="media" name="media" required>
+                        <label for="mediumSelect">Medium</label>
+                        <select id="mediumSelect" name="medium" required> 
                             <option value="">Select a medium</option>
                             <option value="Paper">Paper</option>
                             <option value="Ink">Ink</option>
                             <option value="Textile">Textile</option>
                             <option value="Metal">Metal</option>
-                            <option value="Oil Painting" selected>Oil Painting</option> <!-- Contoh selected -->
+                            <option value="Oil Paint">Oil Paint</option>
                             <option value="Canvas">Canvas</option>
                             <option value="Clay">Clay</option>
                             <option value="Graphite">Graphite</option>
@@ -219,7 +220,13 @@
         <!-- MAIN -->
     </section>
 
+    <!-- Panggil jQuery sebelum Select2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- NEW: Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <script src="{{ asset('admin/script/selectsearch.js') }}"></script>
 </body>
 </html>

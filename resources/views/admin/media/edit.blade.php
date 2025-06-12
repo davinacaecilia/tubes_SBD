@@ -134,8 +134,8 @@
                     @method('PUT') {{-- PENTING: Untuk metode PUT/PATCH di Laravel --}}
 
                     <div class="form-group">
-                        <label for="name">Media Name</label> <!-- Diubah -->
-                        <input type="text" id="name" name="name" placeholder="Enter media name" value="Oil Painting" required> <!-- Contoh data lama -->
+                        <label for="name">Media Name</label> 
+                        <input type="text" id="name" name="name" placeholder="Enter media name" value="Oil Painting" required> 
                     </div>
 
                     <div class="form-group">

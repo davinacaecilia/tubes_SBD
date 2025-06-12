@@ -70,8 +70,8 @@
         }
 
         /* Styling for Approve and Reject buttons */
-        .table-container .btn-action-group .btn-approve { /* CSS ini akan berlaku */
-            background-color: var(--accent-green); /* Hijau untuk Approve */
+        .table-container .btn-action-group .btn-approve {
+            background-color: var(--accent-green);
             color: var(--primary-white);
             border: 1px solid var(--accent-green);
         }
@@ -80,8 +80,8 @@
             border-color: #288a42;
         }
 
-        .table-container .btn-action-group .btn-reject { /* CSS ini akan berlaku */
-            background-color: var(--accent-red); /* Merah untuk Reject */
+        .table-container .btn-action-group .btn-reject {
+            background-color: var(--accent-red);
             color: var(--primary-white);
             border: 1px solid var(--accent-red);
         }
@@ -90,10 +90,11 @@
             border-color: #c52c20;
         }
         
-        /* Opsi: Styling khusus untuk tombol disabled (akan lebih redup) */
+        /* Styling untuk tombol disabled agar terlihat lebih redup */
         .table-container .btn-action-group .btn-detail:disabled {
-            opacity: 0.6; /* Membuat tombol disabled terlihat redup */
+            opacity: 0.6; 
             cursor: not-allowed;
+            filter: grayscale(50%);
         }
 
         /* Styling for status badges */
@@ -180,13 +181,13 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Artwork Status</h1>
+                    <h1>Art Status</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a href="{{ url('admin/art') }}">Artwork Management</a></li>
+                        <li><a href="{{ url('admin/art') }}">Art Managements</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/art/status') }}">Artwork Status</a></li>
+                        <li><a class="active" href="{{ url('admin/art/status') }}">Art Status</a></li>
                     </ul>
                 </div>
             </div>
@@ -219,7 +220,7 @@
                                     <th style="padding: 10px; border: 1px solid #ccc;">Title</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Artist</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Status</th>
-                                    <th style="padding: 10px; border: 1px solid #ccc;">Edited By Admin</th>
+                                    <th style="padding: 10px; border: 1px solid #ccc;">Art Details</th> <!-- Kolom Baru -->
                                     <th style="padding: 10px; border: 1px solid #ccc;">Last Edit Date</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
                                 </tr>
@@ -234,7 +235,11 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <span class="status-badge status-pending">Pending Approval</span>
                                     </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin John</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">
+                                        <a href="{{ url('admin/art/105') }}" class="btn-detail edit">
+                                            <i class='bx bx-info-circle'></i> View Details
+                                        </a>
+                                    </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-20</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
@@ -255,7 +260,11 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <span class="status-badge status-pending">Pending Approval</span>
                                     </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin Jane</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">
+                                        <a href="{{ url('admin/art/106') }}" class="btn-detail edit">
+                                            <i class='bx bx-info-circle'></i> View Details
+                                        </a>
+                                    </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-22</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
@@ -276,12 +285,15 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <span class="status-badge status-approved">Approved</span>
                                     </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin John</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">
+                                        <a href="{{ url('admin/art/101') }}" class="btn-detail edit">
+                                            <i class='bx bx-info-circle'></i> View Details
+                                        </a>
+                                    </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-15</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <!-- Supervisor dapat melihat status, tapi tombol Approve/Reject bisa dinonaktifkan/disembunyikan untuk status non-pending -->
-                                            <button type="button" class="btn-detail btn-approve" disabled> <!-- PERBAIKAN CLASS -->
+                                            <button type="button" class="btn-detail btn-approve" disabled>
                                                 <i class='bx bx-check-circle'></i> Approved
                                             </button>
                                         </div>
@@ -295,11 +307,15 @@
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <span class="status-badge status-rejected">Rejected</span>
                                     </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin Peter</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">
+                                        <a href="{{ url('admin/art/104') }}" class="btn-detail edit">
+                                            <i class='bx bx-info-circle'></i> View Details
+                                        </a>
+                                    </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">2024-05-18</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
-                                            <button type="button" class="btn-detail btn-reject" disabled> <!-- PERBAIKAN CLASS -->
+                                            <button type="button" class="btn-detail btn-reject" disabled>
                                                 <i class='bx bx-x-circle'></i> Rejected
                                             </button>
                                         </div>
@@ -321,5 +337,6 @@
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <!-- Pastikan tidak ada script inline di sini -->
 </body>
 </html>
