@@ -65,7 +65,7 @@ class MuseumController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -73,11 +73,9 @@ class MuseumController extends Controller
             'logo_url' => 'nullable|string',
         ]);
 
-        Museum::where('id', $request->id)->update([
-            'name' => $validated['name'],
-            'location' => $validated['location'],
-            'logo_url' => $validated['logo_url'],
-        ]);
+        $museum = Museum::findOrFail($id);
+        $museum->fill($validated);
+        $museum->save();
 
         return redirect()->route('admin.museum.index');
     }

@@ -65,7 +65,7 @@ class MediaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -73,11 +73,9 @@ class MediaController extends Controller
             'img_url' => 'nullable|string',
         ]);
 
-        Medium::where('id', $request->id)->update([
-            'name' => $validated['name'],
-            'desc' => $validated['desc'],
-            'img_url' => $validated['img_url'],
-        ]);
+        $medium = Medium::findOrFail($id);
+        $medium->fill($validated);
+        $medium->save();
 
         return redirect()->route('admin.media.index');
     }
