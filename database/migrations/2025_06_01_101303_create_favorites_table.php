@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('entity_type', ['karya_seni', 'medium']);
+            $table->enum('entity_type', ['art', 'medium']);
             $table->unsignedBigInteger('entity_id');
             $table->timestamp('date_added')->useCurrent();
         });

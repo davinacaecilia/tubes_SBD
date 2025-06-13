@@ -25,7 +25,7 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/art') }}">Arts List</a></li>
+                        <li><a class="active" href="{{ route('admin.art.index') }}">Arts List</a></li>
                     </ul>
                 </div>
             </div>

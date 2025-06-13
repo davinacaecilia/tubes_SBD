@@ -120,9 +120,9 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a href="{{ url('admin/media') }}">Medium Management</a></li> 
+                        <li><a href="{{ route('admin.media.index') }}">Medium Management</a></li> 
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/media/create') }}">Add Media</a></li> 
+                        <li><a class="active" href="{{ route('admin.media.create') }}">Add Media</a></li> 
                     </ul>
                 </div>
             </div>

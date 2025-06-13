@@ -29,7 +29,7 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/museum') }}">Museum List</a></li> <!-- PERBAIKAN: Link breadcrumb -->
+                        <li><a class="active" href="{{ route('admin.museum.index') }}">Museum List</a></li> <!-- PERBAIKAN: Link breadcrumb -->
                     </ul>
                 </div>
 

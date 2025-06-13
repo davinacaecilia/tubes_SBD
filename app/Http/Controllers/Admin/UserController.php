@@ -3,14 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user.index');
+        $query = User::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $users = $query->paginate(10);
+        
+        return view('admin.user.index', compact('users'));
     }
 
     /**

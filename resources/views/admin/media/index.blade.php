@@ -169,7 +169,7 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/media') }}">Media List</a></li>
+                        <li><a class="active" href="{{ route('admin.media.index') }}">Media List</a></li>
                     </ul>
                 </div>
             </div>
