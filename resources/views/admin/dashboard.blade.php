@@ -61,8 +61,8 @@
 							<div class="charts-container">
 								<div class="chart-card">
 										<div class="chart-header">
-												<h2>Arts Distribution per Museum</h2>
-												<p>Number of painting collections in each museum</p>
+												<h2>Museums with Most Artwork</h2>
+												<p>Number of artwork collections in each museum</p>
 										</div>
 										<div class="chart-wrapper">
 												<canvas id="museumChart"></canvas>
@@ -72,7 +72,7 @@
 								<div class="chart-card">
 										<div class="chart-header">
 												<h2>Arts by Medium</h2>
-												<p>Distribution of paintings by medium type</p>
+												<p>Distribution of artworks by medium type</p>
 										</div>
 										<div class="chart-wrapper">
 												<canvas id="mediumChart"></canvas>

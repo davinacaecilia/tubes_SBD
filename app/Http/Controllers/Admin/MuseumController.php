@@ -11,9 +11,24 @@ class MuseumController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $museums = Museum::all();
+        $query = Museum::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $museums = $query->paginate(10);
+
         return view('admin.museum.index', compact('museums'));
     }
 
@@ -56,9 +71,10 @@ class MuseumController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $museum = Museum::findOrFail($id);
+        return view('admin.museum.edit', compact('museum'));
     }
 
     /**
@@ -66,7 +82,17 @@ class MuseumController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'location' => 'required|string',
+            'logo_url' => 'nullable|string',
+        ]);
+
+        $museum = Museum::findOrFail($id);
+        $museum->fill($validated);
+        $museum->save();
+
+        return redirect()->route('admin.museum.index');
     }
 
     /**
@@ -77,6 +103,6 @@ class MuseumController extends Controller
         $museum = Museum::findOrFail($id);
         $museum->delete();
 
-        return redirect()->route('admin.museum.index')->with('success', 'Museum deleted');
+        return redirect()->route('admin.museum.index');
     }
 }

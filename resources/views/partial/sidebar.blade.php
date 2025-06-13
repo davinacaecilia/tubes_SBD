@@ -83,7 +83,7 @@
         </li>
 
         <!-- Manajemen User (Tetap Langsung) -->
-        <li class="{{ Request::is('admin/use*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/user*') ? 'active' : '' }}">
             <a href="{{ url('admin/user') }}">
                 <i class='bx bxs-group'></i>
                 <span class="text">User Management</span>

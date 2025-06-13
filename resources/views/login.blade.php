@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign in - Google</title>
+    <meta name="color-scheme" content="light dark">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="login-container">
-        <div class="left-section">
-            <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_google_lockup_default_1x_r2.png" alt="Google Logo">
+        <div class="logo-container">
+            <picture>
+                <source srcset="{{ asset('R-dark.png')}}" media="(prefers-color-scheme: dark)">
+                <img src="{{ asset('R.png')}}" alt="Google Logo" class="google-g">
+            </picture>
+            <div class="logo-text">
+                <h1>Sign in</h1>
+                <p class="subtitle">Use your Google Account</p>
+            </div>
         </div>
         <div class="right-section">
-            <h1>Sign in</h1>
-            <p class="subtitle">Use your Google Account</p>
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="input-group">
@@ -34,7 +40,12 @@
         </div>
     </div>
     <footer>
-        English (United States) • <a href="#">Help</a> <a href="#">Privacy</a> <a href="#">Terms</a>
+        <span class="language">English (United States)</span>
+        <span class="links">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </span>
     </footer>
 </body>
 </html>

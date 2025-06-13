@@ -11,9 +11,24 @@ class MediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mediums = Medium::all();
+        $query = Medium::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $mediums = $query->paginate(10);
+
         return view('admin.media.index', compact('mediums'));
     }
 
@@ -56,9 +71,10 @@ class MediaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $medium = Medium::findOrFail($id);
+        return view('admin.media.edit', compact('medium'));
     }
 
     /**
@@ -66,7 +82,17 @@ class MediaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'desc' => 'nullable|string',
+            'img_url' => 'nullable|string',
+        ]);
+
+        $medium = Medium::findOrFail($id);
+        $medium->fill($validated);
+        $medium->save();
+
+        return redirect()->route('admin.media.index');
     }
 
     /**
@@ -77,6 +103,6 @@ class MediaController extends Controller
         $medium = Medium::findOrFail($id);
         $medium->delete();
 
-        return redirect()->route('admin.media.index')->with('success', 'Medium deleted');
+        return redirect()->route('admin.media.index');
     }
 }

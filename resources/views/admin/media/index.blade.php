@@ -104,36 +104,54 @@
             white-space: nowrap;
             display: block;
         }
-        /* CSS KHUSUS UNTUK FITUR SEARCH ICON CLICKABLE */
+        /* CSS KHUSUS UNTUK FITUR SEARCH/FILTER INPUT/SELECT YANG BISA DIKLIK */
         .table-data .order .head {
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
-        .table-search-input {
+        .table-data .order .head h3 {
+            margin-right: auto;
+        }
+        .table-search-input,
+        .table-filter-select {
             width: 0;
             padding: 0;
             border: none;
-            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease;
+            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
             box-sizing: border-box;
             background: var(--surface-white);
             color: var(--text-primary);
             font-size: 14px;
             border-radius: 20px;
-            margin-left: auto;
             outline: none;
             height: 40px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
         }
 
-        .table-search-input.show {
+        .table-search-input.show,
+        .table-filter-select.show {
             width: 200px;
             padding: 8px 12px;
             border: 1px solid var(--border-light);
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
         }
-        .table-search-input.show:focus {
+        .table-search-input.show:focus,
+        .table-filter-select.show:focus {
             border-color: var(--accent-blue);
         }
-        .table-data .order .head .bx-search {
+        .table-data .order .head .bx-search,
+        .table-data .order .head .bx-filter {
             margin-left: 10px;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -143,33 +161,39 @@
 
     <section id="content">
         @include('partial.navbar')
-        <!-- NAVBAR -->
 
-        <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Media Management</h1>
+                    <h1>Medium Management</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li><a class="active" href="{{ url('admin/media') }}">Media List</a></li>
                     </ul>
+                </div>
             </div>
 
             <div class="table-data">
                 <div class="order">
                     <div class="head">
                         <h3>Media List</h3>
-                        <!-- INPUT TEXT UNTUK SEARCH (AWALNYA TERSEMBUNYI) -->
-                        <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search media...">
-                        <!-- ICON SEARCH YANG BISA DIKLIK -->
+
+                        <form method="GET" action="{{ route('admin.media.index') }}" id="searchForm">
+                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search media...">
+                        </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
-                        <i class='bx bx-filter'></i>
+                        
+                        <select id="tableFilterSelect" class="table-filter-select">
+                            <option value="">Sort By</option>
+                            <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
+                            <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
+                        </select>
+                        <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
-                    <!-- Tabel Statis Daftar Media -->
+
                     <div class="table-container">
-                        <table style="width: 100%; border-collapse: collapse;">
+                        <table id="mediaTable" style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
                                     <th style="padding: 10px; border: 1px solid #ccc;">ID Media</th>
@@ -205,22 +229,30 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                {{-- Tambahkan baris <tr> lainnya untuk data statis jika diperlukan --}}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </main>
-        <!-- MAIN -->
     </section>
-
 
     <div id="pagination" class="pagination-container"></div>
 
+    <script>
+        window.paginationData = {
+            currentPage: {{ $mediums->currentPage() }},
+            lastPage: {{ $mediums->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
+    <script src="{{ asset('admin/script/sort.js') }}"></script>
+    <script src="{{ asset('admin/script/search.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
+    
 </body>
 </html>
