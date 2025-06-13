@@ -241,7 +241,7 @@
                                         @endif
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
-                                        <a href="{{ url('admin/art/105') }}" class="btn-detail edit">
+                                        <a href="{{ route('admin.art.show', $art->id) }}" class="btn-detail edit">
                                             <i class='bx bx-info-circle'></i> View Details
                                         </a>
                                     </td>
@@ -286,8 +286,16 @@
         <!-- MAIN -->
     </section>
 
-    <!-- Pagination (if applicable) -->
     <div id="pagination" class="pagination-container"></div>
+
+    <script>
+        window.paginationData = {
+            currentPage: {{ $arts->currentPage() }},
+            lastPage: {{ $arts->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/filter_status.js') }}"></script>

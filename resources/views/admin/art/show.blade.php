@@ -102,16 +102,16 @@
             </div>
 
             <div class="detail-card">
-                <img src="https://placehold.co/400x250/cccccc/333333?text=Artwork+Image" alt="Artwork Image" class="detail-image">
+                <img src="{{ $art->img_url }}" alt="{{ $art->title }}" class="detail-image">
                 
                 <div class="detail-info">
-                    <h2>The Starry Night</h2> <!-- Judul Karya -->
-                    <p><strong>ID:</strong> 105</p>
-                    <p><strong>Artist:</strong> Vincent van Gogh</p>
-                    <p><strong>Museum:</strong> MoMA</p>
-                    <p><strong>Year Created:</strong> 1889</p>
-                    <p><strong>Medium:</strong> Oil Painting</p>
-                    <p><strong>Description:</strong> A painting depicting a dramatic, turbulent sky over a peaceful village at night, with a prominent cypress tree in the foreground. It is one of the most recognized paintings in the history of Western culture.</p>
+                    <h2>{{ $art->title }}</h2>
+                    <p><strong>ID:</strong> {{ $art->id }}</p>
+                    <p><strong>Artist:</strong> {{ $art->creator }}</p>
+                    <p><strong>Museum:</strong> {{ $art->museum->name }}</p>
+                    <p><strong>Date Created:</strong> {{ $art->created }}</p>
+                    <p><strong>Medium:</strong> {{ $art->medium->name }}</p>
+                    <p><strong>Description:</strong> {{ $art->desc }}</p>
                 </div>
 
                 <div class="detail-actions">

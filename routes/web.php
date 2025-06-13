@@ -51,7 +51,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/admin/art/reject/{id}', [ArtController::class, 'reject'])->name('admin.art.reject');
 
     // Manajemen Karya Seni (URL: /admin/art)
-    Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
+    Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'show'])->names([
         'index' => 'admin.art.index',
         'create' => 'admin.art.create',
         'store' => 'admin.art.store',

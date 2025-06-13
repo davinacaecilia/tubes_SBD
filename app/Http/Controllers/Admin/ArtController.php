@@ -79,7 +79,8 @@ class ArtController extends Controller
      */
     public function show(string $id)
     {
-        return view('admin.art.show');
+        $art = Art::findOrFail($id);
+        return view('admin.art.show', compact('art'));
     }
 
     /**
@@ -136,7 +137,7 @@ class ArtController extends Controller
             $arts->where('status', $request->status); 
         }
 
-        $arts = $arts->get();
+        $arts = $arts->paginate(10);
 
         return view('admin.art.status', compact('arts'));
     }
