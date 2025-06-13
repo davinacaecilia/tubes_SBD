@@ -6,6 +6,7 @@ body {
   background-color: #fff;
 }
 
+/* Navbar */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -32,13 +33,7 @@ body {
 .logo {
   font-size: 18px;
   font-weight: bold;
-  /* Disesuaikan agar logo tepat setelah ikon hamburger dengan gap 12px,
-     mengingat ikon hamburger fixed di left: 20px dan punya padding 6px.
-     Lebar efektif ikon ~20px (font-size) + 2*6px (padding) = 32px.
-     Jadi ujung kanan ikon ~20px + 32px = 52px.
-     Jika gap 12px, logo mulai di 52px + 12px = 64px.
-     Karena topbar punya padding kiri 24px, maka padding-left logo harus 64px - 24px = 40px. */
-  padding: 10px 27px 10px 50px; /* <--- Padding-left disesuaikan di styleP.css */
+  padding: 10px 27px 10px 50px;
 }
 
 .logo span {
@@ -56,36 +51,51 @@ body {
   text-decoration: none;
   color: black;
   font-size: 15px;
-  position: relative; /* Added for pseudo-element positioning */
-  padding-bottom: 5px; /* Added for space for the underline */
-}
-
-.nav-menu a.active {
-  color: black; /* Ensure active link text is black */
-}
-
-.nav-menu a.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px; /* Thickness of the underline */
-  background-color: #007bff; /* Blue color for the underline */
-  border-radius: 2px; /* Slightly rounded corners for the underline */
 }
 
 .right {
   display: flex;
   align-items: center;
   gap: 15px;
-  color: #e0d9d9;
+  color: #000000;
 }
 
 .icon {
   font-size: 18px;
   cursor: pointer;
   color: #000;
+}
+
+.search-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.search-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #000;
+  transition: fill 0.3s;
+}
+
+.sign-in-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.sign-in-button:hover {
+  background-color: #0056b3;
 }
 
 .headline {
