@@ -37,13 +37,8 @@ Route::get('/admin/dashboard', function () {
 Route::get('/admin/dashboard/chart-data', [ChartController::class, 'getChartData'])->name('admin.dashboard.chart-data');
 
 Route::prefix('admin')->group(function () {
-    Route::resource('user', UserController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
+    Route::resource('user', UserController::class)->only(['index'])->names([
         'index' => 'admin.user.index',
-        'create' => 'admin.user.create',
-        'store' => 'admin.user.store',
-        'edit' => 'admin.user.edit',
-        'update' => 'admin.user.update',
-        'destroy' => 'admin.user.destroy',
     ]);
 
     Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
