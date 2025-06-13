@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Medium;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -10,9 +11,25 @@ class MediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.media.index');
+        $query = Medium::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
+
+        $mediums = $query->paginate(10);
+
+        return view('admin.media.index', compact('mediums'));
     }
 
     /**
@@ -28,7 +45,19 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'desc' => 'nullable|string',
+            'img_url' => 'nullable|string',
+        ]);
+
+        $medium = new Medium();
+        $medium->name = $validated['name'];
+        $medium->desc = $validated['desc'];
+        $medium->img_url = $validated['img_url'];
+        $medium->save();
+
+        return redirect()->route('admin.media.index');
     }
 
     /**
@@ -42,9 +71,10 @@ class MediaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.media.edit');
+        $medium = Medium::findOrFail($id);
+        return view('admin.media.edit', compact('medium'));
     }
 
     /**
@@ -52,14 +82,27 @@ class MediaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'desc' => 'nullable|string',
+            'img_url' => 'nullable|string',
+        ]);
+
+        $medium = Medium::findOrFail($id);
+        $medium->fill($validated);
+        $medium->save();
+
+        return redirect()->route('admin.media.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $medium = Medium::findOrFail($id);
+        $medium->delete();
+
+        return redirect()->route('admin.media.index');
     }
 }

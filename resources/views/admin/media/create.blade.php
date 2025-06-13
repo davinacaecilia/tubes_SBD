@@ -128,10 +128,11 @@
             </div>
 
             <div class="form-card">
-                <form action="{{ url('admin/media') }}" method="POST" enctype="multipart/form-data">
-                    @csrf {{-- Token CSRF for Laravel security --}}
+                <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-                <div class="form-group">
+
+                    <div class="form-group">
                         <label for="name">Media Name</label> 
                         <input type="text" id="name" name="name" placeholder="Enter media name" required> 
                     </div>

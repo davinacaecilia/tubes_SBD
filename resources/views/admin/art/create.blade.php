@@ -127,69 +127,48 @@
             </div>
 
             <div class="form-card">
-                <form action="{{ url('admin/art') }}" method="POST" enctype="multipart/form-data">
-                    @csrf {{-- Token CSRF untuk keamanan Laravel --}}
+                <form action="{{ route('admin.art.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
                     <div class="form-group">
-                        <label for="judul">Artwork Title</label>
-                        <input type="text" id="judul" name="judul" placeholder="Enter artwork title" required>
+                        <label for="title">Artwork Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter artwork title" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="seniman">Artist</label>
-                        <input type="text" id="seniman" name="seniman" placeholder="Artist's name" required>
+                        <label for="creator">Artist</label>
+                        <input type="text" id="creator" name="creator" placeholder="Artist's name">
                     </div>
 
                     
                     <div class="form-group">
-                        <label for="museumSelect">Museum Name</label>
-                        <select id="museumSelect" name="museum" required> 
+                        <label for="museum">Museum</label>
+                        <select id="museumSelect" name="museum_id" required> 
                             <option value="">Select a museum</option>
-                            <option value="MoMA The Museum Of Modern Art">MoMA The Museum Of Modern Art</option>
-                            <option value="Van Gogh Museum">Van Gogh Museum</option>
-                            <option value="Uffizi Gallery">Uffizi Gallery</option>
-                            <option value="The Art Institute Of Chicago">The Art Institute Of Chicago</option>
-                            <option value="National Gallery of Art, Washington DC">National Gallery of Art, Washington DC</option>
-                            <option value="Mauritshuis">Mauritshuis</option>
-                            <option value="NASA">NASA</option>
+                            @foreach($museums as $museum)
+                                <option value="{{ $museum->id }}">{{ $museum->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="mediumSelect">Medium</label>
-                        <select id="mediumSelect" name="medium" required> 
+                        <label for="medium">Medium</label>
+                        <select id="mediumSelect" name="medium_id" required> 
                             <option value="">Select a medium</option>
-                            <option value="Paper">Paper</option>
-                            <option value="Ink">Ink</option>
-                            <option value="Textile">Textile</option>
-                            <option value="Metal">Metal</option>
-                            <option value="Oil Paint">Oil Paint</option>
-                            <option value="Canvas">Canvas</option>
-                            <option value="Clay">Clay</option>
-                            <option value="Graphite">Graphite</option>
-                            <option value="Photograph">Photograph</option>
-                            <option value="Pen">Pen</option>
-                            <option value="Etching">Etching</option>
-                            <option value="Engraving">Engraving</option>
-                            <option value="Gold">Gold</option>
-                            <option value="Cotton">Cotton</option>
-                            <option value="Ceramic">Ceramic</option>
-                            <option value="Wood">Wood</option>
-                            <option value="Pencil">Pencil</option>
-                            <option value="Glass">Glass</option>
-                            <option value="Silver">Silver</option>
-                            <option value="Stoneware">Stoneware</option>
+                            @foreach($mediums as $medium)
+                                <option value="{{ $medium->id }}">{{ $medium->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="tahun_dibuat">Year Created</label>
-                        <input type="number" id="tahun_dibuat" name="tahun_dibuat" placeholder="Example: 1889" min="0" max="{{ date('Y') }}" required>
+                        <label for="created">Year Created</label>
+                        <input type="text" id="created" name="created" placeholder="Example: 1889" >
                     </div>
 
                     <div class="form-group">
-                        <label for="deskripsi">Description</label>
-                        <textarea id="deskripsi" name="deskripsi" placeholder="Brief description of the artwork" rows="5"></textarea>
+                        <label for="desc">Description</label>
+                        <textarea id="desc" name="desc" placeholder="Brief description of the artwork" rows="5"></textarea>
                     </div>
 
                     <div class="form-group">

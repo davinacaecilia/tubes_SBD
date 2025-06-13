@@ -112,44 +112,41 @@
     <section id="content">
         @include('partial.navbar')
 
-        <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Edit Media</h1> <!-- Diubah -->
+                    <h1>Edit Media</h1> 
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li><a href="{{ url('admin/media') }}">Medium Management</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/media/1/edit') }}">Edit Media</a></li> <!-- Contoh URL edit -->
+                        <li><a class="active" href="{{ url('admin/media/1/edit') }}">Edit Media</a></li> 
                     </ul>
                 </div>
             </div>
 
             <div class="form-card">
-                {{-- Form action akan mengarah ke MediaController@update dengan metode PUT --}}
-                <form action="{{ url('admin/media/1') }}" method="POST" enctype="multipart/form-data"> {{-- Contoh ID media 1 --}}
+                <form action="{{ route('admin.media.update', $medium->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT') {{-- PENTING: Untuk metode PUT/PATCH di Laravel --}}
+                    @method('PUT') 
 
                     <div class="form-group">
-                        <label for="name">Media Name</label> 
-                        <input type="text" id="name" name="name" placeholder="Enter media name" value="Oil Painting" required> 
+                        <label for="name">Media Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter media name" value="{{ $medium->name }}" required> 
                     </div>
 
                     <div class="form-group">
-                        <label for="desc">Description</label> <!-- Diubah -->
-                        <textarea id="desc" name="desc" placeholder="Brief description of the media" rows="5">Artwork created using oil paints, known for its rich colors and textures.</textarea> <!-- Contoh data lama -->
+                        <label for="desc">Description</label>
+                        <textarea id="desc" name="desc" placeholder="Brief description of the media" rows="5">{{ $medium->desc }}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="img_url">Image URL</label> <!-- Diubah -->
-                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" value="https://placehold.co/80x60/cccccc/333333?text=Oil" required> <!-- Contoh data lama -->
-                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image. Leave blank to keep current image.</small> <!-- Pesan diubah -->
-                        {{-- Opsional: Tampilkan gambar yang sudah ada --}}
+                        <label for="img_url">Image URL</label>
+                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" value="{{ $medium->img_url }}" required>
+                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image. Leave blank to keep current image.</small> 
                         <div style="margin-top: 10px;">
-                            <img src="https://placehold.co/150x100/cccccc/333333?text=Current+Image" alt="Current Media Image" style="max-width: 150px; border-radius: 8px;">
+                            <img src="{{ $medium->img_url }}" alt="Current Media Image" style="max-width: 150px; border-radius: 8px;">
                             <small style="color: var(--text-tertiary); font-size: 12px; display: block;">Current Image</small>
                         </div>
                     </div>
@@ -159,14 +156,13 @@
                             <i class='bx bx-x'></i> Cancel
                         </button>
                         <button type="submit" class="btn-submit">
-                            <i class='bx bx-save'></i> Update Media <!-- Diubah -->
+                            <i class='bx bx-save'></i> Update Media
                         </button>
                     </div>
                 </form>
             </div>
 
         </main>
-        <!-- MAIN -->
     </section>
 
     

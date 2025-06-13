@@ -122,85 +122,66 @@
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li><a href="{{ url('admin/art') }}">Art Managements</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/art/1/edit') }}">Edit Art</a></li> <!-- Contoh URL edit -->
+                        <li><a class="active" href="{{ url('admin/art/1/edit') }}">Edit Art</a></li> 
                     </ul>
                 </div>
             </div>
 
             <div class="form-card">
-                {{-- Form action akan mengarah ke ArtController@update dengan metode PUT --}}
-                <form action="{{ url('admin/art/1') }}" method="POST" enctype="multipart/form-data"> {{-- Contoh ID artwork 1 --}}
+                <form action="{{ route('admin.art.update', $art->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT') {{-- PENTING: Untuk metode PUT/PATCH di Laravel --}}
+                    @method('PUT') 
 
                     <div class="form-group">
-                        <label for="judul">Art's Title</label>
-                        <input type="text" id="judul" name="judul" placeholder="Enter artwork title" value="Starry Night" required> <!-- Contoh data lama -->
+                        <label for="title">Art's Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter artwork title" value="{{ $art->title }}" required> 
                     </div>
 
                     <div class="form-group">
-                        <label for="seniman">Artist</label>
-                        <input type="text" id="seniman" name="seniman" placeholder="Artist's name" value="Vincent van Gogh" required> <!-- Contoh data lama -->
+                        <label for="creator">Artist</label>
+                        <input type="text" id="creator" name="creator" placeholder="Artist's name" value="{{ $art->creator }}" required> 
                     </div>
 
                     <div class="form-group">
-                        <label for="museumSelect">Museum Name</label>
-                        <select id="museumSelect" name="museum" required> 
+                        <label for="museum">Museum</label>
+                        <select id="museum" name="museum_id" required>
                             <option value="">Select a museum</option>
-                            <option value="MoMA The Museum Of Modern Art">MoMA The Museum Of Modern Art</option>
-                            <option value="Van Gogh Museum">Van Gogh Museum</option>
-                            <option value="Uffizi Gallery">Uffizi Gallery</option>
-                            <option value="The Art Institute Of Chicago">The Art Institute Of Chicago</option>
-                            <option value="National Gallery of Art, Washington DC">National Gallery of Art, Washington DC</option>
-                            <option value="Mauritshuis">Mauritshuis</option>
-                            <option value="NASA">NASA</option>
+                            @foreach($museums as $museum)
+                                <option value="{{ $museum->id }}" {{ $art->museum_id == $museum->id ? 'selected' : '' }}>
+                                    {{ $museum->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="mediumSelect">Medium</label>
-                        <select id="mediumSelect" name="medium" required> 
+                        <label for="medium">Medium</label>
+                        <select id="mediumSelect" name="medium_id" required> 
                             <option value="">Select a medium</option>
-                            <option value="Paper">Paper</option>
-                            <option value="Ink">Ink</option>
-                            <option value="Textile">Textile</option>
-                            <option value="Metal">Metal</option>
-                            <option value="Oil Paint">Oil Paint</option>
-                            <option value="Canvas">Canvas</option>
-                            <option value="Clay">Clay</option>
-                            <option value="Graphite">Graphite</option>
-                            <option value="Photograph">Photograph</option>
-                            <option value="Pen">Pen</option>
-                            <option value="Etching">Etching</option>
-                            <option value="Engraving">Engraving</option>
-                            <option value="Gold">Gold</option>
-                            <option value="Cotton">Cotton</option>
-                            <option value="Ceramic">Ceramic</option>
-                            <option value="Wood">Wood</option>
-                            <option value="Pencil">Pencil</option>
-                            <option value="Glass">Glass</option>
-                            <option value="Silver">Silver</option>
-                            <option value="Stoneware">Stoneware</option>
+                            @foreach($mediums as $medium)
+                                <option value="{{ $medium->id }}" {{ $art->medium_id == $medium->id ? 'selected' : '' }}>
+                                    {{ $medium->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="tahun_dibuat">Year Created</label>
-                        <input type="number" id="tahun_dibuat" name="tahun_dibuat" placeholder="Example: 1889" value="1889" min="0" max="{{ date('Y') }}" required> <!-- Contoh data lama -->
+                        <label for="created">Year Created</label>
+                        <input type="text" id="created" name="created" placeholder="Example: 1889" value="{{ $art->created }}" >
                     </div>
 
                     <div class="form-group">
-                        <label for="deskripsi">Description</label>
-                        <textarea id="deskripsi" name="deskripsi" placeholder="Brief description of the artwork" rows="5">A painting depicting a dramatic, turbulent sky over a peaceful village at night.</textarea> <!-- Contoh data lama -->
+                        <label for="desc">Description</label>
+                        <textarea id="desc" name="desc" placeholder="Brief description of the artwork" rows="5">{{ $art->desc }}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="gambar_karya">Artwork Image</label>
-                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" required> 
-                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image.</small>  <!-- Pesan diubah -->
-                        {{-- Opsional: Tampilkan gambar yang sudah ada --}}
+                        <label for="img_url">Artwork Image</label>
+                        <input type="text" id="img_url" name="img_url" placeholder="Paste image URL here" value="{{ $art->img_url }}" required> 
+                        <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the media image.</small> 
                         <div style="margin-top: 10px;">
-                            <img src="https://placehold.co/150x100/cccccc/333333?text=Current+Image" alt="Current Artwork Image" style="max-width: 150px; border-radius: 8px;">
+                            <img src="{{ $art->img_url }}" alt="Current Artwork Image" style="max-width: 150px; border-radius: 8px;">
                             <small style="color: var(--text-tertiary); font-size: 12px; display: block;">Current Image</small>
                         </div>
                     </div>

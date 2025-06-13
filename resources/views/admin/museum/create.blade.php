@@ -130,23 +130,22 @@
             </div>
 
             <div class="form-card">
-                <form action="{{ url('admin/museum') }}" method="POST" enctype="multipart/form-data">
-                    @csrf {{-- Token CSRF untuk keamanan Laravel --}}
-
+                <form action="{{ route('admin.museum.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf 
                     
                     <div class="form-group">
-                        <label for="nama_museum">Museum Name</label>
-                        <input type="text" id="nama_museum" name="nama_museum" placeholder="Enter museum name" value="" required>
+                        <label for="name">Museum Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter museum name"  value="" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="lokasi">Location (City, Country)</label>
-                        <input type="text" id="lokasi" name="lokasi" placeholder="Example: Paris, France" required>
+                        <label for="location">Location (City, Country)</label>
+                        <input type="text" id="location" name="location" placeholder="Example: Paris, France" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="gambar_logo_url">Museum Logo URL</label> 
-                        <input type="text" id="gambar_logo_url" name="gambar_logo_url" placeholder="Paste logo image URL here" required>
+                        <label for="logo_url">Museum Logo URL</label> 
+                        <input type="text" id="logo_url" name="logo_url" placeholder="Paste logo image URL here" required>
                         <small style="color: var(--text-secondary); font-size: 12px;">Enter the direct URL of the museum logo image.</small>
                     </div>
 
