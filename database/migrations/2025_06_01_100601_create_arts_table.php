@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('arts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->year('created')->nullable();
+            $table->string('created')->nullable();
             $table->text('desc')->nullable();
             $table->string('creator')->nullable();
-            $table->foreignId('museum_id')->constrained()->onDelete('cascade');
+            $table->string('img_url')->nullable();
+            $table->foreignId('museum_id')->constrained('museums')->onDelete('cascade');
             $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
         });
     }
 
