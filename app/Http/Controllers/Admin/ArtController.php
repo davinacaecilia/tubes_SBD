@@ -79,7 +79,7 @@ class ArtController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.art.show');
     }
 
     /**

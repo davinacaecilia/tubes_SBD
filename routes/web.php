@@ -58,6 +58,7 @@ Route::prefix('admin')->group(function () {
         'edit' => 'admin.art.edit',
         'update' => 'admin.art.update',
         'destroy' => 'admin.art.destroy',
+        'show' => 'admin.art.show',
     ]);
 
     // Manajemen Museum (URL: /admin/museum)
