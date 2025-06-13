@@ -11,67 +11,10 @@
   <link rel="icon" href="https://www.gstatic.com/culturalinstitute/stella/apple-touch-icon-180x180-v1.png" type="image/x-icon">
 </head>
 <body>
-  <header class="topbar">
-    <div class="left">
-      <div class="menu-icon menu-open">&#9776;</div> <div class="logo">Google <span>Arts & Culture</span></div>
-    </div>
-    <nav class="nav-menu">
-      <a href="#">Home</a>
-      <a href="#">Explore</a>
-      <a href="#">Play</a>
-      <a href="#">Nearby</a>
-      <a href="#" id="favoritesNavLink">Favorites</a>
-      <div class="search-signin-group">
-        <div class="search-icon">
-          <img src="{{ asset('img/icon.svg') }}" alt="search-icon">
-        </div>
-        <a href="#" class="sign-in-button">Sign in</a>
-      </div>
-    </nav>
-  </header>
+  @include('media.navbar')
 
-  <div id="sidebar" class="sidebar">
-    <div class="menu-icon menu-close">&#9776;</div>
+  @include('media.sidebar')
 
-    <div class="sidebar-scrollable">
-      <hr class="full-divider"/>
-      <ul>
-        <li><i class='bx bx-home-alt sidebar-icon'></i> Home</li>
-      <li><i class='bx bx-compass sidebar-icon'></i> Explore</li>
-      <li><i class='bx bx-map sidebar-icon'></i> Nearby</li>
-      <li class="profil-link">
-  <a href="#" id="profileLink" style="text-decoration: none; color: inherit;">
-    <i class='bx bx-user sidebar-icon'></i> Profile
-  </a>
-</li>
-      <li><i class='bx bx-trophy sidebar-icon'></i> Achievements</li>
-       <li class="collection-link"> <a href="{{ url('/az') }}" style="text-decoration: none; color: inherit;"> <i class='bx bx-collection sidebar-icon'></i> Collections
-            </a>
-        </li>
-      <li><i class='bx bx-collection sidebar-icon'></i> Themes</li>
-      <li><i class='bx bx-test-tube sidebar-icon'></i> Experiments</li>
-      <hr class="short-divider"/>
-      <li><i class='bx bx-user sidebar-icon'></i> Artists</li>
-      <li class="media-link"> <a href="{{ url('/media_home') }}" style="text-decoration: none; color: inherit;"> <i class='bx bx-image sidebar-icon'></i> Mediums
-            </a>
-        </li>
-      <li><i class='bx bx-palette sidebar-icon'></i> Art movements</li>
-      <li><i class='bx bx-time sidebar-icon'></i> Historical events</li>
-      <li><i class='bx bx-user sidebar-icon'></i> Historical figures</li>
-      <li><i class='bx bx-map sidebar-icon'></i> Places</li>
-      <hr class="short-divider"/>
-      <li><i class='bx bx-error-circle sidebar-icon'></i> About</li>
-      <li><i class='bx bx-cog sidebar-icon'></i> Settings</li>
-      <li><i class='bx bx-home-alt sidebar-icon'></i> View activity</li>
-      <li><i class='bx bx-message-square-dots sidebar-icon'></i> Send feedback</li>
-      </ul>
-    </div>
-
-    <hr class="full-divider" />
-    <div class="sidebar-footer">
-      <p>Privacy & Terms • Generative AI Terms</p>
-    </div>
-  </div>
   <div class="hero-image">
     <img src="{{ asset('sbd.jpg') }}" alt="Gambar Kertas">
   </div>
@@ -79,7 +22,7 @@
   <div class="judul-kertas">
     <h1>Paper</h1>
     <div class="icon-bar">
-      <i class='bx bx-heart' id="favoriteIcon"></i>
+     <i class='bx bx-heart' id="favoriteIcon"></i>
       <i class='bx bx-link'></i>
       <i class='bx bxl-facebook'></i>
       <i class='bx bx-x'></i>
@@ -388,35 +331,6 @@
     const toggleReadMoreButton = document.getElementById('toggleReadMore');
     const copyrightNotice = document.getElementById('copyrightNotice');
     const topbar = document.querySelector('.topbar');
-    const favoriteIcon = document.getElementById('favoriteIcon'); // Ambil elemen ikon hati
-    const loginPopup = document.getElementById('loginPopup');
-    const notNowBtn = document.getElementById('notNowBtn');
-    const signInBtn = document.getElementById('signInBtn');
-    const profileLink = document.getElementById('profileLink');
-    const favoritesNavLink = document.getElementById('favoritesNavLink');
-if (favoritesNavLink) {
-  favoritesNavLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (!isLoggedIn) {
-      loginPopup.style.display = 'flex';
-    } else {
-      window.location.href = 'profil.html';
-    }
-  });
-}
-
-profileLink.addEventListener('click', (e) => {
-  e.preventDefault(); // cegah navigasi langsung
-  if (!isLoggedIn) {
-    loginPopup.style.display = 'flex';
-  } else {
-    window.location.href = 'profil.html';
-  }
-});
-
-
-    // SIMULASI STATUS LOGIN
-    let isLoggedIn = false; // Ganti ini menjadi 'true' jika user sudah login
 
     const fullText = "Lembaran serat nabati yang diisolasi atau dikempa yang diproduksi dengan cara menyaring serat nabati yang telah dihaluskan dari bubur berair. Kriteria tertentu harus dipenuhi agar suatu zat dapat disebut kertas: yang terpenting, seratnya harus nabati, seratnya harus diproses dengan cara tertentu untuk memecah bahan menjadi serat-serat tersendiri, dan lembarannya harus dibentuk dengan cara menuang campuran serat-air yang telah dihaluskan pada saringan, biasanya saringan yang dicelupkan ke dalam campuran berair dan memungkinkan kelebihan air mengalir keluar. Kertas merupakan media yang paling umum untuk menggambar, mencetak, membuat cetakan, melukis dengan cat air, dan menulis; bersama dengan perkamen, kertas juga banyak digunakan untuk manuskrip abad pertengahan, dan untuk pengembangan buku cetak sejak abad ke-15 dan seterusnya.";
 
@@ -450,73 +364,10 @@ profileLink.addEventListener('click', (e) => {
         topbar.classList.remove('scrolled');
       }
     });
-
-    // --- JS untuk sidebar (Tambahkan ini) ---
-    const sidebar = document.getElementById('sidebar');
-    const openIcon = document.querySelector('.menu-open');
-    const closeIcon = document.querySelector('.menu-close');
-
-    if (openIcon && sidebar) {
-      openIcon.addEventListener('click', () => {
-        sidebar.classList.add('active');
-      });
-    }
-
-    if (closeIcon && sidebar) {
-      closeIcon.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-      });
-    }
-
-    // --- JS untuk fungsionalitas ikon hati & pop-up login ---
-
-    // Fungsi untuk memperbarui tampilan ikon hati
-    function updateFavoriteIcon() {
-      if (isLoggedIn) {
-        favoriteIcon.classList.remove('bx-heart');
-        favoriteIcon.classList.add('bxs-heart'); // bx-solid-heart
-      } else {
-        favoriteIcon.classList.remove('bxs-heart');
-        favoriteIcon.classList.add('bx-heart'); // bx-regular-heart
-      }
-    }
-
-    // Panggil saat DOMContentLoaded untuk mengatur status awal
-    updateFavoriteIcon();
-
-    favoriteIcon.addEventListener('click', () => {
-      if (!isLoggedIn) {
-        loginPopup.style.display = 'flex'; // Tampilkan pop-up jika belum login
-      } else {
-        if (favoriteIcon.classList.contains('bxs-heart')) {
-          favoriteIcon.classList.remove('bxs-heart');
-          favoriteIcon.classList.add('bx-heart');
-          console.log('Item dihapus dari favorit');
-        } else {
-          favoriteIcon.classList.remove('bx-heart');
-          favoriteIcon.classList.add('bxs-heart');
-          console.log('Item ditambahkan ke favorit');
-        }
-      }
-    });
-
-    // Event listener untuk tombol "Not now" di pop-up
-    notNowBtn.addEventListener('click', () => {
-      loginPopup.style.display = 'none'; // Sembunyikan pop-up
-    });
-
-    // Event listener untuk tombol "Sign in" di pop-up
-    signInBtn.addEventListener('click', () => {
-      window.location.href = 'halaman_login.html';
-      loginPopup.style.display = 'none'; // Sembunyikan pop-up setelah klik
-    });
-
-    // Tutup pop-up jika klik di luar area konten pop-up
-    loginPopup.addEventListener('click', (event) => {
-      if (event.target === loginPopup) {
-        loginPopup.style.display = 'none';
-      }
-    });
   });
 </script>
+
+<script src="{{ asset('media/js/sidebar.js') }}"></script>
+<script src="{{ asset('media/js/heart.js') }}"></script>
+
 </html>

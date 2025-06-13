@@ -1,4 +1,4 @@
-/* Pop-up Styles */
+/* Pop-up Styles - (Keep existing pop-up styles) */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -49,7 +49,7 @@
 }
 
 .popup-button {
-   text-decoration: none; /* Hilangkan garis bawah */
+  text-decoration: none; /* Hilangkan garis bawah */
   font-size: 14px; /* Ukuran font tombol */
   padding: 8px 15px; /* Padding tombol */
   border: none; /* Pastikan tidak ada border */
@@ -66,23 +66,24 @@
   background-color: #e8f0fe;
 }
 
+/* Icon bar for social media */
 .icon-bar .bx-heart {
   color: rgb(27, 25, 25);
 }
 
-/* Saat topbar discroll, ikon hati jadi hitam */
+/* When topbar is scrolled, heart icon turns black */
 .topbar.scrolled .icon-bar .bx-heart {
   color: black;
 }
 
-/* Gaya ikon hati saat sudah login */
+/* Style for heart icon when logged in */
 .icon-bar .bxs-heart.logged-in {
-  color: black; /* Warna hitam penuh saat sudah login */
+  color: black; /* Full black color when logged in */
 }
 
-/* Pastikan styling yang lain tidak berubah */
+/* Ensure other styling remains unchanged */
 body {
-  margin: 0;
+  margin: 0; /* Ensure no default margin on body */
   font-family: 'Roboto', sans-serif;
   color: #333;
   background-color: #fff;
@@ -93,63 +94,70 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 24px;
-  position: fixed;
+  position: fixed; /* Keep fixed for the hero image overlay */
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100%; /* Ensure it spans full width */
   background-color: transparent;
   backdrop-filter: none;
   z-index: 10;
-  color: white;
+  color: white; /* Default text color for overlay on hero */
   transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
 
 .topbar.scrolled {
   background-color: #ffffff;
-  box-shadow: none;
-  color: #333;
-  backdrop-filter: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add a subtle shadow when scrolled */
+  color: #333; /* Change text color to dark when scrolled */
+  backdrop-filter: none; /* No backdrop filter needed when background is solid */
+  border-bottom: 1px solid #ddd; /* Add border for definition */
 }
 
 .topbar.scrolled .nav-menu a {
-  color: #333;
+  color: #333; /* Navigation links also change color */
 }
 
-.topbar.scrolled .search-icon img {
-  filter: invert(0);
+/* Updated selector for search icon SVG */
+.topbar.scrolled .search-icon svg { /* CHANGED from .search-icon img */
+  filter: invert(0); /* Search icon to black when scrolled */
 }
 
 .search-signin-group {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-left: 15px;
+  /* Removed margin-left: 15px; from here, let .right handle its gap */
 }
 
 .sign-in-button {
   text-decoration: none;
   color: white;
-  background-color: #007bff;
-  padding: 6px 12px;
+  background-color: #007bff; /* Warna tombol seperti di az.css*/
+  padding: 8px 16px; /* Padding seperti di az.css*/
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
+  margin-right: 10px; /* Jarak seperti di az.css*/
 }
 
 .sign-in-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Warna hover seperti di az.css*/
   color: white;
 }
 
 .topbar.scrolled .sign-in-button {
-  background-color: #007bff;
+ background-color: #007bff; /* Stays blue when scrolled, consistent with az.css */
   color: white;
 }
 
-.topbar.scrolled .search-icon img {
-  filter: invert(0);
+/* Ensure icons in topbar change color correctly */
+.topbar.scrolled .icon {
+    color: #333; /* Example: make other icons dark too */
 }
+
 
 .left {
   display: flex;
@@ -176,12 +184,13 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-left: 30px;
+  margin-left: auto; /* Ini akan mendorong menu ke kanan setelah .left*/
+  margin-right: 50px; /* Tambahkan kembali jika ingin ada jarak di kanan seperti az.css*/
 }
 
 .nav-menu a {
   text-decoration: none;
-  color: rgb(238, 232, 232);
+  color: rgb(238, 232, 232); /* Default color for nav links on hero */
   font-size: 15px;
   transition: color 0.3s ease;
 }
@@ -190,13 +199,13 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  color: #000000;
+  color: #000000; /* Default color for icons/text within .right when not scrolled*/
 }
 
 .icon {
   font-size: 18px;
   cursor: pointer;
-  color: #eee7e7;
+  color: #000; /* Ensure icon color is black by default, consistent with az.css*/
 }
 
 .headline {
@@ -206,7 +215,7 @@ body {
 
 .headline h1 {
   font-size: 32px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .tabs {
@@ -243,10 +252,17 @@ body {
   margin-top: 80px;
 }
 
+.hero-image {
+  position: relative;
+  margin-top: 0px; /* Ensure no extra space above the hero image */
+  overflow: hidden;
+}
+
 .hero-image img {
   width: 100%;
+  max-height: 400px;
+  object-fit: cover;
   display: block;
-  margin-top: 0px;
 }
 
 .search-icon {
@@ -254,10 +270,11 @@ body {
   align-items: center;
 }
 
-.search-icon img {
+/* Updated selector for search icon SVG */
+.search-icon svg { /* CHANGED from .search-icon img */
   width: 20px;
   height: 20px;
-  filter: invert(1);
+  filter: invert(1); /* Default search icon is white on hero */
   cursor: pointer;
   transition: filter 0.3s ease;
 }
@@ -287,20 +304,6 @@ body {
 
 .icon-bar i:hover {
   color: #555;
-}
-
-
-.hero-image {
-  position: relative;
-  margin-top: 0;
-  overflow: hidden;
-}
-
-.hero-image img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  display: block;
 }
 
 /* BOX SIZING GLOBAL */
