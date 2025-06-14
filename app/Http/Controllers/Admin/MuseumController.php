@@ -10,7 +10,6 @@ class MuseumController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
         $query = Museum::query();
 
         // FITUR SEARCH BY NAME
@@ -38,13 +37,12 @@ class MuseumController extends Controller
         /* SELECT * FROM museums WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM museums WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
 
-        return view('admin.museum.index', compact('museums', 'user'));
+        return view('admin.museum.index', compact('museums'));
     }
 
     public function create()
     {
-        $user = auth()->user();
-        return view('admin.museum.create', compact('user'));
+        return view('admin.museum.create');
     }
 
     public function store(Request $request)
@@ -67,10 +65,9 @@ class MuseumController extends Controller
 
     public function edit($id)
     {
-        $user = auth()->user();
         $museum = Museum::findOrFail($id);
         /* SELECT * FROM museums WHERE id = 'id' */
-        return view('admin.museum.edit', compact('museum', 'user'));
+        return view('admin.museum.edit', compact('museum'));
     }
 
     public function update(Request $request, string $id)

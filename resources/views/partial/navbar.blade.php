@@ -8,8 +8,8 @@
     
     {{-- Bagian Profil Pengguna (Front-End Design Only) --}}
     <div class="profile-info">
-        <span class="user-name">{{ $user->name }}</span> {{-- Nama pengguna statis --}}
-        <span class="user-role">({{ $user->role }})</span> {{-- Level pengguna statis (contoh) --}}
+        <span class="user-name">{{ auth()->user()->name }}</span> {{-- Nama pengguna statis --}}
+        <span class="user-role">({{ auth()->user()->role }})</span> {{-- Level pengguna statis (contoh) --}}
         <a href="#" class="profile-image">
             <img src="https://placehold.co/32x32/cccccc/333333?text=PJ" alt="User Profile"> {{-- Gambar profil statis --}}
         </a>

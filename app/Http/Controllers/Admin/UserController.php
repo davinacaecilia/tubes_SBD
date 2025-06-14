@@ -12,7 +12,6 @@ class UserController extends Controller
     
     public function index(Request $request)
     {
-        $user = Auth::user();
         $query = User::query();
 
         // FITUR SEARCH BY NAME
@@ -40,6 +39,6 @@ class UserController extends Controller
         /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
         
-        return view('admin.user.index', compact('users', 'user'));
+        return view('admin.user.index', compact('users'));
     }
 }

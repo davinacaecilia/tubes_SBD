@@ -253,7 +253,7 @@
                                         <div class="btn-action-group">
                                             @if($art->status == 'pending')
                                                 {{-- PERBAIKAN NAMA RUTE DI SINI --}}
-                                                <form action="{{ route('supervisor.art.approve', $art->id) }}" method="POST" style="display: inline;">
+                                                <form action="{{ route('admin.art.approve', $art->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="submit" class="btn-detail btn-approve" onclick="return confirm('Approve Artwork?')"
                                                         @disabled(auth()->user()->role !== 'supervisor')>
@@ -262,7 +262,7 @@
                                                 </form>
 
                                                 {{-- DAN PERBAIKAN NAMA RUTE DI SINI --}}
-                                                <form action="{{ route('supervisor.art.reject', $art->id) }}" method="POST" style="display: inline;">
+                                                <form action="{{ route('admin.art.reject', $art->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="submit" class="btn-detail btn-reject" onclick="return confirm('Reject Artwork?')"
                                                         @disabled(auth()->user()->role !== 'supervisor')>

@@ -41,7 +41,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin,supervisor'])->prefix('admin')->name('admin.')->group(function () {
-    $user = Auth::user();
     // Rute Dashboard (tetap sama)
     Route::get('/dashboard', function () {
         $mediumCount = Medium::count();
