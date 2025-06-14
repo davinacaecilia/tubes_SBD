@@ -185,7 +185,7 @@
                         <i class='bx bx-search' id="tableSearchIcon"></i>
                         
                         <select id="tableFilterSelect" class="table-filter-select">
-                            <option value="">Sort By</option>
+                            <option value="" >Sort By</option>
                             <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
                             <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
                         </select>

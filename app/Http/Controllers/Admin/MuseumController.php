@@ -8,17 +8,16 @@ use Illuminate\Http\Request;
 
 class MuseumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $query = Museum::query();
 
+        // FITUR SEARCH BY NAME
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
+        // FITUR SORT BY NAME ASC (A-Z), DESC (Z-A), ATAU DEFAULT -> ASC (ID)
         if ($request->sort === 'az') {
             $query->orderBy('name', 'asc');
         } elseif ($request->sort === 'za') {
@@ -28,21 +27,24 @@ class MuseumController extends Controller
         }
 
         $museums = $query->paginate(10);
+        /* SELECT * FROM museums LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM museums WHERE name LIKE '%search%' LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM museums ORDER BY name ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM museums ORDER BY name DESC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM museums ORDER BY id ASC LIMIT 10 OFFSET 0; */
+
+        // ATAU FITUR SEARCH + SORT
+        /* SELECT * FROM museums WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM museums WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
 
         return view('admin.museum.index', compact('museums'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.museum.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -56,30 +58,18 @@ class MuseumController extends Controller
         $museum->location = $validated['location'];
         $museum->logo_url = $validated['logo_url'];
         $museum->save();
+        /* INSERT INTO museums (name, location, logo_url) VALUES ('name', 'location', 'logo_url'); */
 
         return redirect()->route('admin.museum.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $museum = Museum::findOrFail($id);
+        /* SELECT * FROM museums WHERE id = 'id' */
         return view('admin.museum.edit', compact('museum'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -89,19 +79,20 @@ class MuseumController extends Controller
         ]);
 
         $museum = Museum::findOrFail($id);
+        /* SELECT * FROM mediums WHERE id = 'id' */
         $museum->fill($validated);
         $museum->save();
+        /* UPDATE museums SET name = 'name', location = 'location', logo_url = 'logo_url' WHERE id = 'id' */
 
         return redirect()->route('admin.museum.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $museum = Museum::findOrFail($id);
+        $museum = Museum::findOrFail($id); 
+        /* SELECT * FROM museums WHERE id = 'id'; */
         $museum->delete();
+        /* DELETE FROM museums WHERE id = 'id'; */
 
         return redirect()->route('admin.museum.index');
     }

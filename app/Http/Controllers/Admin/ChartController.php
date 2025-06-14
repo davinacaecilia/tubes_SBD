@@ -10,7 +10,7 @@ class ChartController extends Controller
 {
     public function getChartData()
     {
-        // Museum data (top 5 museum dengan karya seni terbanyak)
+        // MENAMPILKAN DATA 5 MUSEUM DENGAN JUMLAH ART TERBANYAK
         $museumData = Art::where('status', 'approved')
                     ->selectRaw('museum_id, COUNT(*) as total')
                     ->groupBy('museum_id')
@@ -24,8 +24,8 @@ class ChartController extends Controller
                             'total' => $item->total
                         ];
                     });
-
-        // Medium data (semua)
+        
+        // MENAMPILKAN DATA JUMLAH ART TIAP MEDIUM
         $mediumData = Art::where('status', 'approved')
                     ->selectRaw('medium_id, COUNT(*) as total')
                     ->groupBy('medium_id')
