@@ -118,9 +118,9 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a href="{{ url('admin/museum') }}">Museum Managements</a></li>
+                        <li><a href="{{ route('admin.museum.index') }}">Museum Managements</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/museum/M001/edit') }}">Edit Museum</a></li>
+                        <li><a class="active" href="{{ route('admin.museum.edit', $museum->id) }}">Edit Museum</a></li>
                     </ul>
                 </div>
             </div>

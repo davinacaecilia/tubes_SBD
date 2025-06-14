@@ -3,61 +3,41 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user.index');
-    }
+        $query = User::query();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // FITUR SEARCH BY NAME
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // FITUR SORT BY NAME ASC (A-Z), DESC (Z-A), ATAU DEFAULT -> ASC (ID)
+        if ($request->sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'za') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('id');
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $users = $query->paginate(10);
+        /* SELECT * FROM users LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM users WHERE name LIKE '%search%' LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM users ORDER BY name ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM users ORDER BY name DESC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM users ORDER BY id ASC LIMIT 10 OFFSET 0; */
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // ATAU FITUR SEARCH + SORT
+        /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
+        
+        return view('admin.user.index', compact('users'));
     }
 }

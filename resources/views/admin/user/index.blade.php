@@ -103,7 +103,7 @@
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/users') }}">User List</a></li>
+                        <li><a class="active" href="{{ route('admin.user.index') }}">User List</a></li>
                     </ul>
                 </div>
             </div>
@@ -112,21 +112,19 @@
                 <div class="order">
                     <div class="head">
                         <h3>User List</h3>
-                        <!-- INPUT TEXT UNTUK SEARCH (AWALNYA TERSEMBUNYI) -->
-                        <input type="text" id="tableSearchInput" class="table-search-input" placeholder="Search user...">
-                        <!-- ICON SEARCH YANG BISA DIKLIK -->
+                        <form method="GET" action="{{ route('admin.user.index') }}" id="searchForm">
+                            <input type="text" id="tableSearchInput" name="search" value="{{ request('search') }}" class="table-search-input" placeholder="Search user...">
+                        </form>
                         <i class='bx bx-search' id="tableSearchIcon"></i>
                         
-                        <!-- SELECT UNTUK SORT (AWALNYA TERSEMBUNYI) -->
                         <select id="tableFilterSelect" class="table-filter-select">
-                            <option value="">Sort By</option>
-                            <option value="az">Name (A-Z)</option> <!-- Sesuaikan untuk nama pengguna -->
-                            <option value="za">Name (Z-A)</option> <!-- Sesuaikan untuk nama pengguna -->
+                             <option value="">Sort By</option>
+                            <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>Name (A-Z)</option>
+                            <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Name (Z-A)</option>
                         </select>
-                        <!-- ICON FILTER YANG BISA DIKLIK -->
                         <i class='bx bx-filter' id="tableFilterIcon"></i>
                     </div>
-                    <!-- Tabel Statis Daftar Pengguna -->
+                    
                     <div class="table-container">
                         <table id="userTable" style="width: 100%; border-collapse: collapse;">
                             <thead>
@@ -140,38 +138,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Dummy Data Statis --}}
+                                @foreach($users as $user)
                                 <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">1</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Igun</td> <!-- Tambahkan class sort-target -->
-                                    <td style="padding: 10px; border: 1px solid #ccc;">igun@example.com</td>
-                                    <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
-                                        $2y$10$abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Admin</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">01 Jan 2023, 10:00</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $user->id }}</td>
+                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">{{ $user->name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $user->email }}</td>
+                                    <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">{{ $user->password }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $user->role }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">{{ $user->created_at }}</td>
                                 </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">2</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Budi Santoso</td> <!-- Tambahkan class sort-target -->
-                                    <td style="padding: 10px; border: 1px solid #ccc;">budi.santoso@example.com</td>
-                                    <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
-                                        $2y$10$ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz789012
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">User</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">15 Feb 2023, 14:30</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">3</td>
-                                    <td class="sort-target" style="padding: 10px; border: 1px solid #ccc;">Citra Dewi</td> <!-- Tambahkan class sort-target -->
-                                    <td style="padding: 10px; border: 1px solid #ccc;">citra.dewi@example.com</td>
-                                    <td class="hash-password" style="padding: 10px; border: 1px solid #ccc;">
-                                        $2y$10$QRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567
-                                    </td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">Supervisor</td>
-                                    <td style="padding: 10px; border: 1px solid #ccc;">20 Mar 2023, 09:15</td>
-                                </tr>
-                                {{-- Tambahkan baris <tr> lainnya untuk data statis jika diperlukan --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -185,7 +161,18 @@
     <!-- Pagination di paling bawah -->
     <div id="pagination" class="pagination-container"></div>
 
+    <script>
+        window.paginationData = {
+            currentPage: {{ $users->currentPage() }},
+            lastPage: {{ $users->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
+    <script src="{{ asset('admin/script/sort.js') }}"></script>
+    <script src="{{ asset('admin/script/search.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
 </body>

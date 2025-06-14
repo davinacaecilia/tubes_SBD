@@ -18,10 +18,12 @@ class ArtController extends Controller
     {
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
+        // FITUR SEARCH BY TITLE
         if ($request->has('search') && $request->search != '') {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
+        // FITUR SORT BY TITLE ASC (A-Z), DESC (Z-A), ATAU DEFAULT -> ASC (ID)
         if ($request->sort === 'title_az') {
             $query->orderBy('title', 'asc');
         } elseif ($request->sort === 'title_za') {
@@ -31,23 +33,28 @@ class ArtController extends Controller
         }
 
         $arts = $query->paginate(10);
+        /* SELECT * FROM arts WHERE status = 'approved' LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM arts WHERE status = 'approved' AND title LIKE '%search%' LIMIT 10 OFFSET 10; */
+        /* SELECT * FROM arts WHERE status = 'approved' ORDER BY title ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM arts WHERE status = 'approved' ORDER BY title DESC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM arts WHERE status = 'approved' ORDER BY id ASC LIMIT 10 OFFSET 0; */
+
+        // ATAU FITUR SEARCH + SORT
+        /* SELECT * FROM arts WHERE status = 'approved' AND title LIKE '%search%' ORDER BY title ASC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM arts WHERE status = 'approved' AND title LIKE '%search%' ORDER BY title DESC LIMIT 10 OFFSET 0; */
 
         return view('admin.art.index', compact('arts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $museums = Museum::orderBy('name', 'asc')->get();
+        /* SELECT * FROM museums ORDER BY name ASC */
         $mediums = Medium::orderBy('name', 'asc')->get();
+        /* SELECT * FROM mediums ORDER BY name ASC */
         return view('admin.art.create', compact('museums', 'mediums'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -71,34 +78,24 @@ class ArtController extends Controller
         $art->status = 'pending';
 
         $art->save();
+        /* INSERT INTO arts (title, created, desc, creator, img_url, museum_id, medium_id, status) VALUES ('title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'pending'); */
 
         return redirect()->route('admin.art.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $art = Art::findOrFail($id);
-        return view('admin.art.show', compact('art'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit($id)
     {
         $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
         $museums = Museum::orderBy('name')->get();
+        /* SELECT * FROM museums ORDER BY name */
         $mediums = Medium::orderBy('name')->get();
-
+        /* SELECT * FROM mediums ORDER BY name */
+        
         return view('admin.art.edit', compact('art', 'museums', 'mediums'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -110,8 +107,9 @@ class ArtController extends Controller
             'museum_id' => 'required|exists:museums,id',
             'medium_id' => 'required|exists:mediums,id',
         ]);
-
+        
         $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
         $art->fill($validated);
 
         if (Auth::user()->role === 'admin') {
@@ -121,7 +119,8 @@ class ArtController extends Controller
         }
 
         $art->save();
-
+        /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'pending' WHERE id = 'id' */
+        
         return redirect()->route('admin.art.index');
     }
 
@@ -139,21 +138,30 @@ class ArtController extends Controller
 
         return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
     }
-
+    
     public function status(Request $request)
     {
         $arts = Art::orderBy('updated_at', 'desc');
 
+        // FILTER STATUS : PENDING, APPROVED, REJECTED
         if ($request->has('status') && $request->status != '') {
             $arts->where('status', $request->status);
         }
-
+        
         $arts = $arts->paginate(10);
-
+        /* SELECT * FROM arts ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
+        /* SELECT * FROM arts WHERE status = 'status' ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
+        
         return view('admin.art.status', compact('arts'));
     }
-
-
+    
+    public function show(string $id)
+    {
+        $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
+        return view('admin.art.show', compact('art'));
+    }
+    
     public function approve($id)
     {
         // LOGIKA HAK AKSES
@@ -164,6 +172,7 @@ class ArtController extends Controller
         $art = Art::findOrFail($id);
         $art->status = 'Approved';
         $art->save();
+        /* UPDATE arts SET status = 'approved' WHERE id = 'id'; */
 
         return redirect()->route('admin.art.status')->with('success', 'Art has been approved.');
     }
@@ -178,8 +187,8 @@ class ArtController extends Controller
         $art = Art::findOrFail($id);
         $art->status = 'Rejected';
         $art->save();
+        /* UPDATE arts SET status = 'rejected' WHERE id = 'id'; */
 
         return redirect()->route('admin.art.status')->with('success', 'Art has been rejected.');
     }
-
 }
