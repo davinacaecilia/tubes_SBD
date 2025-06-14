@@ -1,106 +1,80 @@
 <?php
 
-use App\Http\Controllers\Admin\ChartController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\nextController; 
-use App\Http\Controllers\CreateController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MuseumController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArtController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MuseumController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ChartController;
+use App\Models\Medium;
+use App\Models\Art;
+use App\Models\User;
+use App\Models\Museum;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Rute untuk semua orang (tamu & user)
 Route::get('/', function () {
     return view('koleksi');
 });
-Route::get('/next', function () { 
-    return view('next');
-})->name('next');
 
-Route::get('/login', [LoginController::class, 'show'])->name('login');
-Route::post('/login', [LoginController::class, 'submit'])->name('login.submit');
-Route::get('/next', [LoginController::class, 'next'])->name('login.next');
-Route::get('/create', [CreateController::class, 'show'])->name('create');
-Route::post('/create', [CreateController::class, 'submit'])->name('create.submit');
-Route::post('/password', [LoginController::class, 'passwordSubmit'])->name('password.submit');
+// Rute Halaman Profil (Bawaan Breeze, untuk semua yang sudah login)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::get('/admin/dashboard', function () {
-    $mediumCount = \App\Models\Medium::count();
-    $artCount = \App\Models\Art::where('status', 'approved')->count();
-    $userCount = \App\Models\User::count();
-    $museumCount = \App\Models\Museum::count();
-    return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
+    Route::get('/profil-saya', function () {
+        // Mengarah ke file: resources/views/media/profil.blade.php
+        return view('media.profil');
+    })->name('profile.custom'); // Kita beri nama 'profile.custom'
 });
 
-Route::get('/admin/dashboard/chart-data', [ChartController::class, 'getChartData'])->name('admin.dashboard.chart-data');
+// Rute untuk USER BIASA
+Route::get('/dashboard', function () {
+    return view('koleksi');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('admin')->group(function () {
-    Route::resource('user', UserController::class)->only(['index'])->names([
-        'index' => 'admin.user.index',
-    ]);
+// ======================================================================
+// GRUP RUTE UNTUK ADMIN
+// Dilindungi oleh middleware 'auth' dan 'role:admin'
+// ======================================================================
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        $mediumCount = Medium::count();
+        $artCount = Art::where('status', 'approved')->count();
+        $userCount = User::count();
+        $museumCount = Museum::count();
+        return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
+    })->name('dashboard');
 
-    Route::get('/art/status', [ArtController::class, 'status'])->name('admin.art.status'); 
-    Route::post('/admin/art/approve/{id}', [ArtController::class, 'approve'])->name('admin.art.approve');
-    Route::post('/admin/art/reject/{id}', [ArtController::class, 'reject'])->name('admin.art.reject');
+    Route::get('dashboard/chart-data', [ChartController::class, 'getChartData'])->name('dashboard.chart-data');
 
-    // Manajemen Karya Seni (URL: /admin/art)
-    Route::resource('art', ArtController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'show'])->names([
-        'index' => 'admin.art.index',
-        'create' => 'admin.art.create',
-        'store' => 'admin.art.store',
-        'edit' => 'admin.art.edit',
-        'update' => 'admin.art.update',
-        'destroy' => 'admin.art.destroy',
-        'show' => 'admin.art.show',
-    ]);
+    Route::resource('user', UserController::class);
+    Route::resource('art', ArtController::class);
+    Route::resource('museum', MuseumController::class);
+    Route::resource('media', MediaController::class);
 
-    // Manajemen Museum (URL: /admin/museum)
-    Route::resource('museum', MuseumController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
-        'index' => 'admin.museum.index',
-        'create' => 'admin.museum.create',
-        'store' => 'admin.museum.store',
-        'edit' => 'admin.museum.edit',
-        'update' => 'admin.museum.update',
-        'destroy' => 'admin.museum.destroy',
-    ]);
-
-    // Manajemen Media (URL: /admin/media)
-    Route::resource('media', MediaController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names([
-        'index' => 'admin.media.index',
-        'create' => 'admin.media.create',
-        'store' => 'admin.media.store',
-        'edit' => 'admin.media.edit',
-        'update' => 'admin.media.update',
-        'destroy' => 'admin.media.destroy',
-    ]);
-
-    Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
-
+    Route::get('art/status', [ArtController::class, 'status'])->name('art.status');
 });
 
-//media
-Route::get('/az', function () {
-    return view('media.az');
+// ======================================================================
+// GRUP RUTE UNTUK SUPERVISOR
+// Dilindungi oleh middleware 'auth' dan 'role:supervisor'
+// ======================================================================
+Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supervisor.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+    Route::post('art/approve/{id}', [ArtController::class, 'approve'])->name('art.approve');
+    Route::post('art/reject/{id}', [ArtController::class, 'reject'])->name('art.reject');
 });
 
-Route::get('/profil', function () {
-    return view('media.profil');
-});
-
-Route::get('/media_home', function () {
-    return view('media.media_home');
-});
-
-Route::get('/mediaa', function () {
-    return view('media.mediaa');
-});
-
-Route::get('/isi_media', function () {
-    return view('media.isi_media');
-});
-
-Route::get('/karya', function () {
-    return view('media.karya'); 
-});
+// Ini untuk memuat rute otentikasi dari Breeze. JANGAN DIHAPUS.
+require __DIR__.'/auth.php';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Art;
 use App\Models\Medium;
 use App\Models\Museum;
@@ -10,7 +11,10 @@ use Illuminate\Http\Request;
 
 class ArtController extends Controller
 {
-   public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
     {
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
@@ -25,7 +29,7 @@ class ArtController extends Controller
         } elseif ($request->sort === 'title_za') {
             $query->orderBy('title', 'desc');
         } else {
-            $query->orderBy('id', 'asc'); 
+            $query->orderBy('id', 'asc');
         }
 
         $arts = $query->paginate(10);
@@ -72,6 +76,7 @@ class ArtController extends Controller
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
         $art->status = 'pending';
+
         $art->save();
         /* INSERT INTO arts (title, created, desc, creator, img_url, museum_id, medium_id, status) VALUES ('title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'pending'); */
 
@@ -106,21 +111,32 @@ class ArtController extends Controller
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $art->fill($validated);
-        $art->status = 'pending';
+
+        if (Auth::user()->role === 'admin') {
+            $art->status = 'Pending Approval'; // Admin mengedit, status jadi pending
+        } elseif (Auth::user()->role === 'supervisor') {
+            $art->status = 'approved'; // Supervisor mengedit, langsung disetujui
+        }
+
         $art->save();
         /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'pending' WHERE id = 'id' */
         
         return redirect()->route('admin.art.index');
     }
-    
-    public function destroy($id)
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Art $art)
     {
-        $art = Art::findOrFail($id);
-        /* SELECT * FROM arts WHERE id = 'id'; */
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to delete this item.');
+        }
+
+        // Jika yang mengakses adalah supervisor, lanjutkan proses hapus
         $art->delete();
-        /* DELETE FROM arts WHERE id = 'id'; */
-        
-        return redirect()->route('admin.art.index');
+
+        return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
     }
     
     public function status(Request $request)
@@ -129,7 +145,7 @@ class ArtController extends Controller
 
         // FILTER STATUS : PENDING, APPROVED, REJECTED
         if ($request->has('status') && $request->status != '') {
-            $arts->where('status', $request->status); 
+            $arts->where('status', $request->status);
         }
         
         $arts = $arts->paginate(10);
@@ -148,23 +164,31 @@ class ArtController extends Controller
     
     public function approve($id)
     {
+        // LOGIKA HAK AKSES
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
+        }
+
         $art = Art::findOrFail($id);
-        /* SELECT * FROM arts WHERE id = 'id'; */
-        $art->status = 'approved';
+        $art->status = 'Approved';
         $art->save();
         /* UPDATE arts SET status = 'approved' WHERE id = 'id'; */
 
-        return back();
+        return redirect()->route('admin.art.status')->with('success', 'Art has been approved.');
     }
 
     public function reject($id)
     {
+        // LOGIKA HAK AKSES
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
+        }
+
         $art = Art::findOrFail($id);
-        /* SELECT * FROM arts WHERE id = 'id'; */
-        $art->status = 'rejected';
+        $art->status = 'Rejected';
         $art->save();
         /* UPDATE arts SET status = 'rejected' WHERE id = 'id'; */
 
-        return back();
+        return redirect()->route('admin.art.status')->with('success', 'Art has been rejected.');
     }
 }

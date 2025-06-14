@@ -49,7 +49,7 @@
         <li><i class='bx bx-compass sidebar-icon'></i> Explore</li>
         <li><i class='bx bx-map sidebar-icon'></i> Nearby</li>
         <li>
-          <a href="{{ url('/profile') }}" style="text-decoration: none; color: inherit;">
+          <a href="{{ route('login') }}" style="text-decoration: none; color: inherit;">
             <i class='bx bx-user sidebar-icon'></i> Profile
           </a>
         </li>

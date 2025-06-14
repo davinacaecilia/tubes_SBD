@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Collections — Google Arts & Culture</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="{{ asset('media/az.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('media/az.css') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="icon" href="https://www.gstatic.com/culturalinstitute/stella/apple-touch-icon-180x180-v1.png" type="image/x-icon">
+  <link rel="icon" href="https://www.gstatic.com/culturalinstitute/stella/apple-touch-icon-180x180-v1.png"
+    type="image/x-icon">
 </head>
+
 <body>
   @include('media.navbar')
 
@@ -23,7 +26,8 @@
       <a href="#">Map</a>
     </div>
     <div class="alphabet-filter-wrapper">
-      <div class="active-marker"></div> <div class="alphabet-filter">
+      <div class="active-marker"></div>
+      <div class="alphabet-filter">
         <a data-letter="A" href="#">A</a>
         <a data-letter="B" href="#">B</a>
         <a data-letter="C" href="#">C</a>
@@ -54,84 +58,96 @@
     </div>
   </section>
 
- <div class="gallery-container">
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="https://i.pinimg.com/736x/d6/94/de/d694deb596d8f2e7166c2c1bcc3c9c6a.jpg" alt="MoMA" />
+  <div class="gallery-container">
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="https://i.pinimg.com/736x/d6/94/de/d694deb596d8f2e7166c2c1bcc3c9c6a.jpg" alt="MoMA" />
+      </div>
+      <div class="card-logo">
+        <img src="https://i.pinimg.com/736x/d6/94/de/d694deb596d8f2e7166c2c1bcc3c9c6a.jpg" alt="Logo" />
+      </div>
+      <h2>MoMA The Museum of Modern Art</h2>
+      <p class="location">Kota New York, Amerika Serikat</p>
     </div>
-    <div class="card-logo">
-      <img src="https://i.pinimg.com/736x/d6/94/de/d694deb596d8f2e7166c2c1bcc3c9c6a.jpg" alt="Logo" />
-    </div>
-    <h2>MoMA The Museum of Modern Art</h2>
-    <p class="location">Kota New York, Amerika Serikat</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Orsay" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Orsay" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28"
+          alt="Logo" />
+      </div>
+      <h2>Musée d’Orsay</h2>
+      <p class="location">Paris, Prancis</p>
     </div>
-    <div class="card-logo">
-      <img src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28" alt="Logo" />
-    </div>
-    <h2>Musée d’Orsay</h2>
-    <p class="location">Paris, Prancis</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Van Gogh" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Van Gogh" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28"
+          alt="Logo" />
+      </div>
+      <h2>Van Gogh Museum</h2>
+      <p class="location">Kota Amsterdam, Belanda</p>
     </div>
-    <div class="card-logo">
-      <img src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28" alt="Logo" />
-    </div>
-    <h2>Van Gogh Museum</h2>
-    <p class="location">Kota Amsterdam, Belanda</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28"
+          alt="Logo" />
+      </div>
+      <h2>Uffizi Gallery</h2>
+      <p class="location">Kota Firenze, Italia</p>
     </div>
-    <div class="card-logo">
-      <img src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28" alt="Logo" />
-    </div>
-    <h2>Uffizi Gallery</h2>
-    <p class="location">Kota Firenze, Italia</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Chicago" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Chicago" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28"
+          alt="Logo" />
+      </div>
+      <h2>The Art Institute of Chicago</h2>
+      <p class="location">Chicago, Amerika Serikat</p>
     </div>
-    <div class="card-logo">
-      <img src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28" alt="Logo" />
-    </div>
-    <h2>The Art Institute of Chicago</h2>
-    <p class="location">Chicago, Amerika Serikat</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28"
+          alt="Logo" />
+      </div>
+      <h2>Uffizi Gallery</h2>
+      <p class="location">Kota Firenze, Italia</p>
     </div>
-    <div class="card-logo">
-      <img src="https://lh3.googleusercontent.com/ci/AL18g_SHyoFjT-AsOo27-lnDhz0Wmel45piIq-EpffUC1i4P26bAgkVMkaQ-mQaOKaRoide0G8B5-w=fcrop64=1,00000000ffffff28" alt="Logo" />
-    </div>
-    <h2>Uffizi Gallery</h2>
-    <p class="location">Kota Firenze, Italia</p>
-  </div>
 
-  <div class="gallery-card">
-    <div class="img-wrapper">
-      <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+    <div class="gallery-card">
+      <div class="img-wrapper">
+        <img src="{{ asset('sbd.jpg') }}" alt="Uffizi" />
+      </div>
+      <div class="card-logo">
+        <img
+          src="https://play-lh.googleusercontent.com/Rg1D7NrfQ63HNaKjWIHkXEOiYF2ZwXdvw58mg09Mf8D04zVIDdl0JhS4sClO7vdowP71=w526-h296-rw"
+          alt="Logo" />
+      </div>
+      <h2>Uffizi Gallery</h2>
+      <p class="location">Kota Firenze, Italia</p>
     </div>
-    <div class="card-logo">
-      <img src="https://play-lh.googleusercontent.com/Rg1D7NrfQ63HNaKjWIHkXEOiYF2ZwXdvw58mg09Mf8D04zVIDdl0JhS4sClO7vdowP71=w526-h296-rw" alt="Logo" />
-    </div>
-    <h2>Uffizi Gallery</h2>
-    <p class="location">Kota Firenze, Italia</p>
   </div>
-</div>
 
 <div id="signInModal" style="display:none;" class="modal-overlay">
   <div class="modal-content">
@@ -148,4 +164,5 @@
 <script src="{{ asset('media/js/sidebar.js') }}"></script>
 <script src="{{ asset('media/js/popup.js') }}"></script>
 </body>
+
 </html>
