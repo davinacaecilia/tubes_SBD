@@ -135,7 +135,7 @@
                     
                     <div class="form-group">
                         <label for="name">Museum Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter museum name" required>
+                        <input type="text" id="name" name="name" placeholder="Enter museum name"  value="" required>
                     </div>
 
                     <div class="form-group">

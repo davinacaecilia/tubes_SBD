@@ -70,8 +70,8 @@
         }
 
         /* Styling for Approve and Reject buttons */
-        .table-container .btn-action-group .btn-approve { /* CSS ini akan berlaku */
-            background-color: var(--accent-green); /* Hijau untuk Approve */
+        .table-container .btn-action-group .btn-approve {
+            background-color: var(--accent-green);
             color: var(--primary-white);
             border: 1px solid var(--accent-green);
         }
@@ -80,8 +80,8 @@
             border-color: #288a42;
         }
 
-        .table-container .btn-action-group .btn-reject { /* CSS ini akan berlaku */
-            background-color: var(--accent-red); /* Merah untuk Reject */
+        .table-container .btn-action-group .btn-reject {
+            background-color: var(--accent-red);
             color: var(--primary-white);
             border: 1px solid var(--accent-red);
         }
@@ -90,10 +90,11 @@
             border-color: #c52c20;
         }
         
-        /* Opsi: Styling khusus untuk tombol disabled (akan lebih redup) */
+        /* Styling untuk tombol disabled agar terlihat lebih redup */
         .table-container .btn-action-group .btn-detail:disabled {
-            opacity: 0.6; /* Membuat tombol disabled terlihat redup */
+            opacity: 0.6; 
             cursor: not-allowed;
+            filter: grayscale(50%);
         }
 
         /* Styling for status badges */
@@ -180,13 +181,13 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Artwork Status</h1>
+                    <h1>Art Status</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a href="{{ url('admin/art') }}">Artwork Management</a></li>
+                        <li><a href="{{ url('admin/art') }}">Art Managements</a></li>
                         <li><i class='bx bx-chevron-right' ></i></li>
-                        <li><a class="active" href="{{ url('admin/art/status') }}">Artwork Status</a></li>
+                        <li><a class="active" href="{{ url('admin/art/status') }}">Art Status</a></li>
                     </ul>
                 </div>
             </div>
@@ -219,6 +220,7 @@
                                     <th style="padding: 10px; border: 1px solid #ccc;">Title</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Artist</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Status</th>
+                                    <th style="padding: 10px; border: 1px solid #ccc;">Art Details</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Last Edit Date</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
                                 </tr>
@@ -238,20 +240,29 @@
                                             <span class="status-badge status-rejected">Rejected</span>
                                         @endif
                                     </td>
+                                    <td style="padding: 10px; border: 1px solid #ccc;">
+                                        <a href="{{ route('admin.art.show', $art->id) }}" class="btn-detail edit">
+                                            <i class='bx bx-info-circle'></i> View Details
+                                        </a>
+                                    </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->updated_at }}</td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
                                             @if($art->status == 'pending')
-                                                <form action="{{ route('admin.art.approve', $art->id) }}" method="POST" style="display: inline;">
+                                                {{-- PERBAIKAN NAMA RUTE DI SINI --}}
+                                                <form action="{{ route('supervisor.art.approve', $art->id) }}" method="POST" style="display: inline;">
                                                     @csrf
-                                                    <button type="submit" class="btn-detail btn-approve" onclick="return confirm('Approve Artwork?')">
+                                                    <button type="submit" class="btn-detail btn-approve" onclick="return confirm('Approve Artwork?')"
+                                                        @disabled(auth()->user()->role !== 'supervisor')>
                                                         <i class='bx bx-check-circle'></i> Approve
                                                     </button>
                                                 </form>
 
-                                                <form action="{{ route('admin.art.reject', $art->id) }}" method="POST" style="display: inline;">
+                                                {{-- DAN PERBAIKAN NAMA RUTE DI SINI --}}
+                                                <form action="{{ route('supervisor.art.reject', $art->id) }}" method="POST" style="display: inline;">
                                                     @csrf
-                                                    <button type="submit" class="btn-detail btn-reject" onclick="return confirm('Reject Artwork?')">
+                                                    <button type="submit" class="btn-detail btn-reject" onclick="return confirm('Reject Artwork?')"
+                                                        @disabled(auth()->user()->role !== 'supervisor')>
                                                         <i class='bx bx-x-circle'></i> Reject
                                                     </button>
                                                 </form>
@@ -279,12 +290,21 @@
         <!-- MAIN -->
     </section>
 
-    <!-- Pagination (if applicable) -->
     <div id="pagination" class="pagination-container"></div>
+
+    <script>
+        window.paginationData = {
+            currentPage: {{ $arts->currentPage() }},
+            lastPage: {{ $arts->lastPage() }},
+            baseUrl: "{{ url()->current() }}",
+            query: @json(request()->except('page'))
+        };
+    </script>
 
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/filter_status.js') }}"></script>
     <script src="{{ asset('admin/script/pagination.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <!-- Pastikan tidak ada script inline di sini -->
 </body>
 </html>

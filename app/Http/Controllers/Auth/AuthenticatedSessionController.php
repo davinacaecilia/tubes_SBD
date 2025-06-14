@@ -24,8 +24,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        
 
+        $request->authenticate();
         $request->session()->regenerate();
 
         $user = Auth::user();
@@ -45,12 +46,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        // ... (kode di atasnya biarkan saja)
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('/koleksi'); // Arahkan ke halaman koleksi setelah logout
     }
 }

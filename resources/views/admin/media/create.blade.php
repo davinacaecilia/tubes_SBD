@@ -131,9 +131,10 @@
                 <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                   <div class="form-group">
-                        <label for="name">Medium</label>
-                        <input type="text" id="name" name="name" placeholder="Enter medium name" required> 
+
+                    <div class="form-group">
+                        <label for="name">Media Name</label> 
+                        <input type="text" id="name" name="name" placeholder="Enter media name" required> 
                     </div>
 
                     <div class="form-group">
@@ -165,5 +166,6 @@
     
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <script src="{{ asset('admin./script/selectsearch.js')}}"></script>
 </body>
 </html>

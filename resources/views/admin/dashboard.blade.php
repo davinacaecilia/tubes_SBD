@@ -31,7 +31,7 @@
 								<li>
 									<i class='bx bx-palette'></i>
 									<span class="text">
-										<h3>{{ $artCount }}</h3>
+										<h3>{{ $artCount  }}</h3>
 										<p>Arts</p>
 									</span>
 								</li>

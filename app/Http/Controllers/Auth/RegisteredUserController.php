@@ -15,37 +15,37 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Menampilkan form registrasi.
      */
     public function create(): View
     {
+        // Mengarah ke file: resources/views/auth/register.blade.php
         return view('auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Menerima data dari form, membuat user baru, login, dan redirect.
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validasi input
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Membuat user baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'=>'user',
+            'role' => 'user', // Otomatis set role sebagai 'user'
         ]);
 
+        // Memicu event bahwa user baru telah terdaftar
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('login');
     }
 }

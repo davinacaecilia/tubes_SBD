@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Art;
 use App\Models\Medium;
 use App\Models\Museum;
@@ -13,7 +14,7 @@ class ArtController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index(Request $request)
+    public function index(Request $request)
     {
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
@@ -26,7 +27,7 @@ class ArtController extends Controller
         } elseif ($request->sort === 'title_za') {
             $query->orderBy('title', 'desc');
         } else {
-            $query->orderBy('id', 'asc'); 
+            $query->orderBy('id', 'asc');
         }
 
         $arts = $query->paginate(10);
@@ -68,7 +69,7 @@ class ArtController extends Controller
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
         $art->status = 'pending';
-        
+
         $art->save();
 
         return redirect()->route('admin.art.index');
@@ -79,7 +80,8 @@ class ArtController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $art = Art::findOrFail($id);
+        return view('admin.art.show', compact('art'));
     }
 
     /**
@@ -111,7 +113,13 @@ class ArtController extends Controller
 
         $art = Art::findOrFail($id);
         $art->fill($validated);
-        $art->status = 'pending';
+
+        if (Auth::user()->role === 'admin') {
+            $art->status = 'Pending Approval'; // Admin mengedit, status jadi pending
+        } elseif (Auth::user()->role === 'supervisor') {
+            $art->status = 'approved'; // Supervisor mengedit, langsung disetujui
+        }
+
         $art->save();
 
         return redirect()->route('admin.art.index');
@@ -120,12 +128,16 @@ class ArtController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Art $art)
     {
-        $art = Art::findOrFail($id);
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to delete this item.');
+        }
+
+        // Jika yang mengakses adalah supervisor, lanjutkan proses hapus
         $art->delete();
 
-        return redirect()->route('admin.art.index');
+        return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
     }
 
     public function status(Request $request)
@@ -133,10 +145,10 @@ class ArtController extends Controller
         $arts = Art::orderBy('updated_at', 'desc');
 
         if ($request->has('status') && $request->status != '') {
-            $arts->where('status', $request->status); 
+            $arts->where('status', $request->status);
         }
 
-        $arts = $arts->get();
+        $arts = $arts->paginate(10);
 
         return view('admin.art.status', compact('arts'));
     }
@@ -144,20 +156,30 @@ class ArtController extends Controller
 
     public function approve($id)
     {
+        // LOGIKA HAK AKSES
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
+        }
+
         $art = Art::findOrFail($id);
-        $art->status = 'approved';
+        $art->status = 'Approved';
         $art->save();
 
-        return back();
+        return redirect()->route('admin.art.status')->with('success', 'Art has been approved.');
     }
 
     public function reject($id)
     {
+        // LOGIKA HAK AKSES
+        if (auth()->user()->role !== 'supervisor') {
+            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
+        }
+
         $art = Art::findOrFail($id);
-        $art->status = 'rejected';
+        $art->status = 'Rejected';
         $art->save();
 
-        return back();
+        return redirect()->route('admin.art.status')->with('success', 'Art has been rejected.');
     }
 
 }

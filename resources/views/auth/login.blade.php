@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign in - Google</title>
-    <meta name="color-scheme" content="light dark">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
 </head>
 <body>
     <div class="login-container">
@@ -16,36 +15,30 @@
             </picture>
             <div class="logo-text">
                 <h1>Sign in</h1>
-                <p class="subtitle">Use your Google Account</p>
+                <p class="subtitle">to continue to Arts & Culture</p>
             </div>
         </div>
         <div class="right-section">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" id="loginForm" action="{{ route('login.check-email') }}">
                 @csrf
+                <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 <div class="input-group">
-                    <input type="text" name="email" placeholder="Email or phone" required>
-                </div>
-                <div class="forgot-link">
-                    <a href="#">Forgot email?</a>
+                    <input type="email" name="email" id="email" placeholder="Email or phone" value="{{ old('email') }}" required autofocus>
                 </div>
                 <div class="info-text">
                     Not your computer? Use Guest mode to sign in privately.<br>
                     <a href="#">Learn more about using Guest mode</a>
                 </div>
+                <div class="forgot-link">
+                    <a href="#">Forgot email?</a>
+                </div>
                 <div class="submit-group">
-                    <a href="#">Create account</a>
+                    <a href="{{ route('register') }}">Create account</a>
                     <button type="submit" class="btn">Next</button>
                 </div>
-            </>
+            </form>
         </div>
     </div>
-    <footer>
-        <span class="language">English (United States)</span>
-        <span class="links">
-            <a href="#">Help</a>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-        </span>
-    </footer>
+
 </body>
 </html>

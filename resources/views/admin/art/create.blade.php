@@ -8,7 +8,7 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet' />
     <!-- My CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/css/pagination.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <title>Add New Art - Google Arts & Culture Admin</title>
     <style>
@@ -143,7 +143,7 @@
                     
                     <div class="form-group">
                         <label for="museum">Museum</label>
-                        <select id="museum" name="museum_id" required>
+                        <select id="museumSelect" name="museum_id" required> 
                             <option value="">Select a museum</option>
                             @foreach($museums as $museum)
                                 <option value="{{ $museum->id }}">{{ $museum->name }}</option>
@@ -153,7 +153,7 @@
 
                     <div class="form-group">
                         <label for="medium">Medium</label>
-                        <select id="medium" name="medium_id" required>
+                        <select id="mediumSelect" name="medium_id" required> 
                             <option value="">Select a medium</option>
                             @foreach($mediums as $medium)
                                 <option value="{{ $medium->id }}">{{ $medium->name }}</option>
@@ -193,7 +193,13 @@
     </section>
 
     
+    <!-- Panggil jQuery sebelum Select2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- NEW: Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script src="{{ asset('admin/script/script.js') }}"></script>
     <script src="{{ asset('admin/script/sidebar.js') }}"></script>
+    <script src="{{ asset('admin/script/selectsearch.js') }}"></script>
 </body>
 </html>

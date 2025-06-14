@@ -7,6 +7,10 @@ use App\Http\Controllers\Admin\MuseumController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Models\Medium;
+use App\Models\Art;
+use App\Models\User;
+use App\Models\Museum;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +20,6 @@ use App\Http\Controllers\Admin\ChartController;
 
 // Rute untuk semua orang (tamu & user)
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/koleksi', function () {
     return view('koleksi');
 });
 
@@ -28,11 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/profil-saya', function () {
+        // Mengarah ke file: resources/views/media/profil.blade.php
+        return view('media.profil');
+    })->name('profile.custom'); // Kita beri nama 'profile.custom'
 });
 
 // Rute untuk USER BIASA
 Route::get('/dashboard', function () {
-    return view('user.dashboard');
+    return view('koleksi');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // ======================================================================
@@ -40,25 +45,21 @@ Route::get('/dashboard', function () {
 // Dilindungi oleh middleware 'auth' dan 'role:admin'
 // ======================================================================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard Admin (mengambil logic dari temanmu)
     Route::get('/dashboard', function () {
-        $mediumCount = \App\Models\Medium::count();
-        $artCount = \App\Models\Art::where('status', 'approved')->count();
-        $userCount = \App\Models\User::count();
-        $museumCount = \App\Models\Museum::count();
+        $mediumCount = Medium::count();
+        $artCount = Art::where('status', 'approved')->count();
+        $userCount = User::count();
+        $museumCount = Museum::count();
         return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
     })->name('dashboard');
 
-    // Chart Data Route
     Route::get('dashboard/chart-data', [ChartController::class, 'getChartData'])->name('dashboard.chart-data');
 
-    // Resource Controllers dari temanmu, sekarang aman di dalam grup admin
     Route::resource('user', UserController::class);
     Route::resource('art', ArtController::class);
     Route::resource('museum', MuseumController::class);
     Route::resource('media', MediaController::class);
 
-    // Rute status art juga kita masukkan sini
     Route::get('art/status', [ArtController::class, 'status'])->name('art.status');
 });
 
@@ -67,12 +68,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Dilindungi oleh middleware 'auth' dan 'role:supervisor'
 // ======================================================================
 Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supervisor.')->group(function () {
-    // Dashboard Supervisor
     Route::get('/dashboard', function () {
-        return view('supervisor.dashboard');
+        return view('admin.dashboard');
     })->name('dashboard');
 
-    // Supervisor bisa approve dan reject art
     Route::post('art/approve/{id}', [ArtController::class, 'approve'])->name('art.approve');
     Route::post('art/reject/{id}', [ArtController::class, 'reject'])->name('art.reject');
 });
