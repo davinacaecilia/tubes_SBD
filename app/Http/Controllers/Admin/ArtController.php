@@ -16,6 +16,7 @@ class ArtController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
         // FITUR SEARCH BY TITLE
@@ -43,16 +44,17 @@ class ArtController extends Controller
         /* SELECT * FROM arts WHERE status = 'approved' AND title LIKE '%search%' ORDER BY title ASC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM arts WHERE status = 'approved' AND title LIKE '%search%' ORDER BY title DESC LIMIT 10 OFFSET 0; */
 
-        return view('admin.art.index', compact('arts'));
+        return view('admin.art.index', compact('arts', 'user'));
     }
 
     public function create()
     {
+        $user = auth()->user();
         $museums = Museum::orderBy('name', 'asc')->get();
         /* SELECT * FROM museums ORDER BY name ASC */
         $mediums = Medium::orderBy('name', 'asc')->get();
         /* SELECT * FROM mediums ORDER BY name ASC */
-        return view('admin.art.create', compact('museums', 'mediums'));
+        return view('admin.art.create', compact('museums', 'mediums', 'user'));
     }
 
     public function store(Request $request)
@@ -86,6 +88,7 @@ class ArtController extends Controller
     
     public function edit($id)
     {
+        $user = auth()->user();
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $museums = Museum::orderBy('name')->get();
@@ -93,7 +96,7 @@ class ArtController extends Controller
         $mediums = Medium::orderBy('name')->get();
         /* SELECT * FROM mediums ORDER BY name */
         
-        return view('admin.art.edit', compact('art', 'museums', 'mediums'));
+        return view('admin.art.edit', compact('art', 'museums', 'mediums', 'user'));
     }
     
     public function update(Request $request, string $id)
@@ -141,6 +144,7 @@ class ArtController extends Controller
     
     public function status(Request $request)
     {
+        $user = auth()->user();
         $arts = Art::orderBy('updated_at', 'desc');
 
         // FILTER STATUS : PENDING, APPROVED, REJECTED
@@ -152,23 +156,19 @@ class ArtController extends Controller
         /* SELECT * FROM arts ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM arts WHERE status = 'status' ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
         
-        return view('admin.art.status', compact('arts'));
+        return view('admin.art.status', compact('arts', 'user'));
     }
     
     public function show(string $id)
     {
+        $user = auth()->user();
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
-        return view('admin.art.show', compact('art'));
+        return view('admin.art.show', compact('art', 'user'));
     }
     
     public function approve($id)
     {
-        // LOGIKA HAK AKSES
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
-        }
-
         $art = Art::findOrFail($id);
         $art->status = 'Approved';
         $art->save();
@@ -179,11 +179,6 @@ class ArtController extends Controller
 
     public function reject($id)
     {
-        // LOGIKA HAK AKSES
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
-        }
-
         $art = Art::findOrFail($id);
         $art->status = 'Rejected';
         $art->save();

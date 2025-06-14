@@ -222,7 +222,9 @@
                                     <th style="padding: 10px; border: 1px solid #ccc;">Status</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Art Details</th>
                                     <th style="padding: 10px; border: 1px solid #ccc;">Last Edit Date</th>
+                                    @if ($user->role == 'supervisor')
                                     <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -246,6 +248,7 @@
                                         </a>
                                     </td>
                                     <td style="padding: 10px; border: 1px solid #ccc;">{{ $art->updated_at }}</td>
+                                    @if ($user->role == 'supervisor')
                                     <td style="padding: 10px; border: 1px solid #ccc;">
                                         <div class="btn-action-group">
                                             @if($art->status == 'pending')
@@ -278,6 +281,7 @@
                                             @endif
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

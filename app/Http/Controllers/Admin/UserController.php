@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,6 +12,7 @@ class UserController extends Controller
     
     public function index(Request $request)
     {
+        $user = Auth::user();
         $query = User::query();
 
         // FITUR SEARCH BY NAME
@@ -38,6 +40,6 @@ class UserController extends Controller
         /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM users WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
         
-        return view('admin.user.index', compact('users'));
+        return view('admin.user.index', compact('users', 'user'));
     }
 }

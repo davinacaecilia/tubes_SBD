@@ -78,6 +78,7 @@
                                             <a href="{{ route('admin.museum.edit', $museum->id) }}" class="btn-detail edit">
                                                 <i class='bx bx-edit'></i> Edit
                                             </a>
+                                            @if ($user->role == 'supervisor')
                                             <form action="{{ route('admin.museum.destroy', $museum->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
@@ -85,6 +86,7 @@
                                                     <i class='bx bx-trash'></i> Delete
                                                 </button>
                                             </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Medium;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = Medium::query();
 
         // FITUR SEARCH BY NAME
@@ -37,12 +39,13 @@ class MediaController extends Controller
         /* SELECT * FROM mediums WHERE name LIKE '%search%' ORDER BY name ASC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM mediums WHERE name LIKE '%search%' ORDER BY name DESC LIMIT 10 OFFSET 0; */
 
-        return view('admin.media.index', compact('mediums'));
+        return view('admin.media.index', compact('mediums', 'user'));
     }
 
     public function create()
     {
-        return view('admin.media.create');
+        $user = auth()->user();
+        return view('admin.media.create', compact('user'));
     }
 
     public function store(Request $request)
@@ -65,9 +68,10 @@ class MediaController extends Controller
 
     public function edit($id)
     {
+        $user = auth()->user();
         $medium = Medium::findOrFail($id);
         /* SELECT * FROM mediums WHERE id = 'id' */
-        return view('admin.media.edit', compact('medium'));
+        return view('admin.media.edit', compact('medium', 'user'));
     }
 
     public function update(Request $request, string $id)
