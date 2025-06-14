@@ -78,13 +78,7 @@ class ArtController extends Controller
         return redirect()->route('admin.art.index');
     }
 
-    public function show(string $id)
-    {
-        $art = Art::findOrFail($id);
-        /* SELECT * FROM arts WHERE id = 'id' */
-        return view('admin.art.show', compact('art'));
-    }
-
+    
     public function edit($id)
     {
         $art = Art::findOrFail($id);
@@ -93,10 +87,10 @@ class ArtController extends Controller
         /* SELECT * FROM museums ORDER BY name */
         $mediums = Medium::orderBy('name')->get();
         /* SELECT * FROM mediums ORDER BY name */
-
+        
         return view('admin.art.edit', compact('art', 'museums', 'mediums'));
     }
-
+    
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -108,27 +102,27 @@ class ArtController extends Controller
             'museum_id' => 'required|exists:museums,id',
             'medium_id' => 'required|exists:mediums,id',
         ]);
-
+        
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $art->fill($validated);
         $art->status = 'pending';
         $art->save();
         /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'pending' WHERE id = 'id' */
-
+        
         return redirect()->route('admin.art.index');
     }
-
+    
     public function destroy($id)
     {
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id'; */
         $art->delete();
         /* DELETE FROM arts WHERE id = 'id'; */
-
+        
         return redirect()->route('admin.art.index');
     }
-
+    
     public function status(Request $request)
     {
         $arts = Art::orderBy('updated_at', 'desc');
@@ -137,15 +131,21 @@ class ArtController extends Controller
         if ($request->has('status') && $request->status != '') {
             $arts->where('status', $request->status); 
         }
-
+        
         $arts = $arts->paginate(10);
         /* SELECT * FROM arts ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM arts WHERE status = 'status' ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
-
+        
         return view('admin.art.status', compact('arts'));
     }
-
-
+    
+    public function show(string $id)
+    {
+        $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
+        return view('admin.art.show', compact('art'));
+    }
+    
     public function approve($id)
     {
         $art = Art::findOrFail($id);
