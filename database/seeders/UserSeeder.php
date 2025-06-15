@@ -14,15 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => 'Admin@gmail.com'], // Cek berdasarkan email agar tidak duplikat
-            [
-                'name' => 'Admin',
-                'password' => Hash::make('Admin123'),
-                'role' => 'admin',
-            ]
-        );
-
         // Membuat User Supervisor
         User::updateOrCreate(
             ['email' => 'Supervisor@gmail.com'], // Cek berdasarkan email
@@ -30,6 +21,15 @@ class UserSeeder extends Seeder
                 'name' => 'Supervisor',
                 'password' => Hash::make('Supervisor123'),
                 'role' => 'supervisor',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'Admin@gmail.com'], // Cek berdasarkan email agar tidak duplikat
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('Admin123'),
+                'role' => 'admin',
             ]
         );
     }

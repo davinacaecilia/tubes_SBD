@@ -93,7 +93,7 @@
 
         {{-- User Management --}}
         <li class="{{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
-             {{-- PERBAIKAN DI SINI --}}
+            {{-- PERBAIKAN DI SINI --}}
             <a href="{{ route('admin.user.index') }}">
                 <i class='bx bxs-group'></i>
                 <span class="text">User Management</span>
@@ -107,7 +107,7 @@
             <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
                 @csrf
                 <a href="{{ route('logout') }}"
-                   onclick="event.preventDefault(); this.closest('form').submit();"
+                   onclick="event.preventDefault(); if(confirm('Are you sure you want to log out?')){this.closest('form').submit();}"
                    class="logout">
                     <i class='bx bxs-log-out-circle' ></i>
                     <span class="text">Logout</span>
