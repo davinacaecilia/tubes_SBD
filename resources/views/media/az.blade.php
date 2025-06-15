@@ -11,17 +11,48 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="icon" href="https://www.gstatic.com/culturalinstitute/stella/apple-touch-icon-180x180-v1.png"
     type="image/x-icon">
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      text-align: left;
+      width: 350px;
+      max-width: 90%;
+    }
+
+    .modal-buttons button {
+      cursor: pointer;
+    }
+  </style>
 </head>
 
-<body>
+<body data-is-logged-in="{{ auth()->check() ? 'true' : 'false' }}" data-login-url="{{ route('login') }}"
+  data-profile-url="{{ route('profile.custom') }}">
+
+
   @include('media.navbar')
 
   @include('media.sidebar')
 
-<section class="headline">
+  <section class="headline">
     <h1>Collections</h1>
     <div class="tabs">
-      <a href="#">All</a>
+      <a href="{{ url('/') }}">All</a>
       <a id="az-tab" class="active" href="#">A–Z</a>
       <a href="#">Map</a>
     </div>
@@ -149,20 +180,54 @@
     </div>
   </div>
 
-<div id="signInModal" style="display:none;" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Sign in required</h2>
-    <p>You need to sign in to add favorites and make collections to share</p>
-    <div class="modal-buttons">
-      <button onclick="closeModal()" class="not-now">Not Now</button>
-      <button onclick="window.location.href='#'" class="sign-in">Sign In</button>
+  <div id="loginPopup" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-title">Sign in required</h2>
+      <p class="modal-message">You need to sign in to use this feature.</p>
+      <div class="modal-buttons">
+        <button id="notNowBtn" class="not-now">Not Now</button>
+        <button id="signInBtn" class="sign-in">Sign In</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script src="{{ asset('media/js/alfabet.js') }}"></script>
-<script src="{{ asset('media/js/sidebar.js') }}"></script>
-<script src="{{ asset('media/js/popup.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- BAGIAN 1: PENGUMPULAN DATA & ELEMEN ---
+      const bodyElement = document.body;
+      const isLoggedIn = bodyElement.dataset.isLoggedIn === 'true';
+      const loginUrl = bodyElement.dataset.loginUrl;
+      const profileUrl = bodyElement.dataset.profileUrl;
+
+      // --- BAGIAN 2: LOGIKA POP-UP & SIDEBAR ---
+      const loginPopup = document.getElementById('loginPopup');
+      const notNowBtn = document.getElementById('notNowBtn');
+      const signInBtn = document.getElementById('signInBtn');
+      const profileLink = document.getElementById('profileLink');
+
+      function openLoginPopup() { if (loginPopup) loginPopup.style.display = 'flex'; }
+      function closeLoginPopup() { if (loginPopup) loginPopup.style.display = 'none'; }
+
+      if (notNowBtn) notNowBtn.addEventListener('click', closeLoginPopup);
+      if (signInBtn) signInBtn.addEventListener('click', () => { window.location.href = loginUrl; });
+      if (loginPopup) loginPopup.addEventListener('click', (event) => {
+        if (event.target === loginPopup) closeLoginPopup();
+      });
+
+      if (profileLink) {
+        profileLink.addEventListener('click', (event) => {
+          if (!isLoggedIn) {
+            event.preventDefault();
+            openLoginPopup();
+          }
+        });
+      }
+    });
+  </script>
+
+  {{-- Memanggil file JavaScript eksternal milikmu --}}
+  <script src="{{ asset('media/js/alfabet.js') }}"></script>
+  <script src="{{ asset('media/js/sidebar.js') }}"></script>
 </body>
 
 </html>
