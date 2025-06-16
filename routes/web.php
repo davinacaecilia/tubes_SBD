@@ -32,7 +32,7 @@ Route::get('/collections/A-Z', [GoogleArtsController::class, 'collectionAZ'])->n
 Route::get('/medium', [GoogleArtsController::class, 'medium'])->name('user.mediums.all');
 Route::get('/medium/A-Z', [GoogleArtsController::class, 'mediumAZ'])->name('user.mediums.AZ');
 Route::get('/medium/details/{id}', [GoogleArtsController::class, 'mediumDetail'])->name('user.mediums.detail');
-Route::get('/art/details/{id}', [GoogleArtsController::class, 'artDetail'])->name('user.art.detail');
+Route::get('/art/details/{id?}', [GoogleArtsController::class, 'artDetail'])->name('user.art.detail');
 
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile.custom');
 Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');

@@ -33,9 +33,9 @@
 
     let target = "";
 
-    if (currentPage === "media_home" || currentPage === "mediaa") {
-      target = "az";
-    } else if (currentPage === "karya") {
+    if (currentPage === "medium" || currentPage === "medium/A-Z") {
+      target = "";
+    } else if (currentPage === "art/details/{id?}") {
       target = "isi_media";
     }
 

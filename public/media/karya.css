@@ -239,13 +239,13 @@ body {
 .art-description-block {
   width: 100%;
   margin: 60px 0 40px 0;
-  display: flex;
-  gap: 40px;
+  display: flex; /* Ini yang membuat dua kolom */
+  gap: 40px;    /* Ini spasi antar kolom */
 }
 
 .desc-left,
 .desc-right {
-  flex: 1;
+  flex: 1; /* Ini yang membuat kedua kolom berbagi lebar secara merata */
 }
 
 .desc-left p,
@@ -256,6 +256,14 @@ body {
   line-height: 1.7;
   color: #333;
   padding-left: 2px;
+}
+
+/* Pastikan media query juga menangani flex-direction: column; untuk mobile */
+@media (max-width: 768px) {
+  .art-description-block {
+    flex-direction: column; /* Ini penting agar di mobile jadi satu kolom vertikal */
+    gap: 20px;
+  }
 }
 
 .desc-left p a,

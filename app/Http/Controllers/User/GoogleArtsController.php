@@ -118,6 +118,23 @@ class GoogleArtsController extends Controller
     {
         $art = Art::with('museum', 'medium')->findOrFail($id);
 
+        // --- Perubahan di sini: Gunakan $art->desc sesuai nama kolom database Anda ---
+        $fullDescription = $art->desc; // <-- GANTI DARI $art->description MENJADI $art->desc
+        $descLeft = '';
+        $descRight = '';
+
+        // Logika pemisahan tetap sama seperti yang sudah dibahas
+        $halfLength = floor(strlen($fullDescription) / 2);
+        $breakPoint = strpos($fullDescription, ' ', $halfLength);
+
+        if ($breakPoint !== false) {
+            $descLeft = substr($fullDescription, 0, $breakPoint);
+            $descRight = substr($fullDescription, $breakPoint + 1);
+        } else {
+            $descLeft = $fullDescription;
+            $descRight = '';
+        }
+
         // --- LOGIKA BARU UNT<y_bin_364>LOGIKA BARU UNTUK NAVIGASI ---
         // Cari karya sebelumnya (ID lebih kecil, urutkan dari besar ke kecil, ambil 1)
         $previousArt = Art::where('id', '<', $art->id)->orderBy('id', 'desc')->first();
@@ -134,6 +151,6 @@ class GoogleArtsController extends Controller
         }
 
         // Kirim variabel baru ($previousArt, $nextArt) ke view
-        return view('user.art', compact('art', 'isFavorited', 'previousArt', 'nextArt'));
+        return view('user.art', compact('art', 'isFavorited', 'previousArt', 'nextArt', 'descLeft', 'descRight'));
     }
 }

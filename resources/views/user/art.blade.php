@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thirty-Six Views of Mount Fuji: The Great Wave Off the Coast of Kanagawa — Google Arts & Culture</title>
+  <title>{{ $art->title }} — Google Arts & Culture</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="{{ asset('media/karya.css') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,65 +15,63 @@
 </head>
 
 <body data-is-logged-in="{{ auth()->check() ? 'true' : 'false' }}" data-login-url="{{ route('login') }}"
-  data-profile-url="{{ route('profile.custom') }}">
+  data-profile-url="{{ route('profile.custom') }}" data-art-id="{{ $art->id }}" data-is-favorited="{{ $isFavorited ? 'true' : 'false' }}">
 
   @include('user.partials.navbar2')
 
   <div class="main-content-wrapper">
     <section class="art-content-section">
-      <div class="art-image-container"> <img src="{{ asset('sbd.jpg') }}"
-          alt="Thirty-Six Views of Mount Fuji: The Great Wave Off the Coast of Kanagawa" class="zoomable" />
+      <div class="art-image-container"> <img src="{{ $art->img_url }}"
+          alt="{{ $art->title }}" class="zoomable" />
       </div>
 
       <hr class="content-divider" />
 
       <div class="art-info-block">
         <div class="art-left-column">
-          <h1 class="art-title">Thirty-Six Views of Mount Fuji: The Great Wave Off the Coast of Kanagawa</h1>
-          <p class="art-subtitle">Katsushika Hokusai · Periode Edo, abad ke-19</p>
+          <h1 class="art-title">{{ $art->title }}</h1>
+          <p class="art-subtitle">{{ $art->creator }}  {{ $art->created }}</p>
           <div class="art-actions">
             <i class='bx bx-heart' id="favoriteIcon"></i>
             <i class='bx bx-dots-horizontal-rounded'></i>
           </div>
         </div>
         <div class="museum-info">
-          <img src="{{ asset('sbd.jpg') }}" alt="Museum Logo" />
-          <p><strong>Tokyo National Museum</strong><br>Tokyo, Jepang</p>
+          <img src="{{ $art->museum->logo_url }}" alt="{{ $art->museum->name }}" />
+          <p><strong>{{ $art->museum->name }}</strong><br>{{ $art->museum->location }}</p>
         </div>
       </div>
 
-      <div class="art-description-block">
-        <div class="desc-left">
-          <p>
-            Tiga Puluh Enam Pemandangan Gunung Fuji merupakan rangkaian 46 cetakan yang menggambarkan berbagai fitur <a
-              href="#">Gunung Fuji</a>, gunung tertinggi di <a href="#">Jepang</a>. Dalam cetakan ini, biru nila, warna
-            yang sangat populer saat itu, digunakan sebagai garis luar utama untuk menghasilkan efek yang tajam.
-          </p>
-          <p>
-            Meskipun sering disalahpahami sebagai tsunami, gelombang tersebut sebenarnya adalah gelombang besar di laut
-            lepas. Gelombang ini mengancam tiga perahu dengan gunung yang tertutup salju muncul di latar belakang. "The
-            Great Wave" adalah cetakan pertama dan paling terkenal dari seri ini. Karya ini merupakan salah satu karya
-            seni yang paling dikenal di dunia dan contoh yang paling terkenal dari cetakan balok kayu Jepang.
-          </p>
-        </div>
-        <div class="desc-right">
-          <p>
-            Hokusai menggambar gelombang tersebut sebagai kerangka yang mengelilingi Gunung Fuji, memperlihatkan
-            kekuatan alam dan kerapuhan manusia.
-          </p>
-          <p>
-            Diyakini bahwa karya ini dibuat antara tahun 1829 dan 1833. Cetakan ini adalah bagian dari genre seni yang
-            dikenal sebagai Ukiyo-e, yang merupakan gaya seni yang populer di Jepang dari abad ke-17 hingga ke-19.
-            Cetakan Ukiyo-e biasanya menampilkan pemandangan dari "dunia mengambang", termasuk aktor kabuki, wanita
-            cantik, dan pemandangan alam.
-          </p>
-        </div>
+      <div class="main-content-wrapper">
+        <section class="art-content-section">
+          <div class="art-description-block"> {{-- Gunakan kelas asli ini --}}
+            <div class="desc-left"> {{-- Gunakan kelas asli ini --}}
+              <p>
+                {!! nl2br(e($descLeft)) !!} {{-- Tampilkan bagian kiri deskripsi, gunakan nl2br untuk baris baru --}}
+              </p>
+            </div>
+            <div class="desc-right"> {{-- Gunakan kelas asli ini --}}
+              <p>
+                {!! nl2br(e($descRight)) !!} {{-- Tampilkan bagian kanan deskripsi --}}
+              </p>
+            </div>
+          </div>
+          </section>
       </div>
     </section>
   </div>
 
-  <a href="{{ route('user.art.detail') }}" class="nav-arrow left-arrow"><i class='bx bx-left-arrow-alt'></i></a>
-  <a href="{{ route('user.mediums.all') }}" class="nav-arrow right-arrow"><i class='bx bx-right-arrow-alt'></i></a>
+  @if ($previousArt)
+    <a href="{{ route('user.art.detail', $previousArt->id) }}" class="nav-arrow left-arrow">
+      <i class='bx bx-left-arrow-alt'></i>
+    </a>
+  @endif
+
+  @if ($nextArt)
+    <a href="{{ route('user.art.detail', $nextArt->id) }}" class="nav-arrow right-arrow">
+      <i class='bx bx-right-arrow-alt'></i>
+    </a>
+  @endif
 
   <div id="loginPopup" class="modal-overlay">
     <div class="modal-content">
@@ -137,15 +135,57 @@
       // BAGIAN 3: LOGIKA FITUR (FAVORIT, PROFIL, DLL.)
       // ===============================================
 
-      // Logika untuk Ikon Favorit
+      const artId = bodyElement.dataset.artId;
+      let isFavorited = bodyElement.dataset.isFavorited === 'true';
+
+      // Fungsi untuk update tampilan ikon (ini sudah Anda miliki, tapi kita pastikan lengkap)
+      const updateFavoriteIcon = () => {
+        if (!favoriteIcon) return; // Pengaman jika ikon tidak ditemukan
+        if (isFavorited) {
+          favoriteIcon.classList.add('bxs-heart');
+          favoriteIcon.classList.remove('bx-heart');
+        } else {
+          favoriteIcon.classList.add('bx-heart');
+          favoriteIcon.classList.remove('bxs-heart');
+        }
+      };
+
+      // 1. PENTING: Panggil fungsi ini untuk set status ikon saat halaman baru dimuat.
+      updateFavoriteIcon();
+
+      // 2. PENTING: Tambahkan event listener dengan logika FETCH yang sebelumnya hilang.
       if (favoriteIcon) {
         favoriteIcon.addEventListener('click', () => {
           if (!isLoggedIn) {
-            openLoginPopup();
-          } else {
-            favoriteIcon.classList.toggle('bxs-heart');
-            favoriteIcon.classList.toggle('bx-heart');
+            loginPopup.style.display = 'flex';
+            return;
           }
+
+          fetch('{{ route("favorites.toggle") }}', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+              favorable_id: artId,
+              favorable_type: 'Art'
+            })
+          })
+            .then(response => {
+              if (!response.ok) { throw new Error('Server responded with an error'); }
+              return response.json();
+            })
+            .then(data => {
+              // Update status berdasarkan balasan server
+              isFavorited = (data.status === 'added');
+              // Panggil lagi fungsi update ikon untuk mengubah tampilannya
+              updateFavoriteIcon();
+            })
+            .catch(error => {
+              console.error('Error toggling favorite:', error);
+              alert('Gagal mengubah status favorit. Silakan coba lagi.');
+            });
         });
       }
 

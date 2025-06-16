@@ -43,65 +43,34 @@
   </div>
   <h2 class="section-title">Discover this medium</h2>
 
-  {{-- Debug info --}}
-<p>Total gambar diambil: {{ count($arts) }}</p>
+  {{-- Debug info (opsional, bisa dihapus setelah testing) --}}
+  <p>Total gambar diambil: {{ count($arts) }}</p>
 
-<div class="scroll-wrapper">
-  <button class="scroll-arrow left" onclick="scrollLeft()">
-    <i class='bx bx-left-arrow-alt'></i>
-  </button>
+  <div class="scroll-wrapper">
+    <button class="scroll-arrow left" onclick="scrollLeft()">
+      <i class='bx bx-left-arrow-alt'></i>
+    </button>
 
-  <div class="scroll-container" id="scroll-container">
-    <div class="cards-wrapper">
+    <div class="scroll-container" id="scroll-container">
+      <div class="cards-wrapper">
 
-      {{-- Loop melalui seni yang di-chunk per 5 --}}
-      @foreach ($arts->chunk(5) as $chunk)
-        <div class="card card-2"> {{-- Ini adalah satu "card" yang berisi hingga 5 gambar --}}
-          <div class="img-row">
-            {{-- Slot untuk gambar pertama (vertikal) --}}
-            @if (isset($chunk[0]))
-              <img src="{{ $chunk[0]->img_url }}" class="img-vertical" alt="{{ $chunk[0]->name ?? 'Art Image' }}">
-            @else
-              {{-- Placeholder jika tidak ada gambar --}}
-              <div class="img-vertical placeholder"></div>
-            @endif
-
-            <div class="img-stack">
-              {{-- Slot untuk gambar kedua (horizontal-half) --}}
-              @if (isset($chunk[1]))
-                <img src="{{ $chunk[1]->img_url }}" class="img-horizontal-half" alt="{{ $chunk[1]->name ?? 'Art Image' }}">
-              @else
-                <div class="img-horizontal-half placeholder"></div>
-              @endif
-
-              {{-- Slot untuk gambar ketiga (square-half) --}}
-              @if (isset($chunk[2]))
-                <img src="{{ $chunk[2]->img_url }}" class="img-square-half" alt="{{ $chunk[2]->name ?? 'Art Image' }}">
-              @else
-                <div class="img-square-half placeholder"></div>
-              @endif
-            </div>
+        {{-- START PERULANGAN UNTUK SEMUA GAMBAR DARI DATABASE --}}
+        @foreach ($arts as $art)
+          <div class="card card-1">
+            {{-- Menggunakan img_url dari setiap objek seni --}}
+            <a href="{{ route('user.art.detail', ['id' => $art->id]) }}">
+              <img src="{{ $art->img_url }}" class="img-horizontal" alt="{{ $art->title }}">
+            </a>
           </div>
+        @endforeach
+        {{-- END PERULANGAN --}}
 
-          <div class="img-row">
-            {{-- Slot untuk gambar keempat (horizontal-half) --}}
-            @if (isset($chunk[3]))
-              <img src="{{ $chunk[3]->img_url }}" class="img-horizontal-half" alt="{{ $chunk[3]->name ?? 'Art Image' }}">
-            @else
-              <div class="img-horizontal-half placeholder"></div>
-            @endif
-
-            {{-- Slot untuk gambar kelima (square-half) --}}
-            @if (isset($chunk[4]))
-              <img src="{{ $chunk[4]->img_url }}" class="img-square-half" alt="{{ $chunk[4]->name ?? 'Art Image' }}">
-            @else
-              <div class="img-square-half placeholder"></div>
-            @endif
-          </div>
-        </div>
-      @endforeach
-
+      </div>
     </div>
+
+    <button class="scroll-arrow right" onclick="scrollRight()">
+      <i class='bx bx-right-arrow-alt'></i>
+    </button>
   </div>
 
   <button class="scroll-arrow right" onclick="scrollRight()">
