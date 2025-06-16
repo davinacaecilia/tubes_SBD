@@ -359,14 +359,14 @@ body {
 }
 
 .cards-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  width: max-content;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    width: max-content;
+    min-width: 100%; /* <--- TAMBAHKAN BARIS INI */
+    margin: 0;
+    padding: 0;
 }
-
 
 .card {
   background-color: #fff;
@@ -429,6 +429,12 @@ body {
 .card-2 .img-square-half {
   height: 100px;
   width: 100%;
+}
+
+.card-2 .img-stack > .img-horizontal-half,
+.card-2 .img-stack > .img-square-half {
+  flex: 1; /* <--- HANYA BERLAKU DI SINI */
+  /* Kamu tidak perlu width: 100% dan object-fit: cover di sini lagi, karena sudah diatur di aturan yang lebih umum di atas */
 }
 
 /* --- GAYA TOMBOL SCROLL --- */

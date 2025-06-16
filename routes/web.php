@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\User\GoogleArtsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ArtController;
@@ -18,11 +19,6 @@ use App\Models\Museum;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/my-profile', function () {
-        // Mengarah ke file: resources/views/media/profil.blade.php
-        return view('media.profil');
-    })->name('profile.custom'); // Kita beri nama 'profile.custom'
-
 // Rute Halaman Profil (Bawaan Breeze, untuk semua yang sudah login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,32 +27,15 @@ Route::middleware('auth')->group(function () {
 });
 
 // Rute untuk USER BIASA
-Route::get('/media_home', function () {
-    return view('media.media_home'); 
-})->name('media.home');
-
-Route::get('/az', function () {
-    return view('media.az');
-})->name('collections.az');
-
-Route::get('/karya', function () {
-    return view('media.karya');
-})->name('collections.karya');
-
-Route::get('/isi_media', function () {
-    return view('media.isi_media');
-})->name('collections.isi_media');
-
-Route::get('/mediaa', function () {
-    return view('media.mediaa');
-})->name('collections.mediaa');
-
-
 Route::get('/', [GoogleArtsController::class, 'collection'])->name('user.collections.all');
 Route::get('/collections/A-Z', [GoogleArtsController::class, 'collectionAZ'])->name('user.collections.AZ');
 Route::get('/medium', [GoogleArtsController::class, 'medium'])->name('user.mediums.all');
 Route::get('/medium/A-Z', [GoogleArtsController::class, 'mediumAZ'])->name('user.mediums.AZ');
 Route::get('/medium/details/{id}', [GoogleArtsController::class, 'mediumDetail'])->name('user.mediums.detail');
+Route::get('/art/details/{id}', [GoogleArtsController::class, 'artDetail'])->name('user.art.detail');
+
+Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile.custom');
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
 
 
@@ -64,7 +43,7 @@ Route::middleware(['auth', 'role:admin,supervisor'])->prefix('admin')->name('adm
     // Rute Dashboard (tetap sama)
     Route::get('/dashboard', function () {
         $mediumCount = Medium::count();
-        /* SELECT COUNT(*) FROM `medium` */
+        /* SELECT COUNT(*) FROM `mediums` */
         $artCount = Art::where('status', 'approved')->count();
         /* SELECT COUNT(*) FROM `art` WHERE `status` = 'approved' */
         $userCount = User::count();

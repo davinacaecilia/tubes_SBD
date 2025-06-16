@@ -17,7 +17,7 @@
 <body data-is-logged-in="{{ auth()->check() ? 'true' : 'false' }}" data-login-url="{{ route('login') }}"
   data-profile-url="{{ route('profile.custom') }}">
 
-  @include('media.navbar2')
+  @include('user.partials.navbar2')
 
   <div class="main-content-wrapper">
     <section class="art-content-section">
@@ -72,8 +72,8 @@
     </section>
   </div>
 
-  <a href="{{ route('collections.karya') }}" class="nav-arrow left-arrow"><i class='bx bx-left-arrow-alt'></i></a>
-  <a href="{{ route('collections.mediaa') }}" class="nav-arrow right-arrow"><i class='bx bx-right-arrow-alt'></i></a>
+  <a href="{{ route('user.art.detail') }}" class="nav-arrow left-arrow"><i class='bx bx-left-arrow-alt'></i></a>
+  <a href="{{ route('user.mediums.all') }}" class="nav-arrow right-arrow"><i class='bx bx-right-arrow-alt'></i></a>
 
   <div id="loginPopup" class="modal-overlay">
     <div class="modal-content">

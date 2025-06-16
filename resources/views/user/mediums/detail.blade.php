@@ -14,7 +14,7 @@
 </head>
 
 <body data-is-logged-in="{{ auth()->check() ? 'true' : 'false' }}" data-login-url="{{ route('login') }}"
-  data-profile-url="{{ route('profile.custom') }}">
+  data-profile-url="{{ route('profile.custom') }}" data-is-favorited="{{ $isFavorited ? 'true' : 'false' }}" data-medium-id="{{ $medium->id }}">
   @include('user.partials.navbar')
   @include('user.partials.sidebar')
 
@@ -43,41 +43,72 @@
   </div>
   <h2 class="section-title">Discover this medium</h2>
 
-  <div class="scroll-wrapper">
-    <button class="scroll-arrow left" onclick="scrollLeft()">
-      <i class='bx bx-left-arrow-alt'></i>
-    </button>
+  {{-- Debug info --}}
+<p>Total gambar diambil: {{ count($arts) }}</p>
 
-    <div class="scroll-container" id="scroll-container">
-      <div class="cards-wrapper">
+<div class="scroll-wrapper">
+  <button class="scroll-arrow left" onclick="scrollLeft()">
+    <i class='bx bx-left-arrow-alt'></i>
+  </button>
 
-        @foreach ($arts->chunk(6) as $chunk)
-        <div class="card card-2">
-          @foreach ($chunk->chunk(3) as $row)
-            <div class="img-row">
-              @if (isset($row[0]))
-                <img src="{{ $row[0]->img_url }}" class="img-vertical" alt="img">
+  <div class="scroll-container" id="scroll-container">
+    <div class="cards-wrapper">
+
+      {{-- Loop melalui seni yang di-chunk per 5 --}}
+      @foreach ($arts->chunk(5) as $chunk)
+        <div class="card card-2"> {{-- Ini adalah satu "card" yang berisi hingga 5 gambar --}}
+          <div class="img-row">
+            {{-- Slot untuk gambar pertama (vertikal) --}}
+            @if (isset($chunk[0]))
+              <img src="{{ $chunk[0]->img_url }}" class="img-vertical" alt="{{ $chunk[0]->name ?? 'Art Image' }}">
+            @else
+              {{-- Placeholder jika tidak ada gambar --}}
+              <div class="img-vertical placeholder"></div>
+            @endif
+
+            <div class="img-stack">
+              {{-- Slot untuk gambar kedua (horizontal-half) --}}
+              @if (isset($chunk[1]))
+                <img src="{{ $chunk[1]->img_url }}" class="img-horizontal-half" alt="{{ $chunk[1]->name ?? 'Art Image' }}">
+              @else
+                <div class="img-horizontal-half placeholder"></div>
               @endif
-              <div class="img-stack">
-                @if (isset($row[1]))
-                  <img src="{{ $row[1]->img_url }}" class="img-horizontal-half" alt="img">
-                @endif
-                @if (isset($row[2]))
-                  <img src="{{ $row[2]->img_url }}" class="img-square-half" alt="img">
-                @endif
-              </div>
+
+              {{-- Slot untuk gambar ketiga (square-half) --}}
+              @if (isset($chunk[2]))
+                <img src="{{ $chunk[2]->img_url }}" class="img-square-half" alt="{{ $chunk[2]->name ?? 'Art Image' }}">
+              @else
+                <div class="img-square-half placeholder"></div>
+              @endif
             </div>
-          @endforeach
+          </div>
+
+          <div class="img-row">
+            {{-- Slot untuk gambar keempat (horizontal-half) --}}
+            @if (isset($chunk[3]))
+              <img src="{{ $chunk[3]->img_url }}" class="img-horizontal-half" alt="{{ $chunk[3]->name ?? 'Art Image' }}">
+            @else
+              <div class="img-horizontal-half placeholder"></div>
+            @endif
+
+            {{-- Slot untuk gambar kelima (square-half) --}}
+            @if (isset($chunk[4]))
+              <img src="{{ $chunk[4]->img_url }}" class="img-square-half" alt="{{ $chunk[4]->name ?? 'Art Image' }}">
+            @else
+              <div class="img-square-half placeholder"></div>
+            @endif
+          </div>
         </div>
       @endforeach
 
-
-      </div>
     </div>
-    <button class="scroll-arrow right" onclick="scrollRight()">
-      <i class='bx bx-right-arrow-alt'></i>
-    </button>
   </div>
+
+  <button class="scroll-arrow right" onclick="scrollRight()">
+    <i class='bx bx-right-arrow-alt'></i>
+  </button>
+</div>
+
   <h2 class="section-title">More mediums</h2>
 
   <div class="card-grid-container">
@@ -119,6 +150,12 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const fullText = @json($medium->desc);
+    const truncatedText = fullText.length > 300 ? fullText.slice(0, 300) + '...' : fullText;
+    let isFullTextDisplayed = false;
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -262,21 +299,60 @@
       // ===============================================
 
       // Logika untuk Ikon Favorit
+      const mediumId = bodyElement.dataset.mediumId;
+      let isFavorited = bodyElement.dataset.isFavorited === 'true';
+
+      // Fungsi untuk update tampilan ikon (ini sudah Anda miliki, tapi kita pastikan lengkap)
+      const updateFavoriteIcon = () => {
+        if (!favoriteIcon) return; // Pengaman jika ikon tidak ditemukan
+        if (isFavorited) {
+          favoriteIcon.classList.add('bxs-heart');
+          favoriteIcon.classList.remove('bx-heart');
+        } else {
+          favoriteIcon.classList.add('bx-heart');
+          favoriteIcon.classList.remove('bxs-heart');
+        }
+      };
+
+      // 1. PENTING: Panggil fungsi ini untuk set status ikon saat halaman baru dimuat.
+      updateFavoriteIcon();
+
+      // 2. PENTING: Tambahkan event listener dengan logika FETCH yang sebelumnya hilang.
       if (favoriteIcon) {
         favoriteIcon.addEventListener('click', () => {
           if (!isLoggedIn) {
-            openLoginPopup();
-          } else {
-            // Logika jika sudah login (misalnya, toggle favorit)
-            favoriteIcon.classList.toggle('bxs-heart');
-            favoriteIcon.classList.toggle('bx-heart');
+            loginPopup.style.display = 'flex';
+            return;
           }
+
+          fetch('{{ route("favorites.toggle") }}', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+              favorable_id: mediumId,
+              favorable_type: 'Medium'
+            })
+          })
+            .then(response => {
+              if (!response.ok) { throw new Error('Server responded with an error'); }
+              return response.json();
+            })
+            .then(data => {
+              // Update status berdasarkan balasan server
+              isFavorited = (data.status === 'added');
+              // Panggil lagi fungsi update ikon untuk mengubah tampilannya
+              updateFavoriteIcon();
+            })
+            .catch(error => {
+              console.error('Error toggling favorite:', error);
+              alert('Gagal mengubah status favorit. Silakan coba lagi.');
+            });
         });
       }
-
-      // Logika untuk "Read More"
-      const fullText = "Lembaran serat nabati yang diisolasi atau dikempa yang diproduksi dengan cara menyaring serat nabati yang telah dihaluskan dari bubur berair. Kriteria tertentu harus dipenuhi agar suatu zat dapat disebut kertas: yang terpenting, seratnya harus nabati, seratnya harus diproses dengan cara tertentu untuk memecah bahan menjadi serat-serat tersendiri, dan lembarannya harus dibentuk dengan cara menuang campuran serat-air yang telah dihaluskan pada saringan, biasanya saringan yang dicelupkan ke dalam campuran berair dan memungkinkan kelebihan air mengalir keluar. Kertas merupakan media yang paling umum untuk menggambar, mencetak, membuat cetakan, melukis dengan cat air, dan menulis; bersama dengan perkamen, kertas juga banyak digunakan untuk manuskrip abad pertengahan, dan untuk pengembangan buku cetak sejak abad ke-15 dan seterusnya.";
-      const truncatedText = "Lembaran serat nabati yang diisolasi atau dikempa yang diproduksi dengan cara menyaring serat nabati yang telah dihaluskan dari bubur berair. Kriteria tertentu harus dipenuhi agar suatu zat dapat disebut kertas: yang terpenting, seratnya harus nabati, seratnya harus diproses dengan cara tertentu untuk memecah bahan menjadi serat-serat tersendiri, dan lembarannya harus dibentuk dengan cara menuang campuran serat-air yang telah dihaluskan pada saringan, biasanya saringan yang dicelupkan ke dalam campuran berair dan memungkinkan kelebihan air mengalir keluar.";
+      
       let isFullTextDisplayed = false;
 
       function updateTextDisplay() {

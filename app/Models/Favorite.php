@@ -7,19 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     protected $table = 'favorites';
-    protected $fillable = ['user_id', 'entity_type', 'entity_id', 'date_added'];
+    protected $fillable = ['user_id', 'favorable_id', 'favorable_type'];
     public $timestamps = false;
 
+    public function favorable()
+    {
+        return $this->morphTo();
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function entity()
-    {
-        return match ($this->entity_type) {
-            'art' => $this->belongsTo(Art::class, 'entity_id'),
-            'medium' => $this->belongsTo(Medium::class, 'entity_id'),
-        };
-    }
 }

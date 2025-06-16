@@ -8,7 +8,7 @@ class Art extends Model
 {
     protected $table = 'arts';
     protected $fillable = ['title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'status'];
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function museum()
     {

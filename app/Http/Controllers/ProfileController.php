@@ -9,11 +9,44 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use App\Models\Favorite;
+use App\Models\Art;
+use App\Models\Medium;
+
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function showProfile()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+
+        // Ambil semua data favorit beserta relasi polimorfiknya
+        $favoritedArtIds = $user->favorites()
+            ->where('favorable_type', 'App\\Models\\Art')
+            ->pluck('favorable_id');
+        // Ambil objek Art berdasarkan ID tersebut
+        $favoritedItems = Art::whereIn('id', $favoritedArtIds)->get();
+
+
+        // 2. Ambil semua ID 'Medium' yang difavoritkan
+        $favoritedMediumIds = $user->favorites()
+            ->where('favorable_type', 'App\\Models\\Medium')
+            ->pluck('favorable_id');
+
+        // Ambil objek Medium DAN HITUNG JUMLAH ART-NYA
+        // INI BAGIAN PENTING: withCount('arts') akan membuat properti 'arts_count'
+        $favoritedTopics = Medium::withCount(['art as arts_count']) // Hitung relasi 'art', namai 'arts_count'
+            ->whereIn('id', $favoritedMediumIds)
+            ->get();
+
+        return view('user.profil', compact('favoritedItems', 'favoritedTopics'));
+    }
     public function edit(Request $request): View
     {
         return view('profile.edit', [

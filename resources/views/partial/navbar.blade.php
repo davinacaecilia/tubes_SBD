@@ -11,7 +11,11 @@
         <span class="user-name">{{ auth()->user()->name }}</span> {{-- Nama pengguna statis --}}
         <span class="user-role">({{ auth()->user()->role }})</span> {{-- Level pengguna statis (contoh) --}}
         <a href="#" class="profile-image">
-            <img src="https://placehold.co/32x32/cccccc/333333?text=PJ" alt="User Profile"> {{-- Gambar profil statis --}}
+            @if (auth()->user()->role === 'supervisor')
+                <img src="https://placehold.co/32x32/cccccc/333333?text=S" alt="Supervisor"> {{-- Gambar profil statis --}}
+            @elseif (auth()->user()->role === 'admin' )
+                <img src="https://placehold.co/32x32/cccccc/333333?text=A" alt="Admin">
+            @endif
         </a>
     </div>
     

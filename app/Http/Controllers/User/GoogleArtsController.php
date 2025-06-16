@@ -98,11 +98,42 @@ class GoogleArtsController extends Controller
             FROM mediums;
         */
 
+        $isFavorited = false;
+        if (auth()->check()) {
+            $isFavorited = auth()->user()->favorites()
+                ->where('favorable_id', $medium->id)
+                ->where('favorable_type', 'App\\Models\\Medium')
+                ->exists();
+        }
+
         $arts = Art::where('medium_id', $medium->id)
             ->where('status', 'approved')
             ->get();
         /* SELECT * FROM arts WHERE medium_id = 'medium_id' AND status = 'approved'; */
         
-        return view('user.mediums.detail', compact('medium', 'listMediums', 'arts'));
+        return view('user.mediums.detail', compact('medium', 'listMediums', 'isFavorited', 'arts'));
+    }
+
+    public function artDetail($id)
+    {
+        $art = Art::with('museum', 'medium')->findOrFail($id);
+
+        // --- LOGIKA BARU UNT<y_bin_364>LOGIKA BARU UNTUK NAVIGASI ---
+        // Cari karya sebelumnya (ID lebih kecil, urutkan dari besar ke kecil, ambil 1)
+        $previousArt = Art::where('id', '<', $art->id)->orderBy('id', 'desc')->first();
+        // Cari karya berikutnya (ID lebih besar, urutkan dari kecil ke besar, ambil 1)
+        $nextArt = Art::where('id', '>', $art->id)->orderBy('id', 'asc')->first();
+
+        // Logika favorit tetap sama
+        $isFavorited = false;
+        if (auth()->check()) {
+            $isFavorited = auth()->user()->favorites()
+                ->where('favorable_id', $art->id)
+                ->where('favorable_type', 'App\\Models\\Art')
+                ->exists();
+        }
+
+        // Kirim variabel baru ($previousArt, $nextArt) ke view
+        return view('user.art', compact('art', 'isFavorited', 'previousArt', 'nextArt'));
     }
 }

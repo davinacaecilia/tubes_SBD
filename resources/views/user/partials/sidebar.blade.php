@@ -39,14 +39,19 @@
       @auth
       <li>
       <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
-        @csrf
-        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"
-        style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
-
-        <i class='bx bxs-log-out-circle sidebar-icon'></i>
-        <span class="text">Logout</span>
-        </a>
+          @csrf
+          <a href="{{ route('logout') }}"
+            onclick="event.preventDefault(); 
+            if (confirm('Apakah kamu yakin ingin logout?')) {
+                this.closest('form').submit();
+            }"
+            style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+            
+            <i class='bx bxs-log-out-circle sidebar-icon'></i>
+            <span class="text">Logout</span>
+          </a>
       </form>
+
       </li>
     @endauth
     </ul>
