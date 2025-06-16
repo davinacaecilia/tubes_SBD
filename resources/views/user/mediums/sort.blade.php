@@ -19,7 +19,7 @@
       <a href="{{ route('user.mediums.all') }}">All</a>
       <a id="az-tab" class="active" href="{{ route('user.mediums.AZ') }}">A–Z</a>
     </div>
-     <div class="alphabet-filter-wrapper">
+    <div class="alphabet-filter-wrapper">
       <div class="active-marker"></div> <div class="alphabet-filter">
         <a data-letter="A" href="#">A</a>
         <a data-letter="B" href="#">B</a>

@@ -51,102 +51,37 @@
     <div class="scroll-container" id="scroll-container">
       <div class="cards-wrapper">
 
-        <div class="card card-1">
-          <div class="img-row full-width">
-            <a href="{{route('collections.karya')}}">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal" alt="img1" />
-            </a>
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-square" alt="img2" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img3" />
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img4" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img5" />
-          </div>
-        </div>
-
+        @foreach ($arts->chunk(6) as $artChunk)
         <div class="card card-2">
           <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img6" />
+            @if ($artChunk->get(0))
+              <img src="{{ $artChunk->get(0)->img_url }}" class="img-vertical" alt="img">
+            @endif
             <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img7" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img8" />
+              @if ($artChunk->get(1))
+                <img src="{{ $artChunk->get(1)->img_url }}" class="img-horizontal-half" alt="img">
+              @endif
+              @if ($artChunk->get(2))
+                <img src="{{ $artChunk->get(2)->img_url }}" class="img-square-half" alt="img">
+              @endif
             </div>
           </div>
           <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img9" />
+            @if ($artChunk->get(3))
+              <img src="{{ $artChunk->get(3)->img_url }}" class="img-vertical" alt="img">
+            @endif
             <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img10" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img11" />
+              @if ($artChunk->get(4))
+                <img src="{{ $artChunk->get(4)->img_url }}" class="img-horizontal-half" alt="img">
+              @endif
+              @if ($artChunk->get(5))
+                <img src="{{ $artChunk->get(5)->img_url }}" class="img-square-half" alt="img">
+              @endif
             </div>
           </div>
         </div>
+        @endforeach
 
-        <div class="card card-1">
-          <div class="img-row full-width">
-            <img src="{{ asset('sbd.jpg') }}" class="img-horizontal" alt="img1" />
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-square" alt="img2" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img3" />
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img4" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img5" />
-          </div>
-        </div>
-
-        <div class="card card-2">
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img6" />
-            <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img7" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img8" />
-            </div>
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img9" />
-            <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img10" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img11" />
-            </div>
-          </div>
-        </div>
-
-        <div class="card card-1">
-          <div class="img-row full-width">
-            <a href="{{route('collections.karya')}}">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal" alt="img1" />
-            </a>
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-square" alt="img2" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img3" />
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img4" />
-            <img src="{{ asset('sbd.jpg') }}" class="img-small" alt="img5" />
-          </div>
-        </div>
-
-        <div class="card card-2">
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img6" />
-            <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img7" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img8" />
-            </div>
-          </div>
-          <div class="img-row">
-            <img src="{{ asset('sbd.jpg') }}" class="img-vertical" alt="img9" />
-            <div class="img-stack">
-              <img src="{{ asset('sbd.jpg') }}" class="img-horizontal-half" alt="img10" />
-              <img src="{{ asset('sbd.jpg') }}" class="img-square-half" alt="img11" />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <button class="scroll-arrow right" onclick="scrollRight()">
@@ -163,62 +98,19 @@
 
       <div class="scroll-container-media-others" id="mediaOthersScrollContainer">
         <div class="card-grid">
+          @foreach ($listMediums as $listMedium)
           <div class="card-grid-item">
             <div class="img-wrapper">
-              <a href="{{route('collections.isi_media')}}">
-                <img src="{{ asset('sbd.jpg') }}" alt="Tinta">
+              <a href="{{ route('user.mediums.detail', $listMedium->id) }}">
+                <img src="{{ $listMedium->img_url }}" alt="{{ $listMedium->name }}">
               </a>
             </div>
             <div class="info">
-              <h4>Vellum</h4>
-              <p>99.300 items</p>
+              <h4>{{ $listMedium->name }}</h4>
+              <p>{{ $listMedium->art_count ?? 'N/A' }} items</p>
             </div>
           </div>
-          <div class="card-grid-item">
-            <div class="img-wrapper">
-              <img src="{{ asset('sbd.jpg') }}" alt="Kertas">
-            </div>
-            <div class="info">
-              <h4>Laid paper</h4>
-              <p>354.000 items</p>
-            </div>
-          </div>
-          <div class="card-grid-item">
-            <div class="img-wrapper">
-              <img src="{{ asset('sbd.jpg') }}" alt="Pensil">
-            </div>
-            <div class="info">
-              <h4>Pensil</h4>
-              <p>80.000 items</p>
-            </div>
-          </div>
-          <div class="card-grid-item">
-            <div class="img-wrapper">
-              <img src="{{ asset('sbd.jpg') }}" alt="Kuas">
-            </div>
-            <div class="info">
-              <h4>Kuas</h4>
-              <p>27.000 item</p>
-            </div>
-          </div>
-          <div class="card-grid-item">
-            <div class="img-wrapper">
-              <img src="{{ asset('sbd.jpg') }}" alt="Palet">
-            </div>
-            <div class="info">
-              <h4>Palet</h4>
-              <p>45.500 item</p>
-            </div>
-          </div>
-          <div class="card-grid-item">
-            <div class="img-wrapper">
-              <img src="{{ asset('sbd.jpg') }}" alt="Palet">
-            </div>
-            <div class="info">
-              <h4>Palet</h4>
-              <p>45.500 item</p>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
       <button class="scroll-arrow right" onclick="scrollRightMediaOthers()">

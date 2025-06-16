@@ -38,7 +38,14 @@ class GoogleArtsController extends Controller
     public function mediumDetail($id)
     {
         $medium = Medium::findOrFail($id);
-        return view('user.mediums.detail', compact('medium'));
+        $listMediums = Medium::withCount(['art' => function ($query) {
+            $query->where('status', 'approved'); 
+        }])->get();
+
+        $arts = Art::where('medium_id', $medium->id)
+            ->where('status', 'approved')
+            ->get();
+        return view('user.mediums.detail', compact('medium', 'listMediums', 'arts'));
     }
 
     public function destroy()
