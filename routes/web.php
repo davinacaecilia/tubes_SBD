@@ -64,9 +64,13 @@ Route::middleware(['auth', 'role:admin,supervisor'])->prefix('admin')->name('adm
     // Rute Dashboard (tetap sama)
     Route::get('/dashboard', function () {
         $mediumCount = Medium::count();
+        /* SELECT COUNT(*) FROM `medium` */
         $artCount = Art::where('status', 'approved')->count();
+        /* SELECT COUNT(*) FROM `art` WHERE `status` = 'approved' */
         $userCount = User::count();
+        /* SELECT COUNT(*) FROM `users` */
         $museumCount = Museum::count();
+        /* SELECT COUNT(*) FROM `museums` */
         return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
     })->name('dashboard');
 

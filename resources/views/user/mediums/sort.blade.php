@@ -20,60 +20,38 @@
       <a id="az-tab" class="active" href="{{ route('user.mediums.AZ') }}">A–Z</a>
     </div>
     <div class="alphabet-filter-wrapper">
-      <div class="active-marker"></div> <div class="alphabet-filter">
-        <a data-letter="A" href="#">A</a>
-        <a data-letter="B" href="#">B</a>
-        <a data-letter="C" href="#">C</a>
-        <a data-letter="D" href="#">D</a>
-        <a data-letter="E" href="#">E</a>
-        <a data-letter="F" href="#">F</a>
-        <a data-letter="G" href="#">G</a>
-        <a data-letter="H" href="#">H</a>
-        <a data-letter="I" href="#">I</a>
-        <a data-letter="J" href="#">J</a>
-        <a data-letter="K" href="#">K</a>
-        <a data-letter="L" href="#">L</a>
-        <a data-letter="M" href="#">M</a>
-        <a data-letter="N" href="#">N</a>
-        <a data-letter="O" href="#">O</a>
-        <a data-letter="P" href="#">P</a>
-        <a data-letter="Q" href="#">Q</a>
-        <a data-letter="R" href="#">R</a>
-        <a data-letter="S" href="#">S</a>
-        <a data-letter="T" href="#">T</a>
-        <a data-letter="U" href="#">U</a>
-        <a data-letter="V" href="#">V</a>
-        <a data-letter="W" href="#">W</a>
-        <a data-letter="X" href="#">X</a>
-        <a data-letter="Y" href="#">Y</a>
-        <a data-letter="Z" href="#">Z</a>
+      <div class="active-marker"></div> 
+      @php
+        $active = request()->query('starts_with', 'A');
+      @endphp
+
+      <div class="alphabet-filter">
+        @foreach (range('A', 'Z') as $letter)
+          <a data-letter="{{ $letter }}" href="#" class="{{ $active === $letter ? 'active' : '' }}">
+            {{ $letter }}
+          </a>
+        @endforeach
       </div>
     </div>
   </section>
 
- <div class="container">
-  <div class="grid">
-    <div class="card">
-      <a href="#">
-        <img src="{{ asset('sbd.jpg') }}" alt="Item 1">
-      </a>
-      <div class="info">
-        <h4>Paper</h4>
-        <p>3600 Items</p>
+  <div class="container">
+    <div class="grid">
+      @foreach ($mediums as $medium)
+      <div class="card">
+        <a href="{{ route('user.mediums.detail', $medium->id) }}">
+          <img src="{{ $medium->img_url }}" alt="{{ $medium->name }}">
+        </a>
+        <div class="info">
+          <h4>{{ $medium->name }}</h4>
+          <p>{{ $medium->art_count ?? 'N/A' }} items</p>
+        </div>
       </div>
+      @endforeach
     </div>
-    <div class="card">
-      <a href="#">
-        <img src="{{ asset('sbd.jpg') }}" alt="Item 2">
-      </a>
-      <div class="info">
-        <h4>Tinta</h4>
-        <p>3700 Items</p>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script src="{{ asset('media/js/alfabet.js') }}"></script>
+
 </body>
 </html>

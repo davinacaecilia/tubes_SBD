@@ -51,36 +51,26 @@
     <div class="scroll-container" id="scroll-container">
       <div class="cards-wrapper">
 
-        @foreach ($arts->chunk(6) as $artChunk)
+        @foreach ($arts->chunk(6) as $chunk)
         <div class="card card-2">
-          <div class="img-row">
-            @if ($artChunk->get(0))
-              <img src="{{ $artChunk->get(0)->img_url }}" class="img-vertical" alt="img">
-            @endif
-            <div class="img-stack">
-              @if ($artChunk->get(1))
-                <img src="{{ $artChunk->get(1)->img_url }}" class="img-horizontal-half" alt="img">
+          @foreach ($chunk->chunk(3) as $row)
+            <div class="img-row">
+              @if (isset($row[0]))
+                <img src="{{ $row[0]->img_url }}" class="img-vertical" alt="img">
               @endif
-              @if ($artChunk->get(2))
-                <img src="{{ $artChunk->get(2)->img_url }}" class="img-square-half" alt="img">
-              @endif
+              <div class="img-stack">
+                @if (isset($row[1]))
+                  <img src="{{ $row[1]->img_url }}" class="img-horizontal-half" alt="img">
+                @endif
+                @if (isset($row[2]))
+                  <img src="{{ $row[2]->img_url }}" class="img-square-half" alt="img">
+                @endif
+              </div>
             </div>
-          </div>
-          <div class="img-row">
-            @if ($artChunk->get(3))
-              <img src="{{ $artChunk->get(3)->img_url }}" class="img-vertical" alt="img">
-            @endif
-            <div class="img-stack">
-              @if ($artChunk->get(4))
-                <img src="{{ $artChunk->get(4)->img_url }}" class="img-horizontal-half" alt="img">
-              @endif
-              @if ($artChunk->get(5))
-                <img src="{{ $artChunk->get(5)->img_url }}" class="img-square-half" alt="img">
-              @endif
-            </div>
-          </div>
+          @endforeach
         </div>
-        @endforeach
+      @endforeach
+
 
       </div>
     </div>

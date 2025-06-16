@@ -8,7 +8,7 @@
     <a href="#">Explore</a>
     <a href="#">Play</a>
     <a href="#">Nearby</a>
-    <a href="#" id="favoritesLink">Favorites</a>
+    <a href="{{ route('profile.custom') }}" id="favoritesLink">Favorites</a>
   </nav>
   <div class="right">
     <div class="search-icon">

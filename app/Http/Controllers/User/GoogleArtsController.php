@@ -14,42 +14,95 @@ class GoogleArtsController extends Controller
     public function collection()
     {
         $museums = Museum::all();
+        /* SELECT * FROM museums */
         return view('user.collections.index', compact('museums'));
     }
 
-    public function collectionAZ()
+    public function collectionAZ(Request $request)
     {
-        return view('user.collections.sort');
+        $query = Museum::query();
+        $startsWith = $request->query('starts_with');
+
+        if ($startsWith === null) {
+            $activeLetter = 'A';
+            $query->where('name', 'LIKE', 'A%');
+        } else {
+            if (!empty($startsWith)) {
+                $query->where('name', 'LIKE', $startsWith . '%');
+            }
+            $activeLetter = $startsWith;
+        }
+
+        $museums = $query->orderBy('name')->get();
+        /* SELECT * FROM museums WHERE name LIKE 'A%' ORDER BY name */
+
+        return view('user.collections.sort', compact('museums', 'activeLetter'));
     }
 
     public function medium()
     {
         $mediums = Medium::withCount(['art' => function ($query) {
-            $query->where('status', 'approved'); // kalau hanya mau hitung yang approved
+            $query->where('status', 'approved');
         }])->get();
+        /*  SELECT mediums.*,
+            (
+                SELECT COUNT(*)
+                FROM arts
+                WHERE arts.medium_id = mediums.id
+                AND arts.status = 'approved'
+            ) AS art_count
+            FROM mediums;
+        */
+        
         return view('user.mediums.index', compact('mediums'));
     }
 
-    public function mediumAZ()
+     public function mediumAZ(Request $request)
     {
-       return view('user.mediums.sort');
+        $query = Medium::withCount(['art' => function ($q) {
+            $q->where('status', 'approved');
+        }]);
+
+        $startsWith = $request->query('starts_with');
+
+        if ($startsWith === null) {
+            $activeLetter = 'A';
+            $query->where('name', 'LIKE', 'A%');
+        } else {
+            if (!empty($startsWith)) {
+                $query->where('name', 'LIKE', $startsWith . '%');
+            }
+            $activeLetter = $startsWith;
+        }
+
+        $mediums = $query->orderBy('name')->get();
+        /* SELECT * FROM mediums WHERE name LIKE 'A%' ORDER BY name */
+
+        return view('user.mediums.sort', compact('mediums', 'activeLetter'));
     }
-    
+
     public function mediumDetail($id)
     {
         $medium = Medium::findOrFail($id);
+        /* SELECT * FROM mediums WHERE id = 'id'; */
         $listMediums = Medium::withCount(['art' => function ($query) {
             $query->where('status', 'approved'); 
         }])->get();
+        /*  SELECT mediums.*,
+            (
+                SELECT COUNT(*)
+                FROM arts
+                WHERE arts.medium_id = mediums.id
+                AND arts.status = 'approved'
+            ) AS art_count
+            FROM mediums;
+        */
 
         $arts = Art::where('medium_id', $medium->id)
             ->where('status', 'approved')
             ->get();
-        return view('user.mediums.detail', compact('medium', 'listMediums', 'arts'));
-    }
-
-    public function destroy()
-    {
+        /* SELECT * FROM arts WHERE medium_id = 'medium_id' AND status = 'approved'; */
         
+        return view('user.mediums.detail', compact('medium', 'listMediums', 'arts'));
     }
 }

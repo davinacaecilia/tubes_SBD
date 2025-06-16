@@ -68,7 +68,7 @@ class MediaController extends Controller
     {
         $medium = Medium::findOrFail($id);
         /* SELECT * FROM mediums WHERE id = 'id' */
-        return view('admin.media.edit', compact('medium', ));
+        return view('admin.media.edit', compact('medium'));
     }
 
     public function update(Request $request, string $id)

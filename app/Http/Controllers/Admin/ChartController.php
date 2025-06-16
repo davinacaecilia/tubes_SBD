@@ -24,6 +24,16 @@ class ChartController extends Controller
                             'total' => $item->total
                         ];
                     });
+        /*  SELECT 
+                museums.name AS museum_name, 
+                COUNT(arts.id) AS total
+            FROM arts
+            JOIN museums ON arts.museum_id = museums.id
+            WHERE arts.status = 'approved'
+            GROUP BY museums.name
+            ORDER BY total DESC
+            LIMIT 5;
+        */
         
         // MENAMPILKAN DATA JUMLAH ART TIAP MEDIUM
         $mediumData = Art::where('status', 'approved')
@@ -37,6 +47,15 @@ class ChartController extends Controller
                             'total' => $item->total
                         ];
                     });
+        /*  SELECT 
+                mediums.name AS medium_name, 
+                COUNT(arts.id) AS total
+            FROM arts
+            JOIN mediums ON arts.medium_id = mediums.id
+            WHERE arts.status = 'approved'
+            GROUP BY mediums.name
+            ORDER BY mediums.name;
+            */
 
         return response()->json([
             'museum' => $museumData,

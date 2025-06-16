@@ -16,7 +16,7 @@ class ArtController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Art::with(['museum', 'medium'])->whereIn('status', ['approved', 'pending']);
+        $query = Art::with(['museum', 'medium'])->where('status', 'approved');
 
         // FITUR SEARCH BY TITLE
         if ($request->has('search') && $request->search != '') {
@@ -76,15 +76,17 @@ class ArtController extends Controller
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
         if (auth()->user()->role === 'supervisor') {
-            // Jika yang membuat adalah supervisor, langsung setujui
             $art->status = 'approved';
         } else {
-            // Jika bukan (misalnya admin), statusnya pending
             $art->status = 'pending';
         }
 
         $art->save();
-        /* INSERT INTO arts (title, created, desc, creator, img_url, museum_id, medium_id, status) VALUES ('title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'pending'); */
+        // JIKA ADMIN
+        /* INSERT INTO arts (title, created, desc, creator, img_url, museum_id, medium_id, status, created_at, updated_at) VALUES ('title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'pending', NOW(), NOW()); */
+        
+        // JIKA SUPERVISOR
+        /* INSERT INTO arts (title, created, desc, creator, img_url, museum_id, medium_id, status, created_at, updated_at) VALUES ('title', 'created', 'desc', 'creator', 'img_url', 'museum_id', 'medium_id', 'approved', NOW(), NOW()); */
 
         return redirect()->route('admin.art.index');
     }
@@ -117,29 +119,38 @@ class ArtController extends Controller
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $art->fill($validated);
-
         if (Auth::user()->role === 'admin') {
-            $art->status = 'pending'; // Admin mengedit, status jadi pending
+            $art->status = 'pending';
         } elseif (Auth::user()->role === 'supervisor') {
             $art->status = 'approved';
         }
+
         $art->save();
+        // JIKA ADMIN
+        /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'pending', updated_at = NOW() WHERE id = 'id' */
+
+        // JIKA SUPERVISOR
+        /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'approved', updated_at = NOW() WHERE id = 'id' */
+        
         return redirect()->route('admin.art.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Art $art)
+    public function destroy($id)
     {
+        $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
         $art->delete();
+        /* DELETE FROM arts WHERE id = 'id' */
 
-        return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
+        return redirect()->route('admin.art.index');
     }
 
     public function status(Request $request)
     {
-        $arts = Art::orderBy('id', 'asc');
+        $arts = Art::orderBy('updated_at', 'asc');
 
         // FILTER STATUS : PENDING, APPROVED, REJECTED
         if ($request->has('status') && $request->status != '') {
@@ -163,6 +174,7 @@ class ArtController extends Controller
     public function approve($id)
     {
         $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
         $art->status = 'approved';
         $art->save();
         /* UPDATE arts SET status = 'approved' WHERE id = 'id'; */
@@ -173,6 +185,7 @@ class ArtController extends Controller
     public function reject($id)
     {
         $art = Art::findOrFail($id);
+        /* SELECT * FROM arts WHERE id = 'id' */
         $art->status = 'rejected';
         $art->save();
         /* UPDATE arts SET status = 'rejected' WHERE id = 'id'; */

@@ -14,4 +14,12 @@ class Favorite extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function entity()
+    {
+        return match ($this->entity_type) {
+            'art' => $this->belongsTo(Art::class, 'entity_id'),
+            'medium' => $this->belongsTo(Medium::class, 'entity_id'),
+        };
+    }
 }
