@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\GoogleArtsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ArtController;
 use App\Http\Controllers\Admin\MediaController;
@@ -17,12 +18,6 @@ use App\Models\Museum;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// Rute untuk semua orang (tamu & user)
-Route::get('/', function () {
-    return view('koleksi');
-});
-
 Route::get('/my-profile', function () {
         // Mengarah ke file: resources/views/media/profil.blade.php
         return view('media.profil');
@@ -56,8 +51,16 @@ Route::get('/mediaa', function () {
     return view('media.mediaa');
 })->name('collections.mediaa');
 
+
+Route::get('/', [GoogleArtsController::class, 'collection'])->name('user.collections.all');
+Route::get('/collections/A-Z', [GoogleArtsController::class, 'collectionAZ'])->name('user.collections.AZ');
+Route::get('/medium', [GoogleArtsController::class, 'medium'])->name('user.mediums.all');
+Route::get('/medium/A-Z', [GoogleArtsController::class, 'mediumAZ'])->name('user.mediums.AZ');
+Route::get('/medium/details/{id}', [GoogleArtsController::class, 'mediumDetail'])->name('user.mediums.detail');
+
+
+
 Route::middleware(['auth', 'role:admin,supervisor'])->prefix('admin')->name('admin.')->group(function () {
-    
     // Rute Dashboard (tetap sama)
     Route::get('/dashboard', function () {
         $mediumCount = Medium::count();
