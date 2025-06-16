@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Medium;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -67,7 +68,7 @@ class MediaController extends Controller
     {
         $medium = Medium::findOrFail($id);
         /* SELECT * FROM mediums WHERE id = 'id' */
-        return view('admin.media.edit', compact('medium'));
+        return view('admin.media.edit', compact('medium', ));
     }
 
     public function update(Request $request, string $id)

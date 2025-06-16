@@ -75,7 +75,6 @@ class ArtController extends Controller
         $art->img_url = $validated['img_url'];
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
-
         if (auth()->user()->role === 'supervisor') {
             // Jika yang membuat adalah supervisor, langsung setujui
             $art->status = 'approved';
@@ -99,7 +98,7 @@ class ArtController extends Controller
         /* SELECT * FROM museums ORDER BY name */
         $mediums = Medium::orderBy('name')->get();
         /* SELECT * FROM mediums ORDER BY name */
-
+        
         return view('admin.art.edit', compact('art', 'museums', 'mediums'));
     }
 
@@ -120,7 +119,7 @@ class ArtController extends Controller
         $art->fill($validated);
 
         if (Auth::user()->role === 'admin') {
-            $art->status = 'pending'; // Diubah menjadi 'pending'
+            $art->status = 'pending'; // Admin mengedit, status jadi pending
         } elseif (Auth::user()->role === 'supervisor') {
             $art->status = 'approved';
         }
@@ -133,11 +132,6 @@ class ArtController extends Controller
      */
     public function destroy(Art $art)
     {
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to delete this item.');
-        }
-
-        // Jika yang mengakses adalah supervisor, lanjutkan proses hapus
         $art->delete();
 
         return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
@@ -168,11 +162,6 @@ class ArtController extends Controller
 
     public function approve($id)
     {
-        // LOGIKA HAK AKSES
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
-        }
-
         $art = Art::findOrFail($id);
         $art->status = 'approved';
         $art->save();
@@ -183,11 +172,6 @@ class ArtController extends Controller
 
     public function reject($id)
     {
-        // LOGIKA HAK AKSES
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to perform this action.');
-        }
-
         $art = Art::findOrFail($id);
         $art->status = 'rejected';
         $art->save();

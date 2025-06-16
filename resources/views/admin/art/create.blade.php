@@ -178,7 +178,7 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='{{ url('admin/art') }}'">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='{{ route('admin.art.index') }}'">
                             <i class='bx bx-x'></i> Cancel
                         </button>
                         <button type="submit" class="btn-submit">

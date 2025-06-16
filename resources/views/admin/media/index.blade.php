@@ -221,7 +221,8 @@
                                             <form action="{{ route('admin.media.destroy', $medium->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')">
+                                                <button type="submit" class="btn-detail delete" onclick="return confirm('Are you sure you want to delete this media?')"
+                                                    @disabled(auth()->user()->role !== 'supervisor')>
                                                     <i class='bx bx-trash'></i> Delete
                                                 </button>
                                             </form>

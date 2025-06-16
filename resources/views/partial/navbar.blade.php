@@ -6,15 +6,10 @@
     <input type="checkbox" id="switch-mode" hidden>
     <label for="switch-mode" class="switch-mode"></label>
     
-    <a href="#" class="notification">
-        <i class='bx bxs-bell'></i>
-        <span class="num">8</span>
-    </a>
-    
     {{-- Bagian Profil Pengguna (Front-End Design Only) --}}
     <div class="profile-info">
-        <span class="user-name">Admin John</span> {{-- Nama pengguna statis --}}
-        <span class="user-role">(Supervisor)</span> {{-- Level pengguna statis (contoh) --}}
+        <span class="user-name">{{ auth()->user()->name }}</span> {{-- Nama pengguna statis --}}
+        <span class="user-role">({{ auth()->user()->role }})</span> {{-- Level pengguna statis (contoh) --}}
         <a href="#" class="profile-image">
             <img src="https://placehold.co/32x32/cccccc/333333?text=PJ" alt="User Profile"> {{-- Gambar profil statis --}}
         </a>

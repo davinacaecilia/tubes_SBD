@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="detail-actions">
-                    <a href="{{ url('admin/art/status') }}" class="btn-back">
+                    <a href="{{ route('admin.art.status') }}" class="btn-back">
                         <i class='bx bx-arrow-back'></i> Back to Status List
                     </a>
                 </div>
