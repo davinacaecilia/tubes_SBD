@@ -31,6 +31,7 @@ body {
 .logo {
   font-size: 18px;
   font-weight: bold;
+  padding: 10px 27px 10px 50px;
 }
 
 .logo span {
@@ -60,9 +61,154 @@ body {
 .icon {
   font-size: 18px;
   cursor: pointer;
-  color: #000; 
+  color: #000;
 }
 
+.search-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.search-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #000;
+  transition: fill 0.3s;
+}
+
+.sign-in-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.sign-in-button:hover {
+  background-color: #0056b3;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .sidebar-scrollable {
+  padding-top: 60px;
+  flex-grow: 1;
+}
+
+.menu-open {
+  position: fixed;
+  top: 15px;
+  left: 20px;
+  z-index: 1200;
+}
+
+.menu-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1200;
+  display: none;
+}
+
+.sidebar.active .menu-close {
+  display: block;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  pointer-events: auto;
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar ul li.active {
+  color: #004d80;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.sidebar ul li.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: calc(100% - 10px);
+  height: 100%;
+  background-color: #e0f2f7;
+  border-radius: 25px 0 0 25px;
+  z-index: -1;
+}
+
+.sidebar ul li.active .sidebar-icon {
+  color: #004d80;
+}
+
+.sidebar-icon {
+  font-size: 22px;
+  margin-right: 15px;
+  color: #555;
+}
+
+.short-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 8px 20px;
+}
+
+.full-divider {
+  border-bottom: 1px solid #ddd;
+  margin: 12px 0 0;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  font-size: 12px;
+  color: #666;
+  background-color: #fff;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* Headline and Tabs */
 .headline {
   text-align: center;
   margin-top: 40px;
@@ -95,19 +241,16 @@ body {
   font-weight: 500;
 }
 
-.search-icon {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-}
-
-.search-icon svg {
+.tabs a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
   width: 100%;
-  height: 100%;
-  fill: #000; 
-  transition: fill 0.3s;
+  height: 2px;
+  background-color: #319ce4;
+  border-radius: 1px;
 }
-
 
 .gallery-container {
   display: grid;
@@ -153,7 +296,6 @@ body {
 .gallery-card h2 {
   margin: 10px 0 5px;
   font-size: 1.1em;
-
 }
 
 .gallery-card .subtitle,
@@ -163,143 +305,81 @@ body {
   margin: 2px 0 10px;
 }
 
-.sidebar {
+.modal-overlay {
   position: fixed;
   top: 0;
-  left: -280px;
-  width: 280px;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background-color: #fff;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-  overflow-y: auto;
-  transition: left 0.3s ease;
-  z-index: 1050;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-direction: column;
-}
-
-/* Padding untuk konten di dalam sidebar agar tidak tersembunyi di bawah topbar */
-.sidebar .sidebar-scrollable {
-  padding-top: 60px;
-  flex-grow: 1;
-}
-
-/* Hamburger di header */
-.menu-open {
-  position: fixed;
-  top: 15px;
-  left: 20px; /* <--- Diubah di styleP.css */
-  z-index: 1200;
-}
-
-/* Hamburger di sidebar */
-.menu-close {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 1200;
-  display: none; /* default disembunyikan */
-}
-
-/* Saat sidebar aktif, tampilkan close icon, sembunyikan open icon */
-.sidebar.active + .menu-open {
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
   display: none;
 }
-.sidebar.active .menu-close {
-  display: block;
-}
 
-.sidebar .menu-icon {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  font-size: 20px;
-  cursor: pointer;
-  z-index: 1101;
-}
-
-/* Ketika sidebar aktif / terbuka */
-.sidebar.active {
-  left: 0;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  pointer-events: auto;
-  flex-grow: 1;
-}
-
-.sidebar ul li {
-  padding: 12px 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.sidebar ul li:not(.with-divider0) {
-  border-bottom: none;
-}
-
-/* Styling untuk item sidebar yang aktif (latar belakang biru melengkung) */
-.sidebar ul li.active {
-  color: #004d80;
-  font-weight: bold;
-  background-color: transparent;
-}
-
-/* Pseudo-element untuk latar belakang biru melengkung */
-.sidebar ul li.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10px;
-  width: calc(100% - 10px);
-  height: 100%;
-  background-color: #e0f2f7;
-  border-radius: 25px 0 0 25px;
-  z-index: -1;
-}
-
-.sidebar ul li.active .sidebar-icon {
-  color: #004d80;
-}
-
-/* Styling for sidebar icons */
-.sidebar-icon {
-  font-size: 22px;
-  margin-right: 15px;
-  color: #555;
-}
-
-.short-divider {
-  border-bottom: 1px solid #ddd;
-  margin: 8px 20px;
-}
-
-/* Garis full di bagian bawah sidebar */
-.full-divider {
-  border-bottom: 1px solid #ddd;
-  margin: 12px 0 0;
-  flex-shrink: 0;
-}
-
-.bottom-divider {
-  margin-top: 16px;
-}
-
-.sidebar-spacer {
-  height: 40px;
-}
-
-.sidebar-footer {
-  padding: 16px 20px;
-  font-size: 12px;
-  color: #666;
-  background-color: #fff;
+.modal-content {
+  background-color: white;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: left;
-  flex-shrink: 0;
+  width: 350px;
+  max-width: 90%;
+}
+
+.modal-content h2 {
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: left;
+}
+
+.modal-content p {
+  font-size: 14px;
+  color: #5f6368;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  text-align: left;
+  padding: 0;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.modal-buttons button {
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  font-weight: normal;
+  background-color: transparent;
+  color: #007bff;
+  transition: background-color 0.2s, color 0.2s;
+  min-width: 80px;
+  text-transform: capitalize;
+}
+
+.modal-buttons .not-now {
+  text-decoration: none;
+}
+
+.modal-buttons .not-now:hover {
+    background-color: #f0f0f0;
+  text-decoration: none;
+}
+
+.modal-buttons .sign-in {
+  text-decoration: none;
+}
+
+.modal-buttons .sign-in:hover {
+    background-color: #f0f0f0;
+  text-decoration: none;
 }

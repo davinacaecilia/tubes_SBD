@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // Untuk semua role lain (termasuk 'user')
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/');
     }
 
     /**
@@ -44,8 +44,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // ... (kode di atasnya biarkan saja)
+        // Baris ini menghancurkan sesi untuk guard 'web'
+        Auth::guard('web')->logout();
 
-        return redirect('/koleksi'); // Arahkan ke halaman koleksi setelah logout
+        // Baris ini membuat sesi yang lama tidak valid
+        $request->session()->invalidate();
+
+        // Baris ini membuat token CSRF yang baru untuk keamanan
+        $request->session()->regenerateToken();
+
+
+        return redirect('/'); // Arahkan ke halaman koleksi setelah logout
     }
 }

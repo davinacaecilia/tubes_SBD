@@ -23,32 +23,48 @@ Route::get('/', function () {
     return view('koleksi');
 });
 
+Route::get('/my-profile', function () {
+        // Mengarah ke file: resources/views/media/profil.blade.php
+        return view('media.profil');
+    })->name('profile.custom'); // Kita beri nama 'profile.custom'
+
 // Rute Halaman Profil (Bawaan Breeze, untuk semua yang sudah login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/profil-saya', function () {
-        // Mengarah ke file: resources/views/media/profil.blade.php
-        return view('media.profil');
-    })->name('profile.custom'); // Kita beri nama 'profile.custom'
 });
 
 // Rute untuk USER BIASA
-Route::get('/dashboard', function () {
-    return view('koleksi');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/media_home', function () {
+    return view('media.media_home'); 
+})->name('media.home');
+
+Route::get('/az', function () {
+    return view('media.az');
+})->name('collections.az');
+
+Route::get('/karya', function () {
+    return view('media.karya');
+})->name('collections.karya');
+
+Route::get('/isi_media', function () {
+    return view('media.isi_media');
+})->name('collections.isi_media');
+
+Route::get('/mediaa', function () {
+    return view('media.mediaa');
+})->name('collections.mediaa');
 
 Route::middleware(['auth', 'role:admin,supervisor'])->prefix('admin')->name('admin.')->group(function () {
+    
     // Rute Dashboard (tetap sama)
     Route::get('/dashboard', function () {
         $mediumCount = Medium::count();
         $artCount = Art::where('status', 'approved')->count();
         $userCount = User::count();
         $museumCount = Museum::count();
-        $user = Auth::user();
-        return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount', 'user'));
+        return view('admin.dashboard', compact('mediumCount', 'artCount', 'userCount', 'museumCount'));
     })->name('dashboard');
 
     // Rute CRUD (tetap sama)

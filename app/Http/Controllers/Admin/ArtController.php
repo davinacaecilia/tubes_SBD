@@ -16,7 +16,7 @@ class ArtController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Art::with(['museum', 'medium'])->where('status', 'approved');
+        $query = Art::with(['museum', 'medium'])->whereIn('status', ['approved', 'pending']);
 
         // FITUR SEARCH BY TITLE
         if ($request->has('search') && $request->search != '') {
@@ -75,11 +75,12 @@ class ArtController extends Controller
         $art->img_url = $validated['img_url'];
         $art->museum_id = $validated['museum_id'];
         $art->medium_id = $validated['medium_id'];
-
-        if (auth()->user()->role == 'admin') {
-            $art->status = 'pending';
-        } elseif (auth()->user()->role == 'supervisor' ) {
+        if (auth()->user()->role === 'supervisor') {
+            // Jika yang membuat adalah supervisor, langsung setujui
             $art->status = 'approved';
+        } else {
+            // Jika bukan (misalnya admin), statusnya pending
+            $art->status = 'pending';
         }
 
         $art->save();
@@ -88,10 +89,9 @@ class ArtController extends Controller
         return redirect()->route('admin.art.index');
     }
 
-    
+
     public function edit($id)
     {
-        $user = auth()->user();
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $museums = Museum::orderBy('name')->get();
@@ -99,9 +99,9 @@ class ArtController extends Controller
         $mediums = Medium::orderBy('name')->get();
         /* SELECT * FROM mediums ORDER BY name */
         
-        return view('admin.art.edit', compact('art', 'museums', 'mediums', 'user'));
+        return view('admin.art.edit', compact('art', 'museums', 'mediums'));
     }
-    
+
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -113,7 +113,7 @@ class ArtController extends Controller
             'museum_id' => 'required|exists:museums,id',
             'medium_id' => 'required|exists:mediums,id',
         ]);
-        
+
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         $art->fill($validated);
@@ -121,12 +121,9 @@ class ArtController extends Controller
         if (Auth::user()->role === 'admin') {
             $art->status = 'pending'; // Admin mengedit, status jadi pending
         } elseif (Auth::user()->role === 'supervisor') {
-            $art->status = 'approved'; // Supervisor mengedit, langsung disetujui
+            $art->status = 'approved';
         }
-
         $art->save();
-        /* UPDATE arts SET title = 'title', created = 'created', desc = 'desc', creator = 'creator', img_url = 'img_url', museum_id = 'museum_id', medium_id = 'medium_id', status = 'pending' WHERE id = 'id' */
-        
         return redirect()->route('admin.art.index');
     }
 
@@ -135,39 +132,34 @@ class ArtController extends Controller
      */
     public function destroy(Art $art)
     {
-        if (auth()->user()->role !== 'supervisor') {
-            return redirect()->back()->with('error', 'You do not have permission to delete this item.');
-        }
-
-        // Jika yang mengakses adalah supervisor, lanjutkan proses hapus
         $art->delete();
 
         return redirect()->route('admin.art.index')->with('success', 'Art successfully deleted.');
     }
-    
+
     public function status(Request $request)
     {
-        $arts = Art::orderBy('updated_at', 'desc');
+        $arts = Art::orderBy('id', 'asc');
 
         // FILTER STATUS : PENDING, APPROVED, REJECTED
         if ($request->has('status') && $request->status != '') {
             $arts->where('status', $request->status);
         }
-        
+
         $arts = $arts->paginate(10);
         /* SELECT * FROM arts ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
         /* SELECT * FROM arts WHERE status = 'status' ORDER BY updated_at DESC LIMIT 10 OFFSET 0; */
-        
+
         return view('admin.art.status', compact('arts'));
     }
-    
+
     public function show(string $id)
     {
         $art = Art::findOrFail($id);
         /* SELECT * FROM arts WHERE id = 'id' */
         return view('admin.art.show', compact('art'));
     }
-    
+
     public function approve($id)
     {
         $art = Art::findOrFail($id);
@@ -175,7 +167,7 @@ class ArtController extends Controller
         $art->save();
         /* UPDATE arts SET status = 'approved' WHERE id = 'id'; */
 
-        return redirect()->route('admin.art.status')->with('success', 'Art has been approved.');
+        return back();
     }
 
     public function reject($id)
@@ -185,6 +177,6 @@ class ArtController extends Controller
         $art->save();
         /* UPDATE arts SET status = 'rejected' WHERE id = 'id'; */
 
-        return redirect()->route('admin.art.status')->with('success', 'Art has been rejected.');
+        return back();
     }
 }

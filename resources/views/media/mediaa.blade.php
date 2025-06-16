@@ -16,7 +16,7 @@
   <section class="headline">
     <h1>Mediums</h1>
     <div class="tabs">
-      <a href="{{ url('/media_home') }}">All</a>
+      <a href="{{ route('media.home') }}">All</a>
       <a id="az-tab" class="active" href="#">A–Z</a>
     </div>
      <div class="alphabet-filter-wrapper">

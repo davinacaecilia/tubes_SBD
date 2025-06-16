@@ -265,7 +265,7 @@
                                                 <form action="{{ route('admin.art.reject', $art->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="submit" class="btn-detail btn-reject" onclick="return confirm('Reject Artwork?')"
-                                                        @disabled(auth()->user()->role !== 'supervisor')>
+                                                    @disabled(auth()->user()->role !== 'supervisor')>
                                                         <i class='bx bx-x-circle'></i> Reject
                                                     </button>
                                                 </form>
