@@ -15,11 +15,23 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->enum('role', ['supervisor', 'admin', 'user'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
+        /* CREATE TABLE users (
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            role ENUM('supervisor', 'admin', 'user') DEFAULT 'user',
+            email_verified_at TIMESTAMP NULL,
+            password VARCHAR(255) NOT NULL,
+            remember_token VARCHAR(100),
+            created_at TIMESTAMP NULL DEFAULT NULL,
+            updated_at TIMESTAMP NULL DEFAULT NULL
+        ); */
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();

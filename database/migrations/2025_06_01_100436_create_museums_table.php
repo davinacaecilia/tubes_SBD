@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('location');
             $table->string('logo_url')->nullable();
         });
+        /* CREATE TABLE museums (
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            location VARCHAR(255) NOT NULL,
+            logo_url VARCHAR(255)
+        ); */
     }
 
     /**

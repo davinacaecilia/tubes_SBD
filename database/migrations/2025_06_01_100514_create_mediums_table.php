@@ -17,7 +17,12 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->string('img_url')->nullable();
         });
-
+        /* CREATE TABLE mediums (
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            `desc` TEXT,
+            img_url VARCHAR(255)
+        ); */
     }
 
     /**

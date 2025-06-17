@@ -21,7 +21,24 @@ return new class extends Migration
             $table->foreignId('museum_id')->constrained('museums')->onDelete('cascade');
             $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamps();
         });
+        /* CREATE TABLE arts (
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            created VARCHAR(255),
+            `desc` TEXT,
+            creator VARCHAR(255),
+            img_url VARCHAR(255),
+            museum_id BIGINT UNSIGNED NOT NULL,
+            medium_id BIGINT UNSIGNED NOT NULL,
+            status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+            created_at TIMESTAMP NULL DEFAULT NULL,
+            updated_at TIMESTAMP NULL DEFAULT NULL,
+
+            CONSTRAINT fk_arts_museum FOREIGN KEY (museum_id) REFERENCES museums(id) ON DELETE CASCADE,
+            CONSTRAINT fk_arts_medium FOREIGN KEY (medium_id) REFERENCES mediums(id) ON DELETE CASCADE
+        ); */
     }
 
     /**

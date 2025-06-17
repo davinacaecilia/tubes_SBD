@@ -17,6 +17,14 @@ class ArtController extends Controller
     public function index(Request $request)
     {
         $query = Art::with(['museum', 'medium'])->where('status', 'approved');
+        /* SELECT 
+            arts.*, 
+            museums.id AS museum_id, museums.name AS museum_name, museums.location, museums.logo_url,
+            mediums.id AS medium_id, mediums.name AS medium_name, mediums.desc, mediums.img_url
+        FROM arts
+        JOIN museums ON museums.id = arts.museum_id
+        JOIN mediums ON mediums.id = arts.medium_id
+        WHERE arts.status = 'approved'; */
 
         // FITUR SEARCH BY TITLE
         if ($request->has('search') && $request->search != '') {

@@ -15,7 +15,7 @@
 </head>
 
 <body data-is-logged-in="{{ auth()->check() ? 'true' : 'false' }}" data-login-url="{{ route('login') }}"
-  data-profile-url="{{ route('profile.custom') }}" data-art-id="{{ $art->id }}" data-is-favorited="{{ $isFavorited ? 'true' : 'false' }}">
+  data-profile-url="{{ route('profile.custom') }}" data-art-id="{{ $art->id }}" data-is-favorited="{{ $isFavorited ? 'true' : 'false' }}" data-medium-id="{{ $art->medium_id ?? '' }}">
 
   @include('user.partials.navbar2')
 

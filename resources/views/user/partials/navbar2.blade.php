@@ -29,16 +29,27 @@
     if (!backButton) return;
 
     const path = window.location.pathname;
-    const currentPage = path.split("/").pop();
+    const pathParts = path.split("/").filter(Boolean); // buang slash kosong
+    let target = "/"; // default fallback
 
-    let target = "";
-
-    if (currentPage === "medium" || currentPage === "medium/A-Z") {
-      target = "";
-    } else if (currentPage === "art/details/{id?}") {
-      target = "isi_media";
+    // === LOGIKA BACK BUTTON BERDASARKAN HALAMAN ===
+    if (path === "/medium" || path === "/medium/A-Z") {
+      // Di halaman list medium → balik ke koleksi
+      target = "/";
+    } else if (path.startsWith("/medium/details/")) {
+      // Di halaman detail medium → balik ke list medium
+      target = "/medium";
+    } else if (path.startsWith("/art/details/")) {
+      // Di halaman detail karya → balik ke detail medium
+      const artId = pathParts[pathParts.length - 1];
+      const mediumId = document.body.dataset.mediumId; // pastikan ini dikasih dari blade
+      if (mediumId) {
+        target = `/medium/details/${mediumId}`;
+      } else {
+        target = "/medium"; // fallback
+      }
     }
 
-    backButton.setAttribute("href", `/${target}`);
+    backButton.setAttribute("href", target);
   });
 </script>

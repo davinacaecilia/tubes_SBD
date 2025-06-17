@@ -43,9 +43,6 @@
   </div>
   <h2 class="section-title">Discover this medium</h2>
 
-  {{-- Debug info (opsional, bisa dihapus setelah testing) --}}
-  <p>Total gambar diambil: {{ count($arts) }}</p>
-
   <div class="scroll-wrapper">
     <button class="scroll-arrow left" onclick="scrollLeft()">
       <i class='bx bx-left-arrow-alt'></i>
@@ -57,7 +54,6 @@
         {{-- START PERULANGAN UNTUK SEMUA GAMBAR DARI DATABASE --}}
         @foreach ($arts as $art)
           <div class="card card-1">
-            {{-- Menggunakan img_url dari setiap objek seni --}}
             <a href="{{ route('user.art.detail', ['id' => $art->id]) }}">
               <img src="{{ $art->img_url }}" class="img-horizontal" alt="{{ $art->title }}">
             </a>
@@ -72,11 +68,6 @@
       <i class='bx bx-right-arrow-alt'></i>
     </button>
   </div>
-
-  <button class="scroll-arrow right" onclick="scrollRight()">
-    <i class='bx bx-right-arrow-alt'></i>
-  </button>
-</div>
 
   <h2 class="section-title">More mediums</h2>
 
